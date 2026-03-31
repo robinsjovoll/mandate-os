@@ -1,0 +1,43 @@
+{
+  "name": "@mandate-os/mcp",
+  "version": "0.1.1",
+  "description": "MandateOS MCP server and installer CLIs for Cursor and Claude Code.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm --dir ../mandate-os-sdk run build && pnpm exec vite build --config vite.build.config.ts && pnpm exec tsc -p tsconfig.lib.json --emitDeclarationOnly && node ./scripts/copy-build-assets.mjs",
+    "start": "node ../../dist/packages/mandate-os-mcp/index.js",
+    "test": "pnpm exec vitest run --config vitest.config.ts",
+    "cursor:install": "node ../../dist/packages/mandate-os-mcp/cursor-install.js install",
+    "cursor:status": "node ../../dist/packages/mandate-os-mcp/cursor-install.js status",
+    "claude:install": "node ../../dist/packages/mandate-os-mcp/claude-install.js install",
+    "claude:status": "node ../../dist/packages/mandate-os-mcp/claude-install.js status"
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "bin": {
+    "mandate-os-mcp": "./index.js",
+    "mandate-os-cursor-install": "./cursor-install.js",
+    "mandate-os-claude-install": "./claude-install.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./hook-gateway": {
+      "types": "./hook-gateway.d.ts",
+      "import": "./hook-gateway.js"
+    }
+  },
+  "dependencies": {
+    "@mandate-os/sdk": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "zod": "^4.1.13"
+  }
+}

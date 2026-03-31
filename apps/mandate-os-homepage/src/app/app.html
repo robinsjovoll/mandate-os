@@ -1,0 +1,306 @@
+<div class="page-shell">
+  <div class="background-layer">
+    <div class="grid-noise"></div>
+    <div class="halo halo-a"></div>
+    <div class="halo halo-b"></div>
+    <div class="halo halo-c"></div>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <img src="/logo-mark.png" alt="MandateOS logo" width="38" height="38" />
+      <span class="brand-copy">
+        <span class="brand-name">MandateOS</span>
+        <span class="brand-tagline">{{ content.brandTagline }}</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="MandateOS sections">
+      @for (link of content.navLinks; track link.id) {
+      <a [href]="'#' + link.id">{{ link.label }}</a>
+      }
+    </nav>
+
+    <a class="header-cta" href="#deploy">{{ content.headerCta }}</a>
+  </header>
+
+  <main id="top" class="site-main">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">{{ content.hero.eyebrow }}</p>
+        <h1>{{ content.hero.title }}</h1>
+        <p class="hero-lede">{{ content.hero.lede }}</p>
+
+        <div class="hero-actions">
+          <a class="cta is-primary" [href]="content.hero.primaryHref">
+            {{ content.hero.primaryLabel }}
+          </a>
+          <a class="cta is-secondary" [href]="content.hero.secondaryHref">
+            {{ content.hero.secondaryLabel }}
+          </a>
+        </div>
+
+        <div class="proof-strip">
+          @for (item of content.proofStrip; track item.label) {
+          <article class="proof-card">
+            <span>{{ item.label }}</span>
+            <strong>{{ item.value }}</strong>
+            <p>{{ item.detail }}</p>
+          </article>
+          }
+        </div>
+      </div>
+
+      <aside class="hero-panel card">
+        <p class="eyebrow">{{ content.heroPanel.eyebrow }}</p>
+        <ul class="question-list">
+          @for (question of content.heroPanel.questions; track question) {
+          <li>{{ question }}</li>
+          }
+        </ul>
+
+        <div class="panel-note">
+          <span>{{ content.heroPanel.noteLabel }}</span>
+          <strong>{{ content.heroPanel.noteTitle }}</strong>
+          <p>{{ content.heroPanel.noteBody }}</p>
+        </div>
+      </aside>
+    </section>
+
+    <section id="problem" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.problem.eyebrow }}</p>
+        <h2>{{ content.problem.title }}</h2>
+        <p>{{ content.problem.body }}</p>
+      </div>
+
+      <div class="card-grid three-col">
+        @for (item of content.problem.cards; track item.title) {
+        <article class="card feature-card">
+          <span class="mini-label">{{ item.label }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section id="loop" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.loop.eyebrow }}</p>
+        <h2>{{ content.loop.title }}</h2>
+        <p>{{ content.loop.body }}</p>
+      </div>
+
+      <div class="card-grid four-col">
+        @for (step of content.loop.steps; track step.id) {
+        <article class="card loop-card">
+          <span class="step-id">{{ step.id }}</span>
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.body }}</p>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section id="integrations" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.integrations.eyebrow }}</p>
+        <h2>{{ content.integrations.title }}</h2>
+        <p>{{ content.integrations.body }}</p>
+      </div>
+
+      <div class="card-grid two-col">
+        @for (integration of content.integrations.items; track integration.name)
+        {
+        <article class="card integration-card">
+          <div class="integration-head">
+            <h3>{{ integration.name }}</h3>
+            <span class="status-pill">{{ integration.status }}</span>
+          </div>
+          <p>{{ integration.summary }}</p>
+          <ul>
+            @for (detail of integration.details; track detail) {
+            <li>{{ detail }}</li>
+            }
+          </ul>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section id="surfaces" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.surfaces.eyebrow }}</p>
+        <h2>{{ content.surfaces.title }}</h2>
+        <p>{{ content.surfaces.body }}</p>
+      </div>
+
+      <div class="card-grid three-col">
+        @for (surface of content.surfaces.items; track surface.title) {
+        <article class="card surface-card">
+          <span class="mini-label">{{ surface.label }}</span>
+          <h3>{{ surface.title }}</h3>
+          <p>{{ surface.body }}</p>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section id="security" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.security.eyebrow }}</p>
+        <h2>{{ content.security.title }}</h2>
+        <p>{{ content.security.body }}</p>
+      </div>
+
+      <div class="card-grid three-col">
+        @for (item of content.security.items; track item.title) {
+        <article class="card feature-card">
+          <span class="mini-label">{{ item.label }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+        </article>
+        }
+      </div>
+    </section>
+
+    <section id="deploy" class="section">
+      <div class="deploy-shell card">
+        <div class="section-heading compact">
+          <p class="eyebrow">{{ content.deploy.eyebrow }}</p>
+          <h2>{{ content.deploy.title }}</h2>
+          <p>{{ content.deploy.body }}</p>
+        </div>
+
+        <div class="card-grid three-col">
+          @for (item of content.deploy.steps; track item.step) {
+          <article class="deploy-step">
+            <span class="step-id">{{ item.step }}</span>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.body }}</p>
+          </article>
+          }
+        </div>
+
+        <article class="setup-card env-card">
+          <div class="setup-heading">
+            <span class="mini-label">{{ content.deploy.envTitle }}</span>
+            <p>{{ content.deploy.envBody }}</p>
+          </div>
+
+          <pre
+            class="command-block"
+          ><code>{{ content.deploy.envCommand }}</code></pre>
+        </article>
+
+        <div class="setup-group">
+          <div class="setup-heading">
+            <span class="mini-label">{{ content.deploy.packagesTitle }}</span>
+            <p>{{ content.deploy.packagesBody }}</p>
+          </div>
+
+          <div class="card-grid three-col">
+            @for (pkg of content.deploy.packages; track pkg.name) {
+            <article class="card package-card">
+              <h3>
+                <code class="package-name">{{ pkg.name }}</code>
+              </h3>
+              <p>{{ pkg.summary }}</p>
+              <div class="package-install">
+                <code>{{ pkg.install }}</code>
+              </div>
+              <div class="package-actions">
+                <a
+                  class="script-link"
+                  [href]="pkg.npmHref"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {{ pkg.npmLabel }}
+                </a>
+              </div>
+              <ul>
+                @for (detail of pkg.details; track detail) {
+                <li>{{ detail }}</li>
+                }
+              </ul>
+            </article>
+            }
+          </div>
+        </div>
+
+        <div class="setup-group">
+          <div class="setup-heading">
+            <span class="mini-label">{{ content.deploy.installersTitle }}</span>
+            <p>{{ content.deploy.installersBody }}</p>
+          </div>
+
+          <div class="installer-stack">
+            @for (installer of content.deploy.installers; track installer.name)
+            {
+            <article class="card installer-card">
+              <div class="integration-head">
+                <h3>{{ installer.name }}</h3>
+                <code class="source-pill">{{ installer.packageName }}</code>
+              </div>
+              <p>{{ installer.summary }}</p>
+              <pre
+                class="command-block"
+              ><code>{{ installer.command }}</code></pre>
+              <div class="installer-actions">
+                <a
+                  class="script-link"
+                  [href]="installer.scriptHref"
+                  [attr.download]="installer.scriptFileName"
+                >
+                  {{ installer.scriptLabel }}
+                </a>
+                <a
+                  class="script-link"
+                  [href]="installer.packageHref"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {{ installer.packageLinkLabel }}
+                </a>
+              </div>
+              <ul>
+                @for (note of installer.notes; track note) {
+                <li>{{ note }}</li>
+                }
+              </ul>
+            </article>
+            }
+          </div>
+        </div>
+
+        <aside class="runtime-note">
+          <span class="mini-label">{{ content.deploy.runtimeNoteTitle }}</span>
+          <p>{{ content.deploy.runtimeNoteBody }}</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="card">
+        <p class="eyebrow">{{ content.finalCta.eyebrow }}</p>
+        <h2>{{ content.finalCta.title }}</h2>
+        <p>{{ content.finalCta.body }}</p>
+        <div class="hero-actions">
+          <a class="cta is-primary" [href]="content.finalCta.primaryHref">
+            {{ content.finalCta.primaryLabel }}
+          </a>
+          <a class="cta is-secondary" [href]="content.finalCta.secondaryHref">
+            {{ content.finalCta.secondaryLabel }}
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ year }} MandateOS</p>
+    <p>{{ content.footer }}</p>
+  </footer>
+</div>

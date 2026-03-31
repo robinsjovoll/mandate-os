@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none">
+  <rect width="96" height="96" rx="26" fill="#07131D" />
+  <path
+    d="M20 68L36 24H50L34 68H20Z"
+    fill="url(#mandate-left)"
+  />
+  <path
+    d="M46 68L62 24H76L60 68H46Z"
+    fill="url(#mandate-right)"
+  />
+  <circle cx="48" cy="48" r="10" fill="#F6C36B" />
+  <defs>
+    <linearGradient id="mandate-left" x1="20" y1="24" x2="50" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#83E3E0" />
+      <stop offset="1" stop-color="#4E91FF" />
+    </linearGradient>
+    <linearGradient id="mandate-right" x1="46" y1="24" x2="76" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6E28B" />
+      <stop offset="1" stop-color="#F6C36B" />
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,94 @@
+{
+  "name": "release-platform",
+  "description": "Starter host-gateway rules for release, hosting, and platform mutations.",
+  "rules": [
+    {
+      "id": "vercel.deploy.command",
+      "channel": "shell",
+      "matcher": "^vercel\\b.*\\b(--prod|deploy|promote)\\b",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Vercel",
+      "description": "Deploy an application with Vercel using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "netlify.deploy.command",
+      "channel": "shell",
+      "matcher": "^netlify\\s+deploy\\b(?=.*--prod\\b)",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Netlify",
+      "description": "Deploy a site with Netlify using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "fly.deploy.command",
+      "channel": "shell",
+      "matcher": "^flyctl\\s+deploy\\b",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Fly.io",
+      "description": "Deploy an application with Fly.io using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "railway.deploy.command",
+      "channel": "shell",
+      "matcher": "^railway\\s+(up|deploy)\\b",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Railway",
+      "description": "Deploy an application with Railway using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "docker.compose.mutation.command",
+      "channel": "shell",
+      "matcher": "^docker\\s+compose\\s+(up|restart|down)\\b",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Change running services with Docker Compose",
+      "description": "Change running services with Docker Compose using command: {command}",
+      "zone": "domestic",
+      "riskLevel": "high"
+    },
+    {
+      "id": "vercel.deploy.tool",
+      "channel": "mcp",
+      "matcher": "(vercel).*(deploy|promote)|(deploy|promote).*(vercel)",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Vercel",
+      "description": "Deploy an application with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "netlify.deploy.tool",
+      "channel": "mcp",
+      "matcher": "(netlify).*(deploy|publish)|(deploy|publish).*(netlify)",
+      "flags": "i",
+      "tool": "deploy.prod",
+      "title": "Deploy with Netlify",
+      "description": "Deploy a site with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "observability.read.tool",
+      "channel": "mcp",
+      "matcher": "(datadog|grafana|sentry).*(read|get|view|search|query)|(read|get|view|search|query).*(datadog|grafana|sentry)",
+      "flags": "i",
+      "tool": "repo.read",
+      "title": "Read release or runtime signals",
+      "description": "Inspect release or runtime signals with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "low"
+    }
+  ]
+}

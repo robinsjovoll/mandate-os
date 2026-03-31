@@ -1,0 +1,97 @@
+name: Deploy Homepage
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/mandate-os-homepage/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'nx.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/deploy-homepage.yml'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '10.29.3'
+  AZURE_INFRA_DEPLOYMENT_LOCATION: ${{ vars.AZURE_INFRA_DEPLOYMENT_LOCATION }}
+  MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APP_NAME: ${{ vars.MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APP_NAME }}
+  MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APP_RESOURCE_GROUP: ${{ vars.MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APP_RESOURCE_GROUP }}
+  MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.MANDATE_OS_HOMEPAGE_AZURE_STATIC_WEB_APPS_API_TOKEN }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Resolve affected SHAs
+        id: shas
+        shell: bash
+        run: |
+          BASE_SHA="${{ github.event.before }}"
+          HEAD_SHA="${{ github.sha }}"
+
+          if [[ -z "${BASE_SHA}" || "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              BASE_SHA="$(git rev-parse HEAD~1)"
+            else
+              BASE_SHA="$(git rev-parse HEAD)"
+            fi
+          fi
+
+          echo "base=${BASE_SHA}" >> "$GITHUB_OUTPUT"
+          echo "head=${HEAD_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Check homepage infrastructure diff
+        id: infra
+        shell: bash
+        run: |
+          if git diff --name-only "${{ steps.shas.outputs.base }}" "${{ steps.shas.outputs.head }}" | grep -q '^apps/mandate-os-homepage/infrastructure/'; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Ensure Azure SWA CLI extension
+        run: az extension add --name staticwebapp --upgrade
+
+      - name: Provision homepage infrastructure
+        if: steps.infra.outputs.changed == 'true'
+        run: pnpm mandate-os:homepage:infrastructure
+
+      - name: Build homepage
+        run: pnpm mandate-os:homepage:build
+
+      - name: Deploy homepage
+        run: pnpm mandate-os:homepage:deploy

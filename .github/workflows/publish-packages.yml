@@ -1,0 +1,119 @@
+name: Publish MandateOS Packages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/**'
+      - 'scripts/releases/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'nx.json'
+      - 'tsconfig.base.json'
+      - '.github/workflows/publish-packages.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: mandate-os-packages-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '10.29.3'
+  NPM_VERSION: '11.10.0'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install --global npm@^${{ env.NPM_VERSION }}
+
+      - name: Show npm version
+        run: npm --version
+
+      - name: Resolve affected SHAs
+        id: shas
+        shell: bash
+        run: |
+          BASE_SHA="${{ github.event.before }}"
+          HEAD_SHA="${{ github.sha }}"
+
+          if [[ -z "${BASE_SHA}" || "${BASE_SHA}" == "0000000000000000000000000000000000000000" ]]; then
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              BASE_SHA="$(git rev-parse HEAD~1)"
+            else
+              BASE_SHA="$(git rev-parse HEAD)"
+            fi
+          fi
+
+          echo "base=${BASE_SHA}" >> "$GITHUB_OUTPUT"
+          echo "head=${HEAD_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Resolve affected MandateOS packages
+        id: affected
+        shell: bash
+        run: |
+          AFFECTED_JSON="$(
+            pnpm exec nx show projects \
+              --affected \
+              --json \
+              --projects=@mandate-os/sdk,@mandate-os/mcp,@mandate-os/openclaw \
+              --base=${{ steps.shas.outputs.base }} \
+              --head=${{ steps.shas.outputs.head }}
+          )"
+          AFFECTED_CSV="$(
+            node -e "const projects = JSON.parse(process.argv[1]); process.stdout.write(projects.join(','));" \
+              "${AFFECTED_JSON}"
+          )"
+
+          echo "projects=${AFFECTED_JSON}" >> "$GITHUB_OUTPUT"
+          echo "projects_csv=${AFFECTED_CSV}" >> "$GITHUB_OUTPUT"
+
+          if [[ "${AFFECTED_JSON}" == "[]" ]]; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No MandateOS package changes detected."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "Affected MandateOS packages: ${AFFECTED_JSON}"
+          fi
+
+      - name: Test affected MandateOS packages
+        if: steps.affected.outputs.has_changes == 'true'
+        run: >
+          pnpm exec nx run-many
+          --target=test
+          --projects=${{ steps.affected.outputs.projects_csv }}
+          --parallel=1
+
+      - name: Publish affected MandateOS packages
+        if: steps.affected.outputs.has_changes == 'true'
+        run: >
+          pnpm run mandate-os:packages:publish --
+          --base=${{ steps.shas.outputs.base }}
+          --head=${{ steps.shas.outputs.head }}

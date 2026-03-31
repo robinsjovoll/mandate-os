@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroupName": {
+      "value": "rg-mandate-os-homepage-westeurope"
+    },
+    "location": {
+      "value": "westeurope"
+    },
+    "staticWebAppName": {
+      "value": "swa-mandate-os-homepage-westeurope"
+    },
+    "staticWebAppSkuName": {
+      "value": "Free"
+    },
+    "staticWebAppSkuTier": {
+      "value": "Free"
+    },
+    "tags": {
+      "value": {
+        "application": "mandate-os-homepage",
+        "managedBy": "nx-infrastructure-target"
+      }
+    }
+  }
+}

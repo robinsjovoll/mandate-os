@@ -1,0 +1,35 @@
+# build output
+/dist
+/coverage
+/tmp
+/out-tsc
+**/dist
+
+# dependencies
+/node_modules
+**/node_modules
+**/package-lock.json
+
+# tool caches
+/.angular/cache
+/.nx/cache
+/.nx/workspace-data
+
+# editors
+/.idea
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# environment
+.env
+.env.local
+
+# system
+.DS_Store
+Thumbs.db
+
+# test artifacts
+vitest.config.*.timestamp*

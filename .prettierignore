@@ -1,0 +1,14 @@
+/dist
+/coverage
+/.nx/cache
+/.nx/workspace-data
+.angular
+apps/**/dist
+apps/**/build
+apps/**/out
+apps/**/.expo
+apps/**/ios
+apps/**/android
+pnpm-lock.yaml
+yarn.lock
+package-lock.json

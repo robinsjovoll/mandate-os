@@ -1,0 +1,109 @@
+{
+  "name": "mandate-os-homepage",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/mandate-os-homepage/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/mandate-os-homepage",
+        "browser": "apps/mandate-os-homepage/src/main.ts",
+        "tsConfig": "apps/mandate-os-homepage/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/mandate-os-homepage/public"
+          },
+          "apps/mandate-os-homepage/src/staticwebapp.config.json"
+        ],
+        "styles": ["apps/mandate-os-homepage/src/styles.scss"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "10kb",
+              "maximumError": "20kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "mandate-os-homepage:build:production"
+        },
+        "development": {
+          "buildTarget": "mandate-os-homepage:build:development",
+          "port": 4340
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular/build:extract-i18n",
+      "options": {
+        "buildTarget": "mandate-os-homepage:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/mandate-os-homepage/jest.config.ts",
+        "tsConfig": "apps/mandate-os-homepage/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "mandate-os-homepage:build",
+        "staticFilePath": "dist/apps/mandate-os-homepage/browser",
+        "spa": true
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "bash apps/mandate-os-homepage/scripts/deploy.sh"
+      }
+    },
+    "infrastructure": {
+      "cache": false,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash apps/mandate-os-homepage/infrastructure/deploy.sh"
+      },
+      "inputs": [
+        "{projectRoot}/infrastructure/**/*",
+        "{projectRoot}/project.json"
+      ]
+    }
+  }
+}

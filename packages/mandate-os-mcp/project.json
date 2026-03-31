@@ -1,0 +1,21 @@
+{
+  "name": "@mandate-os/mcp",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/mandate-os-mcp/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/mandate-os-mcp"],
+      "options": {
+        "command": "pnpm --dir packages/mandate-os-mcp run build"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --dir packages/mandate-os-mcp run test"
+      }
+    }
+  }
+}

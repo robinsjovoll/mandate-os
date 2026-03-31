@@ -1,0 +1,21 @@
+{
+  "name": "@mandate-os/openclaw",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/mandate-os-openclaw/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{workspaceRoot}/dist/packages/mandate-os-openclaw"],
+      "options": {
+        "command": "pnpm --dir packages/mandate-os-openclaw run build"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --dir packages/mandate-os-openclaw run test"
+      }
+    }
+  }
+}

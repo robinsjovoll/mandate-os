@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@mandate-os/sdk": ["packages/mandate-os-sdk/src/index.ts"],
+      "@mandate-os/sdk/*": ["packages/mandate-os-sdk/src/*"],
+      "@mandate-os/mcp": ["packages/mandate-os-mcp/src/index.ts"],
+      "@mandate-os/mcp/*": ["packages/mandate-os-mcp/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

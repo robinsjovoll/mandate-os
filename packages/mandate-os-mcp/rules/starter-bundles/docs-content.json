@@ -1,0 +1,94 @@
+{
+  "name": "docs-content",
+  "description": "Starter host-gateway rules for docs and content workflows.",
+  "rules": [
+    {
+      "id": "docs.publish.command.pnpm",
+      "channel": "shell",
+      "matcher": "^pnpm\\s+(docs:publish|publish:docs|content:publish|marketing:publish)\\b",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish docs or content",
+      "description": "Publish docs or content using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "docs.publish.command.npm",
+      "channel": "shell",
+      "matcher": "^npm\\s+run\\s+(docs:publish|publish:docs|content:publish|marketing:publish)\\b",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish docs or content",
+      "description": "Publish docs or content using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "sanity.content.command",
+      "channel": "shell",
+      "matcher": "^sanity\\b.*\\b(create|patch|delete|publish)\\b",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Mutate Sanity content",
+      "description": "Mutate Sanity content using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "notion.publish.tool",
+      "channel": "mcp",
+      "matcher": "(notion).*(create|append|update|publish)|(create|append|update|publish).*(notion)",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish or update Notion content",
+      "description": "Publish or update docs content with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "confluence.publish.tool",
+      "channel": "mcp",
+      "matcher": "(confluence).*(create|update|publish)|(create|update|publish).*(confluence)",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish or update Confluence content",
+      "description": "Publish or update Confluence content with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "contentful.publish.tool",
+      "channel": "mcp",
+      "matcher": "(contentful).*(create|update|publish|entry|asset)|(create|update|publish|entry|asset).*(contentful)",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish Contentful content",
+      "description": "Publish content with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "sanity.publish.tool",
+      "channel": "mcp",
+      "matcher": "(sanity).*(create|patch|delete|publish)|(create|patch|delete|publish).*(sanity)",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Mutate Sanity content",
+      "description": "Mutate content with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "wordpress.publish.tool",
+      "channel": "mcp",
+      "matcher": "(wordpress).*(post|page|publish|update)|(post|page|publish|update).*(wordpress)",
+      "flags": "i",
+      "tool": "docs.publish",
+      "title": "Publish WordPress content",
+      "description": "Publish content with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    }
+  ]
+}

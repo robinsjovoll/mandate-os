@@ -1,0 +1,9 @@
+{
+  "id": "mandateos",
+  "name": "MandateOS",
+  "description": "MandateOS guardrails for OpenClaw tool calls and bundle workflows.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": true
+  }
+}

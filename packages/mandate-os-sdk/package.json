@@ -1,0 +1,24 @@
+{
+  "name": "@mandate-os/sdk",
+  "version": "0.1.1",
+  "description": "TypeScript SDK for MandateOS agent integrations.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm exec tsc -p tsconfig.lib.json && node ./scripts/copy-build-assets.mjs",
+    "test": "pnpm exec vitest run --config vitest.config.ts"
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  }
+}

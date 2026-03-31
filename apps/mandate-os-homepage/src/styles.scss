@@ -1,0 +1,62 @@
+:root {
+  --font-body: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --font-display:
+    'Avenir Next Condensed', 'Franklin Gothic Medium', 'Arial Narrow',
+    sans-serif;
+  --font-mono:
+    ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Monaco, Consolas,
+    'Liberation Mono', monospace;
+  --color-bg: #04111a;
+  --color-bg-soft: #0a1a28;
+  --color-ink: #eef6fb;
+  --color-muted: rgba(224, 237, 247, 0.76);
+  --color-accent: #f6c36b;
+  --color-line: rgba(131, 227, 224, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(78, 145, 255, 0.2),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(246, 195, 107, 0.14),
+      transparent 28%
+    ),
+    linear-gradient(180deg, #07131d 0%, var(--color-bg) 100%);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+p {
+  margin: 0;
+}
+
+.eyebrow {
+  color: var(--color-accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}

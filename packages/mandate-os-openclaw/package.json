@@ -1,0 +1,36 @@
+{
+  "name": "@mandate-os/openclaw",
+  "version": "0.1.6",
+  "description": "MandateOS bridge, plugin bundle, and installer for OpenClaw.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "pnpm --dir ../mandate-os-sdk run build && pnpm --dir ../mandate-os-mcp run build && pnpm exec tsc -p tsconfig.lib.json && node ./scripts/copy-build-assets.mjs",
+    "test": "pnpm exec vitest run --config vitest.config.ts",
+    "openclaw:install": "node ../../dist/packages/mandate-os-openclaw/openclaw-install.js install",
+    "openclaw:repair": "node ../../dist/packages/mandate-os-openclaw/openclaw-install.js repair",
+    "openclaw:status": "node ../../dist/packages/mandate-os-openclaw/openclaw-install.js status",
+    "openclaw:doctor": "node ../../dist/packages/mandate-os-openclaw/openclaw-install.js doctor"
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "bin": {
+    "mandate-os-openclaw-install": "./openclaw-install.js",
+    "mandate-os-openclaw-bridge": "./openclaw-bridge.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "dependencies": {
+    "@mandate-os/mcp": "workspace:*",
+    "@mandate-os/sdk": "workspace:*"
+  }
+}

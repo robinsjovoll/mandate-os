@@ -1,0 +1,127 @@
+{
+  "name": "finance-support",
+  "description": "Starter host-gateway rules for finance, support, and procurement workflows.",
+  "rules": [
+    {
+      "id": "stripe.refund.command",
+      "channel": "shell",
+      "matcher": "^stripe\\s+refunds\\s+create\\b",
+      "flags": "i",
+      "tool": "support.refund",
+      "title": "Issue a Stripe refund",
+      "description": "Issue a Stripe refund using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "stripe.capture.command",
+      "channel": "shell",
+      "matcher": "^stripe\\s+payment_intents\\s+capture\\b",
+      "flags": "i",
+      "tool": "payment.execute",
+      "title": "Capture a Stripe payment",
+      "description": "Capture a Stripe payment using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "payment.capture.command",
+      "channel": "shell",
+      "matcher": "^pnpm\\s+(payment:capture|invoice:pay)\\b",
+      "flags": "i",
+      "tool": "payment.execute",
+      "title": "Capture a payment or pay an invoice",
+      "description": "Capture a payment or pay an invoice using command: {command}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "support.refund.command",
+      "channel": "shell",
+      "matcher": "^pnpm\\s+refund:issue\\b",
+      "flags": "i",
+      "tool": "support.refund",
+      "title": "Issue a support refund",
+      "description": "Issue a support refund using command: {command}",
+      "zone": "domestic",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "quote.request.command",
+      "channel": "shell",
+      "matcher": "^pnpm\\s+vendor:quote\\b",
+      "flags": "i",
+      "tool": "quote.request",
+      "title": "Request a vendor quote",
+      "description": "Request a vendor quote using command: {command}",
+      "zone": "eea",
+      "riskLevel": "low"
+    },
+    {
+      "id": "contract.draft.command",
+      "channel": "shell",
+      "matcher": "^pnpm\\s+contract:draft\\b",
+      "flags": "i",
+      "tool": "contract.draft",
+      "title": "Draft a contract or agreement",
+      "description": "Draft a contract or agreement using command: {command}",
+      "zone": "eea",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "erp.read.tool",
+      "channel": "mcp",
+      "matcher": "(netsuite|sap|erp|procurement).*(read|get|list|query|search)|(read|get|list|query|search).*(netsuite|sap|erp|procurement)",
+      "flags": "i",
+      "tool": "erp.read",
+      "title": "Read ERP or procurement context",
+      "description": "Read ERP or procurement context with MCP tool {toolName}",
+      "zone": "eea",
+      "riskLevel": "low"
+    },
+    {
+      "id": "quote.request.tool",
+      "channel": "mcp",
+      "matcher": "(vendor|procurement|sourcing).*(quote|rfq|request)|(quote|rfq|request).*(vendor|procurement|sourcing)",
+      "flags": "i",
+      "tool": "quote.request",
+      "title": "Request a vendor quote",
+      "description": "Request a vendor quote with MCP tool {toolName}",
+      "zone": "eea",
+      "riskLevel": "low"
+    },
+    {
+      "id": "contract.draft.tool",
+      "channel": "mcp",
+      "matcher": "(contract|legal|agreement).*(draft|generate|create)|(draft|generate|create).*(contract|legal|agreement)",
+      "flags": "i",
+      "tool": "contract.draft",
+      "title": "Draft a contract or agreement",
+      "description": "Draft a contract or agreement with MCP tool {toolName}",
+      "zone": "eea",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "payment.execute.tool",
+      "channel": "mcp",
+      "matcher": "(stripe|billing|payments).*(charge|capture|pay|invoice)|(charge|capture|pay|invoice).*(stripe|billing|payments)",
+      "flags": "i",
+      "tool": "payment.execute",
+      "title": "Execute or capture a payment",
+      "description": "Execute or capture a payment with MCP tool {toolName}",
+      "zone": "oecd",
+      "riskLevel": "high"
+    },
+    {
+      "id": "support.refund.tool",
+      "channel": "mcp",
+      "matcher": "(zendesk|intercom|support|stripe).*(refund|credit)|(refund|credit).*(zendesk|intercom|support|stripe)",
+      "flags": "i",
+      "tool": "support.refund",
+      "title": "Issue a refund or credit",
+      "description": "Issue a refund or credit with MCP tool {toolName}",
+      "zone": "domestic",
+      "riskLevel": "medium"
+    }
+  ]
+}
