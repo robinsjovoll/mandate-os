@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "TypeScript SDK for MandateOS agent integrations.",
   "license": "MIT",
+  "keywords": ["mandate-os", "ai-agents", "sdk", "typescript", "policy"],
   "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-sdk#readme",
   "bugs": {
     "url": "https://github.com/robinsjovoll/mandate-os/issues"

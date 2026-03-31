@@ -114,6 +114,6 @@ jobs:
       - name: Publish affected MandateOS packages
         if: steps.affected.outputs.has_changes == 'true'
         run: >
-          pnpm run mandate-os:packages:publish --
+          pnpm exec node scripts/releases/publish-mandate-os-packages.mjs --publish
           --base=${{ steps.shas.outputs.base }}
           --head=${{ steps.shas.outputs.head }}

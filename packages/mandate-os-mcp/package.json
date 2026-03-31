@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "MandateOS MCP server and installer CLIs for Cursor and Claude Code.",
   "license": "MIT",
+  "keywords": ["mandate-os", "mcp", "cursor", "claude-code", "ai-agents"],
   "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-mcp#readme",
   "bugs": {
     "url": "https://github.com/robinsjovoll/mandate-os/issues"
