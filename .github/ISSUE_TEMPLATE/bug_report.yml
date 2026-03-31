@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible problem in the public MandateOS repo
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this. Please keep reports scoped to the public repo:
+        SDK, MCP tooling, OpenClaw integration, installers, docs, or homepage.
+  - type: input
+    id: area
+    attributes:
+      label: Area
+      description: Which package or app is affected?
+      placeholder: packages/mandate-os-openclaw
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug and the behavior you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Share the steps, commands, and inputs needed to reproduce the issue.
+      placeholder: |
+        1. Run ...
+        2. Open ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Share OS, Node version, package manager, and tool versions if relevant.
+      placeholder: macOS 15, Node 22.15.0, pnpm 10.29.3
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra context
+      description: Logs, screenshots, stack traces, or anything else useful.

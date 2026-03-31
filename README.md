@@ -4,6 +4,13 @@ Operational guardrails for AI agents.
 
 This repository is the public MandateOS workspace. It contains the developer-facing integrations, starter policy bundles, and the marketing homepage that make MandateOS easy to inspect, install, and extend.
 
+## Community docs
+
+- [Contributing](./CONTRIBUTING.md)
+- [Security policy](./SECURITY.md)
+- [Code of conduct](./CODE_OF_CONDUCT.md)
+- [Open-source boundary](./OPEN_SOURCE_BOUNDARY.md)
+
 ## What is in this repo
 
 - `packages/mandate-os-sdk`: TypeScript SDK for mandate issuance, evaluation, grants, and verification
