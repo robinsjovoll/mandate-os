@@ -2,6 +2,7 @@
   "name": "@mandate-os/openclaw",
   "version": "0.1.6",
   "description": "MandateOS bridge, plugin bundle, and installer for OpenClaw.",
+  "author": "Robin Sjøvoll",
   "license": "MIT",
   "keywords": ["mandate-os", "openclaw", "ai-agents", "bridge", "policy"],
   "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-openclaw#readme",

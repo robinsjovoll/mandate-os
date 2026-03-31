@@ -2,6 +2,7 @@
   "name": "@mandate-os/sdk",
   "version": "0.1.1",
   "description": "TypeScript SDK for MandateOS agent integrations.",
+  "author": "Robin Sjøvoll",
   "license": "MIT",
   "keywords": ["mandate-os", "ai-agents", "sdk", "typescript", "policy"],
   "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-sdk#readme",

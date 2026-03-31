@@ -115,5 +115,5 @@ jobs:
         if: steps.affected.outputs.has_changes == 'true'
         run: >
           pnpm exec node scripts/releases/publish-mandate-os-packages.mjs --publish
-          --base=${{ steps.shas.outputs.base }}
-          --head=${{ steps.shas.outputs.head }}
+          --base ${{ steps.shas.outputs.base }}
+          --head ${{ steps.shas.outputs.head }}
