@@ -2,7 +2,14 @@
 
 Operational guardrails for AI agents.
 
-This repository is the public MandateOS workspace. It contains the developer-facing integrations, starter policy bundles, and the marketing homepage that make MandateOS easy to inspect, install, and extend.
+MandateOS is an open-core system:
+
+- this public repo contains the open-source SDKs, MCP server, shell installers, starter policy bundles, and docs
+- the managed MandateOS control plane handles hosted approvals, workspace operations, retained audit history, and customer administration
+
+Start with the public packages here, then connect them to the hosted control plane when you want team-wide operations and managed review flows.
+
+Project site: [getmandateos.com](https://getmandateos.com)
 
 ## Community docs
 
@@ -29,7 +36,7 @@ This repository is the public MandateOS workspace. It contains the developer-fac
 The short version is:
 
 - public repo = trust layer, install layer, docs, starter bundles, homepage
-- private repo = hosted control plane, customer ops, secrets, enterprise operation
+- private repo = hosted control plane, approval workflows, customer ops, secrets, enterprise operation
 
 More detail lives in [OPEN_SOURCE_BOUNDARY.md](./OPEN_SOURCE_BOUNDARY.md).
 
@@ -55,6 +62,12 @@ pnpm mandate-os:cursor:install
 pnpm mandate-os:claude:install
 pnpm mandate-os:openclaw:install
 ```
+
+## How to evaluate MandateOS
+
+- use the open-source packages in this repo when you want to inspect the trust layer, install local integrations, or build your own policy-aware tooling
+- use the managed control plane when you want hosted workspace operations, approvals, retained audit history, and org-level administration
+- use both together when you want the cleanest production setup
 
 ## Open-source hygiene
 

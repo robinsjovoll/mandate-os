@@ -1,7 +1,7 @@
 const LIVE_PACKAGE_VERSIONS = {
-  sdk: '0.1.1',
-  mcp: '0.1.1',
-  openclaw: '0.1.6',
+  sdk: '0.1.4',
+  mcp: '0.1.4',
+  openclaw: '0.1.7',
 } as const;
 
 export const MANDATE_OS_CONTENT = {
@@ -18,7 +18,7 @@ export const MANDATE_OS_CONTENT = {
   hero: {
     eyebrow: 'MandateOS / operational guardrails',
     title: 'Put real guardrails around agent action.',
-    lede: 'MandateOS helps teams define what agents may do, when human approval is required, and what evidence is kept afterwards. It turns policy from loose guidance into an operational system with approvals, receipts, and audit history.',
+    lede: 'MandateOS gives teams an open-source trust layer for agent integrations, policy checks, and local installation, plus a managed control plane for hosted approvals, workspace operations, and retained audit history.',
     primaryLabel: 'See how it works',
     primaryHref: '#loop',
     secondaryLabel: 'Install without cloning',
@@ -26,15 +26,15 @@ export const MANDATE_OS_CONTENT = {
   },
   proofStrip: [
     {
-      label: 'Guardrails',
-      value: 'Tool scope, budgets, approvals',
+      label: 'Open source',
+      value: 'SDK, MCP server, installers',
       detail: 'Control higher-risk actions without slowing down routine work.',
     },
     {
-      label: 'Evidence',
-      value: 'Signed receipts and audit history',
+      label: 'Managed control plane',
+      value: 'Approvals, workspaces, audit retention',
       detail:
-        'Keep an exportable record of what was approved and what happened.',
+        'Run operator workflows centrally when teams need managed review and history.',
     },
     {
       label: 'Integrations',
@@ -52,9 +52,9 @@ export const MANDATE_OS_CONTENT = {
       'What receipt proves what happened after the action completed?',
     ],
     noteLabel: 'What teams get',
-    noteTitle: 'Policy, approvals, and receipts in one operating layer',
+    noteTitle: 'Open packages at the edge, managed operations for the team',
     noteBody:
-      'MandateOS gives security, platform, and operations teams one place to define authority, review escalations, and verify the outcome of agent-driven work.',
+      'Use the public packages to inspect and install the guardrail layer. Use the hosted control plane when you want shared approvals, workspace admin, and retained evidence across teams.',
   },
   problem: {
     eyebrow: 'Why MandateOS',
@@ -159,7 +159,7 @@ export const MANDATE_OS_CONTENT = {
   surfaces: {
     eyebrow: 'For teams',
     title: 'Give operators one place to define, run, and review authority.',
-    body: 'MandateOS separates three user jobs: setting policy, operating agent workspaces, and reviewing what happened afterward.',
+    body: 'MandateOS separates the open-source trust layer from the managed control plane operators use to run teams day to day.',
     items: [
       {
         label: 'Define',
@@ -169,12 +169,12 @@ export const MANDATE_OS_CONTENT = {
       {
         label: 'Operate',
         title: 'Workspaces',
-        body: 'Manage the environments, integrations, and operators that use MandateOS in day-to-day work.',
+        body: 'Use the managed control plane to run hosted workspaces, operator access, integrations, and approval flows.',
       },
       {
         label: 'Review',
         title: 'Receipts and audit history',
-        body: 'Keep signed evidence, execution grants, and exportable records attached to the agent actions that actually mattered.',
+        body: 'Keep signed evidence, execution grants, and retained audit records attached to the agent actions that actually mattered.',
       },
     ],
   },
@@ -213,7 +213,7 @@ export const MANDATE_OS_CONTENT = {
   deploy: {
     eyebrow: 'Install without cloning',
     title: 'Install MandateOS directly into the agent shell you already use.',
-    body: 'The MandateOS packages and bootstrap scripts below let teams wire Cursor, Claude Code, and OpenClaw into your workflow without downloading this repository first.',
+    body: 'The open-source packages and bootstrap scripts below let teams wire Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first. The hosted control plane is where teams manage approvals, workspaces, and retained audit history.',
     steps: [
       {
         step: 'A',
@@ -239,7 +239,7 @@ export MANDATE_OS_AGENT_TOKEN="key_id.secret"
 export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     packagesTitle: 'Packages',
     packagesBody:
-      'Pick the package that matches how you want to integrate MandateOS into your agents and workflows.',
+      'These open-source packages are the trust and installation layer. Teams typically pair them with the managed control plane for hosted approvals and operator workflows.',
     packages: [
       {
         name: '@mandate-os/sdk',
@@ -341,7 +341,7 @@ npx --yes --package @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw} manda
   finalCta: {
     eyebrow: 'Give operators confidence',
     title: 'MandateOS helps teams trust agent action without losing control.',
-    body: 'If agents can write code, call tools, and make changes, operators need a way to limit, approve, and verify those actions. MandateOS is built for that job.',
+    body: 'If agents can write code, call tools, and make changes, operators need a way to limit, approve, and verify those actions. MandateOS gives you open-source guardrails at the edge and managed operations when your team needs them.',
     primaryLabel: 'Open install guide',
     primaryHref: '#deploy',
     secondaryLabel: 'See integrations',
