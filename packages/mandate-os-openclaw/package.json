@@ -3,6 +3,15 @@
   "version": "0.1.6",
   "description": "MandateOS bridge, plugin bundle, and installer for OpenClaw.",
   "license": "MIT",
+  "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-openclaw#readme",
+  "bugs": {
+    "url": "https://github.com/robinsjovoll/mandate-os/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robinsjovoll/mandate-os.git",
+    "directory": "packages/mandate-os-openclaw"
+  },
   "type": "module",
   "sideEffects": false,
   "publishConfig": {
