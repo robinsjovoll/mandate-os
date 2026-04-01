@@ -1,3 +1,5 @@
+<a class="skip-link" href="#main-content">Skip to content</a>
+
 <div class="page-shell">
   <div class="background-layer">
     <div class="grid-noise"></div>
@@ -15,16 +17,27 @@
       </span>
     </a>
 
-    <nav class="site-nav" aria-label="MandateOS sections">
+    <nav class="site-nav desktop-nav" aria-label="MandateOS sections">
       @for (link of content.navLinks; track link.id) {
       <a [href]="'#' + link.id">{{ link.label }}</a>
       }
     </nav>
 
-    <a class="header-cta" href="#deploy">{{ content.headerCta }}</a>
+    <div class="header-actions">
+      <details class="mobile-nav">
+        <summary aria-label="Open page navigation">Menu</summary>
+        <nav class="mobile-nav-panel" aria-label="Mobile MandateOS sections">
+          @for (link of content.navLinks; track link.id) {
+          <a [href]="'#' + link.id">{{ link.label }}</a>
+          }
+        </nav>
+      </details>
+
+      <a class="header-cta" href="#deploy">{{ content.headerCta }}</a>
+    </div>
   </header>
 
-  <main id="top" class="site-main">
+  <main id="main-content" class="site-main">
     <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">{{ content.hero.eyebrow }}</p>
@@ -39,6 +52,12 @@
             {{ content.hero.secondaryLabel }}
           </a>
         </div>
+
+        <ul class="hero-highlights" aria-label="MandateOS highlights">
+          @for (highlight of content.hero.highlights; track highlight) {
+          <li>{{ highlight }}</li>
+          }
+        </ul>
 
         <div class="proof-strip">
           @for (item of content.proofStrip; track item.label) {
@@ -154,9 +173,9 @@
         <p>{{ content.security.body }}</p>
       </div>
 
-      <div class="card-grid three-col">
+      <div class="card-grid two-col security-grid">
         @for (item of content.security.items; track item.title) {
-        <article class="card feature-card">
+        <article class="card security-card">
           <span class="mini-label">{{ item.label }}</span>
           <h3>{{ item.title }}</h3>
           <p>{{ item.body }}</p>
@@ -172,12 +191,16 @@
         <p>{{ content.faq.body }}</p>
       </div>
 
-      <div class="card-grid two-col faq-grid">
-        @for (item of content.faq.items; track item.question) {
-        <article class="card faq-card">
-          <h3>{{ item.question }}</h3>
+      <div class="faq-stack">
+        @for ( item of content.faq.items; track item.question; let isFirst =
+        $first, index = $index ) {
+        <details class="faq-item" [attr.open]="isFirst ? '' : null">
+          <summary>
+            <span class="faq-number">{{ index + 1 }}</span>
+            <span class="faq-question">{{ item.question }}</span>
+          </summary>
           <p>{{ item.answer }}</p>
-        </article>
+        </details>
         }
       </div>
     </section>
@@ -254,40 +277,48 @@
           </div>
 
           <div class="installer-stack">
-            @for (installer of content.deploy.installers; track installer.name)
-            {
-            <article class="card installer-card">
-              <div class="integration-head">
-                <h3>{{ installer.name }}</h3>
-                <code class="source-pill">{{ installer.packageName }}</code>
+            @for ( installer of content.deploy.installers; track installer.name;
+            let isFirst = $first ) {
+            <details
+              class="card installer-card installer-accordion"
+              [attr.open]="isFirst ? '' : null"
+            >
+              <summary class="installer-summary">
+                <div class="integration-head">
+                  <h3>{{ installer.name }}</h3>
+                  <code class="source-pill">{{ installer.packageName }}</code>
+                </div>
+                <p>{{ installer.summary }}</p>
+                <span class="accordion-hint">Open Installer Details</span>
+              </summary>
+              <div class="installer-body">
+                <pre
+                  class="command-block"
+                ><code>{{ installer.command }}</code></pre>
+                <div class="installer-actions">
+                  <a
+                    class="script-link"
+                    [href]="installer.scriptHref"
+                    [attr.download]="installer.scriptFileName"
+                  >
+                    {{ installer.scriptLabel }}
+                  </a>
+                  <a
+                    class="script-link"
+                    [href]="installer.packageHref"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {{ installer.packageLinkLabel }}
+                  </a>
+                </div>
+                <ul>
+                  @for (note of installer.notes; track note) {
+                  <li>{{ note }}</li>
+                  }
+                </ul>
               </div>
-              <p>{{ installer.summary }}</p>
-              <pre
-                class="command-block"
-              ><code>{{ installer.command }}</code></pre>
-              <div class="installer-actions">
-                <a
-                  class="script-link"
-                  [href]="installer.scriptHref"
-                  [attr.download]="installer.scriptFileName"
-                >
-                  {{ installer.scriptLabel }}
-                </a>
-                <a
-                  class="script-link"
-                  [href]="installer.packageHref"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {{ installer.packageLinkLabel }}
-                </a>
-              </div>
-              <ul>
-                @for (note of installer.notes; track note) {
-                <li>{{ note }}</li>
-                }
-              </ul>
-            </article>
+            </details>
             }
           </div>
         </div>

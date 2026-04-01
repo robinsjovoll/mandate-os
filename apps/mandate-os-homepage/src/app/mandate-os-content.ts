@@ -19,10 +19,15 @@ export const MANDATE_OS_CONTENT = {
   hero: {
     eyebrow: 'MandateOS / operational guardrails',
     title: 'Put real guardrails around agent action.',
-    lede: 'MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows. Teams get an open-source trust layer for integrations and local installs, plus a managed control plane for hosted approvals, workspace operations, and retained evidence.',
-    primaryLabel: 'See how it works',
+    lede: 'MandateOS adds guardrails, approvals, and audit history to Cursor, Claude Code, OpenClaw, and MCP-based workflows.',
+    highlights: [
+      'Open-source SDK, MCP server, and installers',
+      'Managed approvals, workspaces, and audit history',
+      'Cursor, Claude Code, OpenClaw, and MCP workflows',
+    ],
+    primaryLabel: 'See How It Works',
     primaryHref: '#loop',
-    secondaryLabel: 'Install without cloning',
+    secondaryLabel: 'Install Without Cloning',
     secondaryHref: '#deploy',
   },
   proofStrip: [
@@ -61,7 +66,7 @@ export const MANDATE_OS_CONTENT = {
   problem: {
     eyebrow: 'Why MandateOS',
     title: 'AI agents need enforceable limits, not just instructions.',
-    body: 'As agents gain access to repositories, browsers, terminals, and external systems, teams need a consistent way to express allowed actions, escalation thresholds, and audit requirements.',
+    body: 'As agents gain access to repositories, browsers, terminals, and external systems, teams need one place to define allowed actions, escalation thresholds, and audit requirements.',
     cards: [
       {
         label: 'Without guardrails',
@@ -110,7 +115,7 @@ export const MANDATE_OS_CONTENT = {
   integrations: {
     eyebrow: 'Where it fits',
     title: 'Use MandateOS alongside the agent tools your team already runs.',
-    body: 'MandateOS is designed to sit between the agent and the actions that matter: code changes, approvals, external tools, and higher-risk execution.',
+    body: 'MandateOS sits between the agent and the actions that matter: code changes, approvals, external tools, and higher-risk execution.',
     items: [
       {
         name: 'Cursor',
@@ -161,7 +166,7 @@ export const MANDATE_OS_CONTENT = {
   surfaces: {
     eyebrow: 'For teams',
     title: 'Give operators one place to define, run, and review authority.',
-    body: 'MandateOS separates the open-source trust layer from the managed control plane operators use to run teams day to day.',
+    body: 'MandateOS separates the open-source trust layer from the managed control plane operators use every day.',
     items: [
       {
         label: 'Define',
@@ -183,39 +188,39 @@ export const MANDATE_OS_CONTENT = {
   security: {
     eyebrow: 'Built-in security',
     title: 'Every layer is cryptographically protected.',
-    body: 'MandateOS uses proven cryptographic primitives at every level — signing, encryption, hashing, and chaining — so teams can verify integrity, protect secrets, and detect tampering without bolting on external tools.',
+    body: 'MandateOS uses proven cryptographic primitives at every level so teams can verify integrity, protect secrets, and detect tampering without bolting on external tools.',
     items: [
       {
         label: 'Signed payloads',
         title: 'HMAC-SHA256 signatures on mandates, receipts, and grants',
-        body: 'Every mandate, receipt, and execution grant is digitally signed at creation. The payload is canonicalized, hashed, and signed with a server-held secret. Key rotation is built in, so old signatures stay valid when you roll credentials.',
+        body: 'Mandates, receipts, and execution grants are signed at creation. Key rotation is built in so older signatures stay valid when credentials change.',
       },
       {
         label: 'Encrypted secrets',
         title: 'AES-256-GCM encryption for tokens at rest',
-        body: 'Sensitive credentials like OAuth tokens are encrypted before storage using AES-256-GCM with a unique initialization vector per value. Ciphertext and authentication tags are stored together so decryption also verifies data integrity.',
+        body: 'Sensitive credentials are encrypted before storage with a unique initialization vector per value, and decryption also verifies integrity.',
       },
       {
         label: 'Hashed credentials',
         title: 'scrypt-based API key storage with timing-safe comparison',
-        body: 'API key secrets are never stored in plain text. Each key is hashed with scrypt using a random salt, and verification uses constant-time comparison to prevent timing attacks.',
+        body: 'API key secrets are never stored in plain text. Verification uses constant-time comparison to reduce timing attack risk.',
       },
       {
         label: 'Tamper-evident audit',
         title: 'SHA-256 hash chain across all audit events',
-        body: 'Audit events are linked in a hash chain where each entry includes the hash of the previous one. Any modification to a past event breaks the chain, making tampering immediately detectable.',
+        body: 'Audit events are linked in a hash chain. Any modification to a past event breaks the chain and becomes immediately visible.',
       },
       {
         label: 'Verified requests',
         title: 'HMAC-signed inter-service authentication',
-        body: 'Service-to-service requests are authenticated with HMAC-SHA256 signatures that cover the method, path, body, and expiry. Mutating requests require an idempotency key, and all checks use timing-safe comparison.',
+        body: 'Service-to-service requests are signed across method, path, body, and expiry. Mutating requests also require idempotency keys.',
       },
     ],
   },
   faq: {
     eyebrow: 'FAQ',
     title: 'Questions teams ask before putting guardrails around AI agents.',
-    body: 'Direct answers for teams evaluating MandateOS for AI agent governance, approvals, auditability, and MCP-based integrations.',
+    body: 'Direct answers for teams evaluating MandateOS for governance, approvals, auditability, and MCP-based integrations.',
     items: [
       {
         question: 'What is MandateOS?',
@@ -247,12 +252,12 @@ export const MANDATE_OS_CONTENT = {
   deploy: {
     eyebrow: 'Install without cloning',
     title: 'Install MandateOS directly into the agent shell you already use.',
-    body: 'The open-source packages and bootstrap scripts below let teams wire Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first. The hosted control plane is where teams manage approvals, workspaces, and retained audit history.',
+    body: 'Use the open-source packages and bootstrap scripts below to wire Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first.',
     steps: [
       {
         step: 'A',
         title: 'Export your MandateOS connection values',
-        body: 'Set your MandateOS base URL and agent token in the shell where you plan to run an installer. Add a default mandate id when you want one workspace mandate preselected.',
+        body: 'Set your base URL and agent token in the shell where you plan to run an installer. Add a default mandate id when you want one workspace mandate preselected.',
       },
       {
         step: 'B',
@@ -262,7 +267,7 @@ export const MANDATE_OS_CONTENT = {
       {
         step: 'C',
         title: 'Open the shell and verify the tools',
-        body: 'Start the guarded workspace, approve the MandateOS MCP if the host asks, and confirm the MandateOS tools are available before doing sensitive work.',
+        body: 'Start the guarded workspace, approve the MandateOS MCP if the host asks, and confirm the tools are available before doing sensitive work.',
       },
     ],
     envTitle: 'Shell environment',
@@ -273,7 +278,7 @@ export MANDATE_OS_AGENT_TOKEN="key_id.secret"
 export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     packagesTitle: 'Packages',
     packagesBody:
-      'These open-source packages are the trust and installation layer. Teams typically pair them with the managed control plane for hosted approvals and operator workflows.',
+      'These open-source packages are the trust and installation layer. Teams usually pair them with the managed control plane for hosted approvals and operator workflows.',
     packages: [
       {
         name: '@mandate-os/sdk',
@@ -314,7 +319,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     ],
     installersTitle: 'Host installers',
     installersBody:
-      'Run the package CLI directly with `npx`, or download the matching shell wrapper and pass your workspace path as the first argument.',
+      'Run the package CLI directly with `npx`, or open the matching installer below and pass your workspace path as the first argument.',
     installers: [
       {
         name: 'Cursor',
@@ -375,10 +380,10 @@ npx --yes --package @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw} manda
   finalCta: {
     eyebrow: 'Give operators confidence',
     title: 'MandateOS helps teams trust agent action without losing control.',
-    body: 'If agents can write code, call tools, and make changes, operators need a way to limit, approve, and verify those actions. MandateOS gives you open-source guardrails at the edge and managed operations when your team needs them.',
-    primaryLabel: 'Open install guide',
+    body: 'If agents can write code, call tools, and make changes, operators need a way to limit, approve, and verify those actions. MandateOS gives teams open-source guardrails at the edge and managed operations when they need them.',
+    primaryLabel: 'Open Install Guide',
     primaryHref: '#deploy',
-    secondaryLabel: 'See integrations',
+    secondaryLabel: 'See Integrations',
     secondaryHref: '#integrations',
   },
   footer: 'Operational guardrails, approvals, and receipts for AI agents.',

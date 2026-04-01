@@ -8,10 +8,11 @@
     'Liberation Mono', monospace;
   --color-bg: #04111a;
   --color-bg-soft: #0a1a28;
-  --color-ink: #eef6fb;
-  --color-muted: rgba(224, 237, 247, 0.76);
+  --color-ink: #f4fbff;
+  --color-muted: rgba(229, 239, 247, 0.82);
   --color-accent: #f6c36b;
   --color-line: rgba(131, 227, 224, 0.14);
+  color-scheme: dark;
 }
 
 * {
@@ -24,11 +25,13 @@ body {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
 }
 
 body {
   font-family: var(--font-body);
   color: var(--color-ink);
+  -webkit-tap-highlight-color: rgba(131, 227, 224, 0.16);
   background:
     radial-gradient(
       circle at top left,
@@ -53,10 +56,57 @@ p {
   margin: 0;
 }
 
+a,
+button,
+summary {
+  touch-action: manipulation;
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 20;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  color: #06131f;
+  background: linear-gradient(135deg, #83e3e0, #f6c36b);
+  text-decoration: none;
+  font-weight: 800;
+  transform: translateY(-160%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
 .eyebrow {
   color: var(--color-accent);
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
