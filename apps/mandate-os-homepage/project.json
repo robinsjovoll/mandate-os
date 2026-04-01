@@ -12,6 +12,11 @@
       "options": {
         "outputPath": "dist/apps/mandate-os-homepage",
         "browser": "apps/mandate-os-homepage/src/main.ts",
+        "server": "apps/mandate-os-homepage/src/main.server.ts",
+        "prerender": {
+          "routesFile": "apps/mandate-os-homepage/routes.txt",
+          "discoverRoutes": false
+        },
         "tsConfig": "apps/mandate-os-homepage/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -84,7 +89,7 @@
       "options": {
         "buildTarget": "mandate-os-homepage:build",
         "staticFilePath": "dist/apps/mandate-os-homepage/browser",
-        "spa": true
+        "spa": false
       }
     },
     "deploy": {

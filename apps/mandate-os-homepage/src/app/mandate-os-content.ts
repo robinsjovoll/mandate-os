@@ -13,12 +13,13 @@ export const MANDATE_OS_CONTENT = {
     { id: 'integrations', label: 'Integrations' },
     { id: 'surfaces', label: 'For teams' },
     { id: 'security', label: 'Security' },
+    { id: 'faq', label: 'FAQ' },
     { id: 'deploy', label: 'Install' },
   ],
   hero: {
     eyebrow: 'MandateOS / operational guardrails',
     title: 'Put real guardrails around agent action.',
-    lede: 'MandateOS gives teams an open-source trust layer for agent integrations, policy checks, and local installation, plus a managed control plane for hosted approvals, workspace operations, and retained audit history.',
+    lede: 'MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows. Teams get an open-source trust layer for integrations and local installs, plus a managed control plane for hosted approvals, workspace operations, and retained evidence.',
     primaryLabel: 'See how it works',
     primaryHref: '#loop',
     secondaryLabel: 'Install without cloning',
@@ -28,7 +29,8 @@ export const MANDATE_OS_CONTENT = {
     {
       label: 'Open source',
       value: 'SDK, MCP server, installers',
-      detail: 'Control higher-risk actions without slowing down routine work.',
+      detail:
+        'Inspect the developer-facing trust layer that enforces AI agent guardrails at the edge.',
     },
     {
       label: 'Managed control plane',
@@ -40,7 +42,7 @@ export const MANDATE_OS_CONTENT = {
       label: 'Integrations',
       value: 'Cursor, Claude Code, OpenClaw',
       detail:
-        'Apply one authority model across the shells your team already uses.',
+        'Apply one authority model across the shells your team already uses and future MCP-powered workflows.',
     },
   ],
   heroPanel: {
@@ -210,6 +212,38 @@ export const MANDATE_OS_CONTENT = {
       },
     ],
   },
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Questions teams ask before putting guardrails around AI agents.',
+    body: 'Direct answers for teams evaluating MandateOS for AI agent governance, approvals, auditability, and MCP-based integrations.',
+    items: [
+      {
+        question: 'What is MandateOS?',
+        answer:
+          'MandateOS is an AI agent guardrails system for teams using Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.',
+      },
+      {
+        question: 'Is MandateOS open source?',
+        answer:
+          'The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private.',
+      },
+      {
+        question: 'Which tools does MandateOS integrate with today?',
+        answer:
+          'Today MandateOS provides integrations for Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement.',
+      },
+      {
+        question: 'What does MandateOS enforce at runtime?',
+        answer:
+          'Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants.',
+      },
+      {
+        question: 'Where should a team start?',
+        answer:
+          'Start with the public package that matches your workflow: @mandate-os/sdk, @mandate-os/mcp, or @mandate-os/openclaw. Then connect those installs to the managed control plane when you want shared approvals, workspace operations, and retained audit history.',
+      },
+    ],
+  },
   deploy: {
     eyebrow: 'Install without cloning',
     title: 'Install MandateOS directly into the agent shell you already use.',
@@ -348,4 +382,22 @@ npx --yes --package @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw} manda
     secondaryHref: '#integrations',
   },
   footer: 'Operational guardrails, approvals, and receipts for AI agents.',
+  footerLinks: [
+    {
+      label: 'GitHub',
+      href: 'https://github.com/robinsjovoll/mandate-os',
+    },
+    {
+      label: 'npm packages',
+      href: 'https://www.npmjs.com/search?q=%40mandate-os',
+    },
+    {
+      label: 'LLMs.txt',
+      href: '/llms.txt',
+    },
+    {
+      label: 'Sitemap',
+      href: '/sitemap.xml',
+    },
+  ],
 } as const;

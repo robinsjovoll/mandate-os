@@ -1,0 +1,66 @@
+# MandateOS
+
+MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows.
+
+## Product summary
+
+MandateOS helps teams define what AI agents may do, when human approval is required, and what evidence is kept afterwards. The system is designed so policy is enforced at runtime instead of living only in prompts, docs, or chat logs.
+
+MandateOS is open core.
+
+- Public repo: the open-source SDKs, MCP server, shell installers, starter policy bundles, docs, and homepage.
+- Managed control plane: hosted approvals, workspace operations, retained audit history, and customer administration.
+
+## Public source and docs
+
+- Homepage: https://getmandateos.com/
+- GitHub repo: https://github.com/robinsjovoll/mandate-os
+- README: https://github.com/robinsjovoll/mandate-os/blob/main/README.md
+- Open-source boundary: https://github.com/robinsjovoll/mandate-os/blob/main/OPEN_SOURCE_BOUNDARY.md
+- Releases: https://github.com/robinsjovoll/mandate-os/releases
+
+## Public packages
+
+- @mandate-os/sdk: https://www.npmjs.com/package/@mandate-os/sdk
+- @mandate-os/mcp: https://www.npmjs.com/package/@mandate-os/mcp
+- @mandate-os/openclaw: https://www.npmjs.com/package/@mandate-os/openclaw
+
+## Public package roles
+
+- @mandate-os/sdk: typed client for mandates, receipts, and execution grants.
+- @mandate-os/mcp: MandateOS MCP server plus installer CLIs for Cursor and Claude Code.
+- @mandate-os/openclaw: OpenClaw bridge, plugin bundle, and guarded workspace installer.
+
+## Key terms
+
+- Mandates: define allowed tools, budgets, zones, thresholds, and approval policy.
+- Approvals: explicit review for higher-risk actions.
+- Execution grants: operator authorization for sensitive work.
+- Receipts: evidence describing what was approved and what happened.
+- Audit history: retained record of meaningful agent decisions and outcomes.
+
+## Integrations
+
+- Cursor
+- Claude Code
+- OpenClaw
+- Custom MCP-powered workflows
+- Future GitHub enforcement
+
+## FAQ
+
+### What is MandateOS?
+
+MandateOS is an AI agent guardrails system for teams using Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.
+
+### Is MandateOS open source?
+
+The developer-facing trust layer is open source. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private.
+
+### What does MandateOS enforce?
+
+Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants.
+
+### Where should a team start?
+
+Start with the public package that matches your workflow, then connect those installs to the managed control plane when you want shared approvals and team-wide operations.

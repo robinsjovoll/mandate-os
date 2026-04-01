@@ -316,6 +316,7 @@
 
 .section {
   margin-top: 4.5rem;
+  scroll-margin-top: 6.5rem;
 }
 
 .section-heading {
@@ -423,6 +424,25 @@
   color: var(--color-muted);
   display: grid;
   gap: 0.45rem;
+}
+
+.faq-grid {
+  align-items: stretch;
+}
+
+.faq-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.faq-card p {
+  margin-top: 0.8rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+  text-wrap: pretty;
 }
 
 .deploy-shell {
@@ -581,6 +601,21 @@
   font-size: 0.86rem;
 }
 
+.footer-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.8rem 1rem;
+}
+
+.footer-links a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--color-ink);
+}
+
 .eyebrow {
   margin: 0 0 0.7rem;
 }
@@ -644,5 +679,9 @@
   .site-footer {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .footer-links {
+    gap: 0.55rem 0.85rem;
   }
 }

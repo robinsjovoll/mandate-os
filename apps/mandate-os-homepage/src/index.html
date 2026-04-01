@@ -1,15 +1,196 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
   <head>
     <meta charset="utf-8" />
-    <title>MandateOS | Operational guardrails for AI agents</title>
+    <title>
+      MandateOS | AI Agent Guardrails, Approvals, and Audit for Cursor, Claude
+      Code, and OpenClaw
+    </title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="MandateOS helps teams define guardrails, approvals, and receipts for AI agents across tools like Cursor, Claude Code, and OpenClaw."
+      content="MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+    />
+    <meta
+      name="keywords"
+      content="AI agent guardrails, AI agent governance, AI agent approvals, agent audit trail, MCP server, Cursor guardrails, Claude Code guardrails, OpenClaw guardrails, AI policy engine"
+    />
+    <meta name="author" content="MandateOS" />
+    <meta name="application-name" content="MandateOS" />
+    <meta name="apple-mobile-web-app-title" content="MandateOS" />
+    <meta name="theme-color" content="#04111a" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
     />
     <link rel="canonical" href="https://getmandateos.com/" />
+    <link rel="alternate" hreflang="en" href="https://getmandateos.com/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://getmandateos.com/"
+    />
+    <link rel="alternate" type="text/plain" href="/llms.txt" />
+    <link rel="alternate" type="text/plain" href="/llms-full.txt" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MandateOS" />
+    <meta property="og:url" content="https://getmandateos.com/" />
+    <meta
+      property="og:title"
+      content="MandateOS | AI Agent Guardrails, Approvals, and Audit for Cursor, Claude Code, and OpenClaw"
+    />
+    <meta
+      property="og:description"
+      content="MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+    />
+    <meta
+      property="og:image"
+      content="https://getmandateos.com/og-homepage.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://getmandateos.com/og-homepage.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="MandateOS, AI agent guardrails, approvals, and audit history for Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://getmandateos.com/" />
+    <meta
+      name="twitter:title"
+      content="MandateOS | AI Agent Guardrails, Approvals, and Audit for Cursor, Claude Code, and OpenClaw"
+    />
+    <meta
+      name="twitter:description"
+      content="MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+    />
+    <meta
+      name="twitter:image"
+      content="https://getmandateos.com/og-homepage.png"
+    />
+    <meta
+      name="twitter:image:alt"
+      content="MandateOS, AI agent guardrails, approvals, and audit history for Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://getmandateos.com/#organization",
+            "name": "MandateOS",
+            "url": "https://getmandateos.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://getmandateos.com/logo-mark.png",
+              "width": 512,
+              "height": 512
+            },
+            "sameAs": [
+              "https://github.com/robinsjovoll/mandate-os",
+              "https://www.npmjs.com/package/@mandate-os/sdk",
+              "https://www.npmjs.com/package/@mandate-os/mcp",
+              "https://www.npmjs.com/package/@mandate-os/openclaw"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://getmandateos.com/#website",
+            "url": "https://getmandateos.com/",
+            "name": "MandateOS",
+            "description": "MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
+            "publisher": {
+              "@id": "https://getmandateos.com/#organization"
+            },
+            "inLanguage": "en-US"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://getmandateos.com/#software",
+            "name": "MandateOS",
+            "url": "https://getmandateos.com/",
+            "description": "MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
+            "applicationCategory": "DeveloperApplication",
+            "applicationSubCategory": "AI Agent Guardrails and Governance",
+            "operatingSystem": "macOS, Linux, Windows, Web",
+            "image": "https://getmandateos.com/og-homepage.png",
+            "softwareVersion": "0.1.0",
+            "codeRepository": "https://github.com/robinsjovoll/mandate-os",
+            "downloadUrl": "https://github.com/robinsjovoll/mandate-os",
+            "featureList": [
+              "AI agent guardrails and policy checks",
+              "Hosted approvals and execution grants",
+              "Receipts and retained audit history",
+              "Cursor, Claude Code, and OpenClaw integrations",
+              "Open-source SDK, MCP server, and installer CLIs"
+            ],
+            "publisher": {
+              "@id": "https://getmandateos.com/#organization"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://getmandateos.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is MandateOS?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "MandateOS is an AI agent guardrails system for teams using Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is MandateOS open source?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which tools does MandateOS integrate with today?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Today MandateOS provides integrations for Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What does MandateOS enforce at runtime?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where should a team start?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Start with the public package that matches your workflow: @mandate-os/sdk, @mandate-os/mcp, or @mandate-os/openclaw. Then connect those installs to the managed control plane when you want shared approvals, workspace operations, and retained audit history."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
     <link rel="icon" href="/favicon-mark.ico" sizes="any" />
     <link
       rel="icon"
@@ -26,6 +207,33 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon-mark.png" />
   </head>
   <body>
+    <noscript>
+      <main>
+        <h1>MandateOS</h1>
+        <p>
+          MandateOS provides AI agent guardrails, approvals, and audit history
+          across Cursor, Claude Code, OpenClaw, and MCP-based workflows.
+        </p>
+        <p>
+          Public packages:
+          <a href="https://www.npmjs.com/package/@mandate-os/sdk"
+            >@mandate-os/sdk</a
+          >,
+          <a href="https://www.npmjs.com/package/@mandate-os/mcp"
+            >@mandate-os/mcp</a
+          >,
+          <a href="https://www.npmjs.com/package/@mandate-os/openclaw"
+            >@mandate-os/openclaw</a
+          >.
+        </p>
+        <p>
+          Open-source repo:
+          <a href="https://github.com/robinsjovoll/mandate-os"
+            >github.com/robinsjovoll/mandate-os</a
+          >.
+        </p>
+      </main>
+    </noscript>
     <app-root></app-root>
   </body>
 </html>
