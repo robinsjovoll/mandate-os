@@ -7,6 +7,7 @@
   position: relative;
   min-height: 100vh;
   overflow: clip;
+  isolation: isolate;
 }
 
 .background-layer {
@@ -61,7 +62,6 @@
 .site-main,
 .site-footer {
   position: relative;
-  z-index: 1;
   width: min(1180px, calc(100% - 2rem));
   margin-inline: auto;
 }
@@ -69,6 +69,7 @@
 .site-header {
   position: sticky;
   top: 0.9rem;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,6 +81,11 @@
   background: rgba(4, 13, 22, 0.86);
   backdrop-filter: blur(20px);
   box-shadow: 0 20px 50px -34px rgba(0, 0, 0, 0.86);
+}
+
+.site-main,
+.site-footer {
+  z-index: 1;
 }
 
 .brand {
