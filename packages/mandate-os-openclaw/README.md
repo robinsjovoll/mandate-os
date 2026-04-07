@@ -30,7 +30,7 @@ MANDATE_OS_BASE_URL=https://mandateos.example.com \
 MANDATE_OS_AGENT_TOKEN='key_id.secret' \
 MANDATE_OS_MCP_DEFAULT_MANDATE_ID='mdt_123' \
 MANDATE_OS_OPENCLAW_WORKSPACE_PATH=/absolute/path/to/your/repo \
-npx --yes --package @mandate-os/openclaw mandate-os-openclaw-install install
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install install
 ```
 
 That command:
@@ -43,13 +43,13 @@ To install the guarded agent with sandboxing disabled, pass either:
 
 ```bash
 MANDATE_OS_OPENCLAW_SANDBOX_MODE=off \
-npx --yes --package @mandate-os/openclaw mandate-os-openclaw-install install
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install install
 ```
 
 or:
 
 ```bash
-npx --yes --package @mandate-os/openclaw mandate-os-openclaw-install install --sandbox-mode=off
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install install --sandbox-mode=off
 ```
 
 If you omit the option, fresh installs default to `all`, while existing guarded
@@ -59,7 +59,7 @@ Inspect the current install state with:
 
 ```bash
 MANDATE_OS_OPENCLAW_WORKSPACE_PATH=/absolute/path/to/your/repo \
-npx --yes --package @mandate-os/openclaw mandate-os-openclaw-install status
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install status
 ```
 
 Repair an existing OpenClaw install in place with a clean MandateOS asset reset:
@@ -68,7 +68,7 @@ Repair an existing OpenClaw install in place with a clean MandateOS asset reset:
 MANDATE_OS_BASE_URL=https://mandateos.example.com \
 MANDATE_OS_MCP_DEFAULT_MANDATE_ID='mdt_123' \
 MANDATE_OS_OPENCLAW_WORKSPACE_PATH=/absolute/path/to/your/repo \
-npx --yes --package @mandate-os/openclaw mandate-os-openclaw-install repair
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install repair
 ```
 
 That repair flow removes the MandateOS-owned OpenClaw plugin and bundle

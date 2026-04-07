@@ -1,9 +1,3 @@
-const LIVE_PACKAGE_VERSIONS = {
-  sdk: '0.1.4',
-  mcp: '0.1.4',
-  openclaw: '0.1.7',
-} as const;
-
 export const MANDATE_OS_CONTENT = {
   brandTagline: 'Operational guardrails for AI agents',
   headerCta: 'Install',
@@ -282,7 +276,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     packages: [
       {
         name: '@mandate-os/sdk',
-        install: `npm install @mandate-os/sdk@${LIVE_PACKAGE_VERSIONS.sdk}`,
+        install: 'npm install @mandate-os/sdk@latest',
         npmHref: 'https://www.npmjs.com/package/@mandate-os/sdk',
         npmLabel: 'View on npm',
         summary:
@@ -294,7 +288,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
       },
       {
         name: '@mandate-os/mcp',
-        install: `npm install @mandate-os/mcp@${LIVE_PACKAGE_VERSIONS.mcp}`,
+        install: 'npm install @mandate-os/mcp@latest',
         npmHref: 'https://www.npmjs.com/package/@mandate-os/mcp',
         npmLabel: 'View on npm',
         summary:
@@ -306,7 +300,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
       },
       {
         name: '@mandate-os/openclaw',
-        install: `npm install @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw}`,
+        install: 'npm install @mandate-os/openclaw@latest',
         npmHref: 'https://www.npmjs.com/package/@mandate-os/openclaw',
         npmLabel: 'View on npm',
         summary:
@@ -328,14 +322,14 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
         packageLinkLabel: 'View package on npm',
         summary:
           'Configures Cursor user and workspace MCP entries, then writes `beforeShellExecution` and `beforeMCPExecution` hooks for the target repository.',
-        command: `npx --yes --package @mandate-os/mcp@${LIVE_PACKAGE_VERSIONS.mcp} mandate-os-cursor-install install \\
+        command: `npx --yes --package @mandate-os/mcp@latest mandate-os-cursor-install install \\
   --workspace "/absolute/path/to/your/repo"`,
         scriptHref: '/install/mandate-os-cursor-install.sh',
         scriptFileName: 'mandate-os-cursor-install.sh',
         scriptLabel: 'Download shell script',
         notes: [
           'Reads `MANDATE_OS_BASE_URL`, `MANDATE_OS_AGENT_TOKEN`, and optional `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` from your shell.',
-          `Status check: \`npx --yes --package @mandate-os/mcp@${LIVE_PACKAGE_VERSIONS.mcp} mandate-os-cursor-install status --workspace "/absolute/path/to/your/repo"\``,
+          'Status check: `npx --yes --package @mandate-os/mcp@latest mandate-os-cursor-install status --workspace "/absolute/path/to/your/repo"`',
         ],
       },
       {
@@ -345,14 +339,14 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
         packageLinkLabel: 'View package on npm',
         summary:
           'Writes the local-scoped `mandateos` MCP entry into `~/.claude.json` and creates workspace hooks in `.claude/settings.local.json`.',
-        command: `npx --yes --package @mandate-os/mcp@${LIVE_PACKAGE_VERSIONS.mcp} mandate-os-claude-install install \\
+        command: `npx --yes --package @mandate-os/mcp@latest mandate-os-claude-install install \\
   --workspace "/absolute/path/to/your/repo"`,
         scriptHref: '/install/mandate-os-claude-install.sh',
         scriptFileName: 'mandate-os-claude-install.sh',
         scriptLabel: 'Download shell script',
         notes: [
           'Reads `MANDATE_OS_BASE_URL`, `MANDATE_OS_AGENT_TOKEN`, and optional `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` from your shell.',
-          `Status check: \`npx --yes --package @mandate-os/mcp@${LIVE_PACKAGE_VERSIONS.mcp} mandate-os-claude-install status --workspace "/absolute/path/to/your/repo"\``,
+          'Status check: `npx --yes --package @mandate-os/mcp@latest mandate-os-claude-install status --workspace "/absolute/path/to/your/repo"`',
         ],
       },
       {
@@ -363,13 +357,13 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
         summary:
           'Installs the OpenClaw extension bundle, configures the local MCP server, and creates a guarded agent profile for the selected workspace.',
         command: `MANDATE_OS_OPENCLAW_WORKSPACE_PATH="/absolute/path/to/your/repo" \\
-npx --yes --package @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw} mandate-os-openclaw-install install`,
+npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install install`,
         scriptHref: '/install/mandate-os-openclaw-install.sh',
         scriptFileName: 'mandate-os-openclaw-install.sh',
         scriptLabel: 'Download shell script',
         notes: [
           'Reads `MANDATE_OS_BASE_URL` and optional `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` during installation.',
-          `Status check: \`MANDATE_OS_OPENCLAW_WORKSPACE_PATH="/absolute/path/to/your/repo" npx --yes --package @mandate-os/openclaw@${LIVE_PACKAGE_VERSIONS.openclaw} mandate-os-openclaw-install status\``,
+          'Status check: `MANDATE_OS_OPENCLAW_WORKSPACE_PATH="/absolute/path/to/your/repo" npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install status`',
         ],
       },
     ],

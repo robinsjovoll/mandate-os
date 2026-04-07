@@ -19,6 +19,6 @@ fi
 echo "Installing MandateOS into OpenClaw for ${WORKSPACE_PATH}"
 
 MANDATE_OS_OPENCLAW_WORKSPACE_PATH="$WORKSPACE_PATH" \
-  npx --yes --package @mandate-os/openclaw@0.1.1 \
+  npx --yes --package @mandate-os/openclaw@latest \
     mandate-os-openclaw-install install \
     "$@"

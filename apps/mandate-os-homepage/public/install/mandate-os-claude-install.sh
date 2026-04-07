@@ -20,7 +20,7 @@ require_env "MANDATE_OS_AGENT_TOKEN"
 
 echo "Installing MandateOS into Claude Code for ${WORKSPACE_PATH}"
 
-npx --yes --package @mandate-os/mcp@0.1.1 \
+npx --yes --package @mandate-os/mcp@latest \
   mandate-os-claude-install install \
   --workspace "$WORKSPACE_PATH" \
   "$@"

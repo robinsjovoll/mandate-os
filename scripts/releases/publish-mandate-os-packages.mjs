@@ -171,6 +171,16 @@ async function main() {
     }
 
     await runCommand('npm', publishArgs, buildEnv, entry.distDir);
+
+    if (!options.tag || options.tag === 'latest') {
+      const plannedVersion = plannedVersions.get(entry.project);
+
+      if (!plannedVersion) {
+        throw new Error(`Missing planned version for ${entry.project}.`);
+      }
+
+      await verifyLatestDistTag(entry.project, plannedVersion);
+    }
   }
 }
 
@@ -231,10 +241,10 @@ function parseArgs(argv) {
 
   const hasAffectedSelector = Boolean(
     options.files ||
-      options.uncommitted ||
-      options.untracked ||
-      (options.base && options.head) ||
-      options.base,
+    options.uncommitted ||
+    options.untracked ||
+    (options.base && options.head) ||
+    options.base,
   );
 
   if (!hasAffectedSelector) {
@@ -350,6 +360,64 @@ async function readPublishedVersion(packageName) {
   }
 }
 
+async function readPublishedDistTags(packageName) {
+  try {
+    const { stdout } = await runCommand(
+      'npm',
+      ['view', packageName, 'dist-tags', '--json'],
+      process.env,
+      workspaceRoot,
+    );
+    const trimmed = stdout.trim();
+
+    if (!trimmed) {
+      return {};
+    }
+
+    const parsed = JSON.parse(trimmed);
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    if (
+      message.includes('E404') ||
+      message.includes('404 Not Found') ||
+      message.includes('is not in this registry')
+    ) {
+      return {};
+    }
+
+    throw error;
+  }
+}
+
+async function verifyLatestDistTag(packageName, expectedVersion) {
+  const maxAttempts = 6;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const distTags = await readPublishedDistTags(packageName);
+
+    if (distTags.latest === expectedVersion) {
+      console.log(
+        `Verified npm latest dist-tag for ${packageName}: ${expectedVersion}`,
+      );
+      return;
+    }
+
+    if (attempt < maxAttempts) {
+      await sleep(2_000);
+    }
+  }
+
+  const distTags = await readPublishedDistTags(packageName);
+  throw new Error(
+    [
+      `Expected npm latest dist-tag for ${packageName} to resolve to ${expectedVersion}.`,
+      `Observed dist-tags: ${JSON.stringify(distTags)}`,
+    ].join('\n'),
+  );
+}
+
 function expandReleaseProjects(initialProjects, publishedVersions) {
   const releaseProjects = new Set(initialProjects);
   let changed = true;
@@ -429,6 +497,12 @@ function parseSemver(version) {
     minor: Number(match[2]),
     patch: Number(match[3]),
   };
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 }
 
 async function runCommand(command, args, env, cwd) {

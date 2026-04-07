@@ -20,7 +20,7 @@ require_env "MANDATE_OS_AGENT_TOKEN"
 
 echo "Installing MandateOS into Cursor for ${WORKSPACE_PATH}"
 
-npx --yes --package @mandate-os/mcp@0.1.1 \
+npx --yes --package @mandate-os/mcp@latest \
   mandate-os-cursor-install install \
   --workspace "$WORKSPACE_PATH" \
   "$@"

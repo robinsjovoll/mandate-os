@@ -47,7 +47,7 @@ If you want Cursor to pick up MandateOS as the default path in a workspace, use 
 MANDATE_OS_BASE_URL=http://localhost:4330 \
 MANDATE_OS_AGENT_TOKEN='key_id.secret' \
 MANDATE_OS_MCP_DEFAULT_MANDATE_ID='mdt_123' \
-npx --yes --package @mandate-os/mcp mandate-os-cursor-install install \
+npx --yes --package @mandate-os/mcp@latest mandate-os-cursor-install install \
   --workspace /absolute/path/to/your/repo
 ```
 
@@ -66,7 +66,7 @@ The default installer uses all bundled starter rule files:
 You can inspect what is installed with:
 
 ```bash
-npx --yes --package @mandate-os/mcp mandate-os-cursor-install status \
+npx --yes --package @mandate-os/mcp@latest mandate-os-cursor-install status \
   --workspace /absolute/path/to/your/repo
 ```
 
@@ -92,7 +92,7 @@ If you want Claude Code to pick up MandateOS as the default path in a workspace,
 MANDATE_OS_BASE_URL=http://localhost:4330 \
 MANDATE_OS_AGENT_TOKEN='key_id.secret' \
 MANDATE_OS_MCP_DEFAULT_MANDATE_ID='mdt_123' \
-npx --yes --package @mandate-os/mcp mandate-os-claude-install install \
+npx --yes --package @mandate-os/mcp@latest mandate-os-claude-install install \
   --workspace /absolute/path/to/your/repo
 ```
 
@@ -111,7 +111,7 @@ The default installer uses all bundled starter rule files:
 You can inspect what is installed with:
 
 ```bash
-npx --yes --package @mandate-os/mcp mandate-os-claude-install status \
+npx --yes --package @mandate-os/mcp@latest mandate-os-claude-install status \
   --workspace /absolute/path/to/your/repo
 ```
 

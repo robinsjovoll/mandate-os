@@ -370,9 +370,9 @@
 }
 
 .hero-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
   padding: 1.3rem;
 }
 
@@ -963,5 +963,15 @@
 
   .footer-links {
     gap: 0.55rem 0.85rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-tagline {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 1.05rem;
   }
 }
