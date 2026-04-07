@@ -145,8 +145,7 @@ async function main() {
     }
 
     console.log(`Packing ${entry.project}...`);
-    await runCommand(
-      'npm',
+    await runNpm(
       ['pack', '--json', '--pack-destination', packDir],
       buildEnv,
       entry.distDir,
@@ -170,7 +169,7 @@ async function main() {
       publishArgs.push('--tag', options.tag);
     }
 
-    await runCommand('npm', publishArgs, buildEnv, entry.distDir);
+    await runNpm(publishArgs, buildEnv, entry.distDir);
 
     if (!options.tag || options.tag === 'latest') {
       const plannedVersion = plannedVersions.get(entry.project);
@@ -331,8 +330,7 @@ async function readSourceVersion(packageJsonPath) {
 
 async function readPublishedVersion(packageName) {
   try {
-    const { stdout } = await runCommand(
-      'npm',
+    const { stdout } = await runNpm(
       ['view', packageName, 'version', '--json'],
       process.env,
       workspaceRoot,
@@ -362,8 +360,7 @@ async function readPublishedVersion(packageName) {
 
 async function readPublishedDistTags(packageName) {
   try {
-    const { stdout } = await runCommand(
-      'npm',
+    const { stdout } = await runNpm(
       ['view', packageName, 'dist-tags', '--json'],
       process.env,
       workspaceRoot,
@@ -515,6 +512,16 @@ async function runCommand(command, args, env, cwd) {
   } catch (error) {
     throw new Error(formatExecError(command, args, error));
   }
+}
+
+async function runNpm(args, env, cwd) {
+  const npmCliPackage = env.MANDATE_OS_NPM_CLI_PACKAGE?.trim();
+
+  if (npmCliPackage) {
+    return runCommand('npx', ['--yes', npmCliPackage, ...args], env, cwd);
+  }
+
+  return runCommand('npm', args, env, cwd);
 }
 
 function formatExecError(command, args, error) {

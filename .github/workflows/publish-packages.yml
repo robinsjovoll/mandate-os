@@ -22,6 +22,7 @@ env:
   NODE_VERSION: '22'
   PNPM_VERSION: '10.29.3'
   NPM_VERSION: '11.10.0'
+  MANDATE_OS_NPM_CLI_PACKAGE: npm@11.10.0
 
 jobs:
   publish:
@@ -51,11 +52,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Upgrade npm for trusted publishing
-        run: npm install --global npm@^${{ env.NPM_VERSION }}
-
       - name: Show npm version
-        run: npm --version
+        run: npx --yes ${{ env.MANDATE_OS_NPM_CLI_PACKAGE }} --version
 
       - name: Resolve affected SHAs
         id: shas
