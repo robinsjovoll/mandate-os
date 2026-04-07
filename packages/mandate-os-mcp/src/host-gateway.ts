@@ -253,6 +253,28 @@ export function toClaudeHookResponse(result: HostGatewayEvaluationResult) {
   };
 }
 
+export function toCodexHookResponse(result: HostGatewayEvaluationResult) {
+  const reason = result.agentMessage || result.userMessage;
+  const permissionDecision = result.permission === 'allow' ? 'allow' : 'deny';
+
+  return {
+    ...(reason
+      ? {
+          systemMessage: reason,
+        }
+      : {}),
+    hookSpecificOutput: {
+      hookEventName: 'PreToolUse',
+      permissionDecision,
+      ...(reason
+        ? {
+            permissionDecisionReason: reason,
+          }
+        : {}),
+    },
+  };
+}
+
 function toHostGatewayResult(
   result: Omit<HostGatewayEvaluationResult, 'route'> & {
     route?: PolicyGatewayRoute;

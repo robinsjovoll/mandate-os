@@ -17,9 +17,9 @@ describe('App', () => {
     expect(compiled.querySelector('.brand-name')?.textContent).toContain(
       'MandateOS',
     );
-    expect(compiled.querySelectorAll('.integration-card')).toHaveLength(4);
+    expect(compiled.querySelectorAll('.integration-card')).toHaveLength(5);
     expect(compiled.querySelectorAll('.package-card')).toHaveLength(3);
-    expect(compiled.querySelectorAll('.installer-card')).toHaveLength(3);
+    expect(compiled.querySelectorAll('.installer-card')).toHaveLength(4);
     expect(compiled.querySelector('.hero-copy h1')?.textContent).toContain(
       'Put real guardrails',
     );

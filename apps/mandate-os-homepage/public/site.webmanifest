@@ -1,7 +1,7 @@
 {
   "name": "MandateOS",
   "short_name": "MandateOS",
-  "description": "AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
+  "description": "AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

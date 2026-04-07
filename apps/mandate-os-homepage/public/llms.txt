@@ -1,6 +1,6 @@
 # MandateOS
 
-> AI agent guardrails, approvals, and audit history for Cursor, Claude Code, OpenClaw, and MCP-based workflows.
+> AI agent guardrails, approvals, and audit history for Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.
 
 MandateOS is an open-core system. The public repo contains the open-source trust layer: SDKs, the MCP server, installer CLIs, starter policy bundles, docs, and the homepage. The managed control plane handles hosted approvals, workspace operations, retained audit history, and customer administration.
 
@@ -27,6 +27,7 @@ MandateOS is an open-core system. The public repo contains the open-source trust
 ## Integrations
 
 - Cursor
+- Codex
 - Claude Code
 - OpenClaw
 - Custom MCP-powered workflows

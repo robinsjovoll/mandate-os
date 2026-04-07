@@ -8,13 +8,15 @@ import {
   readHostGatewayRulesFromEnv,
   readHostGatewayUnmatchedPermission,
   toClaudeHookResponse,
+  toCodexHookResponse,
   toCursorHookResponse,
 } from './host-gateway.js';
 import { readMandateOsMcpConfig } from './config.js';
 
-type SupportedHost = 'cursor' | 'claude';
+type SupportedHost = 'cursor' | 'claude' | 'codex';
 type SupportedCursorEvent = 'before-shell' | 'before-mcp';
 type SupportedClaudeEvent = 'pre-tool-bash' | 'pre-tool-mcp';
+type SupportedCodexEvent = 'pre-tool-bash';
 
 export async function runHookGatewayCommand(
   argv: string[],
@@ -23,7 +25,7 @@ export async function runHookGatewayCommand(
 ) {
   const [host, event] = argv as [
     SupportedHost | undefined,
-    SupportedCursorEvent | SupportedClaudeEvent | undefined,
+    SupportedCursorEvent | SupportedClaudeEvent | SupportedCodexEvent | undefined,
   ];
 
   const isSupportedCursorEvent =
@@ -31,10 +33,11 @@ export async function runHookGatewayCommand(
   const isSupportedClaudeEvent =
     host === 'claude' &&
     (event === 'pre-tool-bash' || event === 'pre-tool-mcp');
+  const isSupportedCodexEvent = host === 'codex' && event === 'pre-tool-bash';
 
-  if (!isSupportedCursorEvent && !isSupportedClaudeEvent) {
+  if (!isSupportedCursorEvent && !isSupportedClaudeEvent && !isSupportedCodexEvent) {
     throw new Error(
-      'Usage: hook-gateway.js cursor before-shell|before-mcp | claude pre-tool-bash|pre-tool-mcp',
+      'Usage: hook-gateway.js cursor before-shell|before-mcp | claude pre-tool-bash|pre-tool-mcp | codex pre-tool-bash',
     );
   }
 
@@ -104,6 +107,30 @@ export async function runHookGatewayCommand(
     return toClaudeHookResponse(result);
   }
 
+  if (host === 'codex' && event === 'pre-tool-bash') {
+    const toolInput = readToolInput(input);
+    const result = await gateway.evaluateShellCommand({
+      host,
+      source: `${host}.PreToolUse.Bash`,
+      command:
+        typeof toolInput.command === 'string'
+          ? toolInput.command
+          : String(input.command || ''),
+      cwd: typeof input.cwd === 'string' ? input.cwd : null,
+      details: {
+        hook: 'PreToolUse',
+        toolName: String(input.tool_name || input.toolName || 'Bash'),
+        toolUseId:
+          typeof input.tool_use_id === 'string' ? input.tool_use_id : null,
+        turnId: typeof input.turn_id === 'string' ? input.turn_id : null,
+        sessionId:
+          typeof input.session_id === 'string' ? input.session_id : null,
+      },
+    });
+
+    return toCodexHookResponse(result);
+  }
+
   const result = await gateway.evaluateMcpToolCall({
     host: 'claude',
     source: 'claude.PreToolUse.MCP',
@@ -149,6 +176,13 @@ if (invokedAsEntrypoint) {
             userMessage: 'MandateOS hook execution failed.',
             agentMessage: message,
           })
+        : host === 'codex'
+          ? toCodexHookResponse({
+              permission: 'deny',
+              decision: 'misconfigured',
+              userMessage: 'MandateOS hook execution failed.',
+              agentMessage: message,
+            })
         : toCursorHookResponse({
             permission: 'deny',
             decision: 'misconfigured',

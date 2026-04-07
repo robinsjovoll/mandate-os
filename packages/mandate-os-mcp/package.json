@@ -1,10 +1,10 @@
 {
   "name": "@mandate-os/mcp",
   "version": "0.1.1",
-  "description": "MandateOS MCP server and installer CLIs for Cursor and Claude Code.",
+  "description": "MandateOS MCP server and installer CLIs for Codex, Cursor, and Claude Code.",
   "author": "Robin Sjøvoll",
   "license": "MIT",
-  "keywords": ["mandate-os", "mcp", "cursor", "claude-code", "ai-agents"],
+  "keywords": ["mandate-os", "mcp", "codex", "cursor", "claude-code", "ai-agents"],
   "homepage": "https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-mcp#readme",
   "bugs": {
     "url": "https://github.com/robinsjovoll/mandate-os/issues"
@@ -23,6 +23,8 @@
     "build": "pnpm --dir ../mandate-os-sdk run build && pnpm exec vite build --config vite.build.config.ts && pnpm exec tsc -p tsconfig.lib.json --emitDeclarationOnly && node ./scripts/copy-build-assets.mjs",
     "start": "node ../../dist/packages/mandate-os-mcp/index.js",
     "test": "pnpm exec vitest run --config vitest.config.ts",
+    "codex:install": "node ../../dist/packages/mandate-os-mcp/codex-install.js install",
+    "codex:status": "node ../../dist/packages/mandate-os-mcp/codex-install.js status",
     "cursor:install": "node ../../dist/packages/mandate-os-mcp/cursor-install.js install",
     "cursor:status": "node ../../dist/packages/mandate-os-mcp/cursor-install.js status",
     "claude:install": "node ../../dist/packages/mandate-os-mcp/claude-install.js install",
@@ -33,6 +35,7 @@
   "types": "./index.d.ts",
   "bin": {
     "mandate-os-mcp": "./index.js",
+    "mandate-os-codex-install": "./codex-install.js",
     "mandate-os-cursor-install": "./cursor-install.js",
     "mandate-os-claude-install": "./claude-install.js"
   },
@@ -49,6 +52,7 @@
   "dependencies": {
     "@mandate-os/sdk": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.26.0",
+    "smol-toml": "^1.6.1",
     "zod": "^4.1.13"
   }
 }

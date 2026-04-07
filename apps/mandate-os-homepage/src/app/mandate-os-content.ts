@@ -13,11 +13,11 @@ export const MANDATE_OS_CONTENT = {
   hero: {
     eyebrow: 'MandateOS / operational guardrails',
     title: 'Put real guardrails around agent action.',
-    lede: 'MandateOS adds guardrails, approvals, and audit history to Cursor, Claude Code, OpenClaw, and MCP-based workflows.',
+    lede: 'MandateOS adds guardrails, approvals, and audit history to Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.',
     highlights: [
       'Open-source SDK, MCP server, and installers',
       'Managed approvals, workspaces, and audit history',
-      'Cursor, Claude Code, OpenClaw, and MCP workflows',
+      'Codex, Cursor, Claude Code, OpenClaw, and MCP workflows',
     ],
     primaryLabel: 'See How It Works',
     primaryHref: '#loop',
@@ -39,7 +39,7 @@ export const MANDATE_OS_CONTENT = {
     },
     {
       label: 'Integrations',
-      value: 'Cursor, Claude Code, OpenClaw',
+      value: 'Codex, Cursor, Claude Code, OpenClaw',
       detail:
         'Apply one authority model across the shells your team already uses and future MCP-powered workflows.',
     },
@@ -111,6 +111,17 @@ export const MANDATE_OS_CONTENT = {
     title: 'Use MandateOS alongside the agent tools your team already runs.',
     body: 'MandateOS sits between the agent and the actions that matter: code changes, approvals, external tools, and higher-risk execution.',
     items: [
+      {
+        name: 'Codex',
+        status: 'Available',
+        summary:
+          'Use project-scoped Codex MCP and hook config to bring Bash-side actions under the same MandateOS approval and receipt model.',
+        details: [
+          'Project-scoped `.codex/config.toml` registration',
+          'PreToolUse Bash guardrails in `.codex/hooks.json`',
+          'Conservative blocking when approval is required',
+        ],
+      },
       {
         name: 'Cursor',
         status: 'Available',
@@ -219,7 +230,7 @@ export const MANDATE_OS_CONTENT = {
       {
         question: 'What is MandateOS?',
         answer:
-          'MandateOS is an AI agent guardrails system for teams using Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.',
+          'MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.',
       },
       {
         question: 'Is MandateOS open source?',
@@ -229,7 +240,7 @@ export const MANDATE_OS_CONTENT = {
       {
         question: 'Which tools does MandateOS integrate with today?',
         answer:
-          'Today MandateOS provides integrations for Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement.',
+          'Today MandateOS provides integrations for Codex, Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement.',
       },
       {
         question: 'What does MandateOS enforce at runtime?',
@@ -246,7 +257,7 @@ export const MANDATE_OS_CONTENT = {
   deploy: {
     eyebrow: 'Install without cloning',
     title: 'Install MandateOS directly into the agent shell you already use.',
-    body: 'Use the open-source packages and bootstrap scripts below to wire Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first.',
+    body: 'Use the open-source packages and bootstrap scripts below to wire Codex, Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first.',
     steps: [
       {
         step: 'A',
@@ -256,7 +267,7 @@ export const MANDATE_OS_CONTENT = {
       {
         step: 'B',
         title: 'Run the host installer',
-        body: 'Use the package entrypoint or download the shell script for Cursor, Claude Code, or OpenClaw. Each installer writes the files that host needs locally.',
+        body: 'Use the package entrypoint or download the shell script for Codex, Cursor, Claude Code, or OpenClaw. Each installer writes the files that host needs locally.',
       },
       {
         step: 'C',
@@ -292,9 +303,9 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
         npmHref: 'https://www.npmjs.com/package/@mandate-os/mcp',
         npmLabel: 'View on npm',
         summary:
-          'Registers the MandateOS MCP server and ships the installer CLIs for Cursor and Claude Code.',
+          'Registers the MandateOS MCP server and ships the installer CLIs for Codex, Cursor, and Claude Code.',
         details: [
-          'Binaries: mandate-os-mcp, mandate-os-cursor-install, mandate-os-claude-install',
+          'Binaries: mandate-os-mcp, mandate-os-codex-install, mandate-os-cursor-install, mandate-os-claude-install',
           'Writes MCP entries plus host hooks for guarded execution',
         ],
       },
@@ -315,6 +326,23 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     installersBody:
       'Run the package CLI directly with `npx`, or open the matching installer below and pass your workspace path as the first argument.',
     installers: [
+      {
+        name: 'Codex',
+        packageName: '@mandate-os/mcp',
+        packageHref: 'https://www.npmjs.com/package/@mandate-os/mcp',
+        packageLinkLabel: 'View package on npm',
+        summary:
+          'Writes project-scoped `.codex/config.toml` and `.codex/hooks.json` so Codex loads the MandateOS MCP server and Bash PreToolUse guardrails inside that repository.',
+        command: `npx --yes --package @mandate-os/mcp@latest mandate-os-codex-install install \\
+  --workspace "/absolute/path/to/your/repo"`,
+        scriptHref: '/install/mandate-os-codex-install.sh',
+        scriptFileName: 'mandate-os-codex-install.sh',
+        scriptLabel: 'Download shell script',
+        notes: [
+          'Reads `MANDATE_OS_BASE_URL`, `MANDATE_OS_AGENT_TOKEN`, and optional `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` from your shell, then forwards the runtime values through Codex `env_vars`.',
+          'Status check: `npx --yes --package @mandate-os/mcp@latest mandate-os-codex-install status --workspace "/absolute/path/to/your/repo"`',
+        ],
+      },
       {
         name: 'Cursor',
         packageName: '@mandate-os/mcp',
@@ -367,9 +395,9 @@ npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install inst
         ],
       },
     ],
-    runtimeNoteTitle: 'OpenClaw runtime note',
+    runtimeNoteTitle: 'Runtime environment note',
     runtimeNoteBody:
-      'Keep `MANDATE_OS_AGENT_TOKEN` available in the environment that launches OpenClaw so the guarded plugin can evaluate actions at runtime.',
+      'Keep `MANDATE_OS_BASE_URL` and `MANDATE_OS_AGENT_TOKEN` available in the environment that launches Codex or OpenClaw so the guarded runtime can evaluate actions when those hosts execute tools.',
   },
   finalCta: {
     eyebrow: 'Give operators confidence',

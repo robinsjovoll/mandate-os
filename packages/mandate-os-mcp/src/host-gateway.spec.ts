@@ -12,6 +12,7 @@ import {
   readHostGatewayRulesFromEnv,
   readHostGatewayUnmatchedPermission,
   toClaudeHookResponse,
+  toCodexHookResponse,
   toCursorHookResponse,
 } from './host-gateway';
 
@@ -252,6 +253,20 @@ describe('host gateway helpers', () => {
         permissionDecision: 'deny',
         permissionDecisionReason:
           'Use mandateos_execute_enforced_action instead.',
+      },
+    });
+    expect(
+      toCodexHookResponse({
+        permission: 'ask',
+        decision: 'policy_approval',
+        agentMessage: 'Approval is required before continuing.',
+      }),
+    ).toEqual({
+      systemMessage: 'Approval is required before continuing.',
+      hookSpecificOutput: {
+        hookEventName: 'PreToolUse',
+        permissionDecision: 'deny',
+        permissionDecisionReason: 'Approval is required before continuing.',
       },
     });
   });

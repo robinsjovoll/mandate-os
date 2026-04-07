@@ -32,6 +32,8 @@
     "mandate-os:mcp:build": "pnpm --dir packages/mandate-os-mcp run build",
     "mandate-os:mcp:test": "pnpm --dir packages/mandate-os-mcp run test",
     "mandate-os:mcp:start": "pnpm --dir packages/mandate-os-mcp run start",
+    "mandate-os:codex:install": "pnpm mandate-os:mcp:build && pnpm --dir packages/mandate-os-mcp run codex:install",
+    "mandate-os:codex:status": "pnpm mandate-os:mcp:build && pnpm --dir packages/mandate-os-mcp run codex:status",
     "mandate-os:openclaw:build": "pnpm --dir packages/mandate-os-openclaw run build",
     "mandate-os:openclaw:test": "pnpm --dir packages/mandate-os-openclaw run test",
     "mandate-os:cursor:install": "pnpm mandate-os:mcp:build && pnpm --dir packages/mandate-os-mcp run cursor:install",

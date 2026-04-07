@@ -28,6 +28,7 @@ export default defineConfig({
       entry: {
         index: path.resolve(rootDir, 'src/index.ts'),
         'hook-gateway': path.resolve(rootDir, 'src/hook-gateway.ts'),
+        'codex-install': path.resolve(rootDir, 'src/codex-install.ts'),
         'cursor-install': path.resolve(rootDir, 'src/cursor-install.ts'),
         'claude-install': path.resolve(rootDir, 'src/claude-install.ts'),
       },

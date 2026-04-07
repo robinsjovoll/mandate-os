@@ -39,6 +39,52 @@ The API key behind `MANDATE_OS_AGENT_TOKEN` should usually include:
 If the host only reads control-plane state, keep scopes narrower. If it must run
 live OpenClaw or enforced GitHub policy flows, `simulate:write` is required.
 
+## One-Command Codex Install
+
+If you want Codex to pick up MandateOS as the default path in a workspace, use the published installer CLI:
+
+```bash
+MANDATE_OS_BASE_URL=http://localhost:4330 \
+MANDATE_OS_AGENT_TOKEN='key_id.secret' \
+MANDATE_OS_MCP_DEFAULT_MANDATE_ID='mdt_123' \
+npx --yes --package @mandate-os/mcp@latest mandate-os-codex-install install \
+  --workspace /absolute/path/to/your/repo
+```
+
+That command:
+
+- updates `/absolute/path/to/your/repo/.codex/config.toml` with `[features].codex_hooks = true` and a project-scoped `mandateos` MCP entry
+- updates `/absolute/path/to/your/repo/.codex/hooks.json` with a MandateOS `PreToolUse` hook for `Bash`
+- adds `.codex/config.toml` and `.codex/hooks.json` to `.git/info/exclude` when the workspace is a Git repository
+
+The default installer uses all bundled starter rule files:
+
+- `release-platform.json`
+- `docs-content.json`
+- `finance-support.json`
+
+You can inspect what is installed with:
+
+```bash
+npx --yes --package @mandate-os/mcp@latest mandate-os-codex-install status \
+  --workspace /absolute/path/to/your/repo
+```
+
+Useful install flags:
+
+- `--no-project-mcp` to skip workspace `.codex/config.toml` MCP registration
+- `--no-project-hooks` to skip workspace `.codex/hooks.json`
+- `--no-hooks-feature` to skip enabling `[features].codex_hooks`
+- `--no-git-exclude` to skip `.git/info/exclude` updates
+- `--rules-files /a.json,/b.json` to override the bundled starter rules
+- `--unmatched-permission allow|ask|deny` to control how unmatched shell actions are handled
+
+The current tested trust boundary for Codex is project-scoped `PreToolUse` on `Bash`:
+
+- Codex discovers project-local `.codex/config.toml` and `.codex/hooks.json` from the active repository
+- current Codex hooks only emit `PreToolUse` and `PostToolUse` for `Bash`, so generic MCP-side interception is not available yet
+- Codex currently parses `permissionDecision: "ask"` but does not enforce it, so MandateOS maps both `ask` and `deny` into a blocking Codex hook response until native `ask` enforcement exists
+
 ## One-Command Cursor Install
 
 If you want Cursor to pick up MandateOS as the default path in a workspace, use the published installer CLI:
@@ -158,13 +204,12 @@ The important architectural point is:
 
 In other words, the hook is the local gate and MandateOS remains the central policy decision point.
 
-For hosts like Cursor, the most useful hooks are:
+The most useful hook surfaces today are:
 
-- `beforeShellExecution` as the main bypass blocker for direct shell-based side effects
-- `beforeMCPExecution` as the main bypass blocker for side-effecting tools exposed by other MCP servers
-- `beforeSubmitPrompt` as a soft reminder to start with MandateOS, not as the primary enforcement point
-- `afterShellExecution` and `afterMCPExecution` for audit and reconciliation
-- `sessionStart` for injecting session defaults such as workspace context, source, or mandate id
+- Cursor `beforeShellExecution` as the main bypass blocker for direct shell-based side effects
+- Cursor `beforeMCPExecution` as the main bypass blocker for side-effecting tools exposed by other MCP servers
+- Codex `PreToolUse` as the current Bash-side bypass blocker inside a project-scoped `.codex/hooks.json`
+- prompt and post-tool hooks as reminders, audit helpers, or review layers rather than the primary enforcement point
 
 If you want MandateOS to sit in front of "anything dangerous", the practical pattern is:
 
@@ -178,10 +223,10 @@ If you want MandateOS to sit in front of "anything dangerous", the practical pat
 
 The practical hook flow is:
 
-1. Cursor calls `beforeShellExecution` or `beforeMCPExecution`.
+1. The host calls `beforeShellExecution`, `beforeMCPExecution`, or `PreToolUse`.
 2. The hook normalizes the attempted command or tool call into a MandateOS action shape.
 3. The hook calls MandateOS, usually through `@mandate-os/sdk` or a direct API request.
-4. The hook maps the MandateOS decision back to Cursor's `allow`, `deny`, or `ask`.
+4. The hook maps the MandateOS decision back to the host's local allow or block mechanism.
 
 For example:
 

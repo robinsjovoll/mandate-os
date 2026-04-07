@@ -1,6 +1,6 @@
 # MandateOS
 
-MandateOS provides AI agent guardrails, approvals, and audit history across Cursor, Claude Code, OpenClaw, and MCP-based workflows.
+MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.
 
 ## Product summary
 
@@ -28,7 +28,7 @@ MandateOS is open core.
 ## Public package roles
 
 - @mandate-os/sdk: typed client for mandates, receipts, and execution grants.
-- @mandate-os/mcp: MandateOS MCP server plus installer CLIs for Cursor and Claude Code.
+- @mandate-os/mcp: MandateOS MCP server plus installer CLIs for Codex, Cursor, and Claude Code.
 - @mandate-os/openclaw: OpenClaw bridge, plugin bundle, and guarded workspace installer.
 
 ## Key terms
@@ -41,6 +41,7 @@ MandateOS is open core.
 
 ## Integrations
 
+- Codex
 - Cursor
 - Claude Code
 - OpenClaw
@@ -51,7 +52,7 @@ MandateOS is open core.
 
 ### What is MandateOS?
 
-MandateOS is an AI agent guardrails system for teams using Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.
+MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.
 
 ### Is MandateOS open source?
 

@@ -21,7 +21,7 @@ Project site: [getmandateos.com](https://getmandateos.com)
 ## What is in this repo
 
 - `packages/mandate-os-sdk`: TypeScript SDK for mandate issuance, evaluation, grants, and verification
-- `packages/mandate-os-mcp`: MCP server plus Cursor and Claude Code installer CLIs
+- `packages/mandate-os-mcp`: MCP server plus Codex, Cursor, and Claude Code installer CLIs
 - `packages/mandate-os-openclaw`: OpenClaw bridge, plugin bundle, and installer
 - `apps/mandate-os-homepage`: public marketing homepage and its Azure Static Web Apps infrastructure
 - `scripts/releases/publish-mandate-os-packages.mjs`: npm package release helper
@@ -58,6 +58,7 @@ Useful package commands:
 
 ```bash
 pnpm mandate-os:mcp:build
+pnpm mandate-os:codex:install
 pnpm mandate-os:cursor:install
 pnpm mandate-os:claude:install
 pnpm mandate-os:openclaw:install
