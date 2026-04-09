@@ -57,8 +57,11 @@ That command:
 - updates `/absolute/path/to/your/repo/.codex/hooks.json` with a MandateOS `PreToolUse` hook for `Bash`
 - adds `.codex/config.toml` and `.codex/hooks.json` to `.git/info/exclude` when the workspace is a Git repository
 
+When the installer itself is invoked through `npx`, MandateOS writes package-based runtime commands so the generated Codex config does not depend on one transient npm `_npx` cache path.
+
 The default installer uses all bundled starter rule files:
 
+- `local-workspace.json`
 - `release-platform.json`
 - `docs-content.json`
 - `finance-support.json`
@@ -105,6 +108,7 @@ That command:
 
 The default installer uses all bundled starter rule files:
 
+- `local-workspace.json`
 - `release-platform.json`
 - `docs-content.json`
 - `finance-support.json`
@@ -150,6 +154,7 @@ That command:
 
 The default installer uses all bundled starter rule files:
 
+- `local-workspace.json`
 - `release-platform.json`
 - `docs-content.json`
 - `finance-support.json`
@@ -282,6 +287,7 @@ That built hook gateway reads:
 
 Included starter bundles:
 
+- `dist/packages/mandate-os-mcp/rules/starter-bundles/local-workspace.json`
 - `dist/packages/mandate-os-mcp/rules/starter-bundles/release-platform.json`
 - `dist/packages/mandate-os-mcp/rules/starter-bundles/docs-content.json`
 - `dist/packages/mandate-os-mcp/rules/starter-bundles/finance-support.json`

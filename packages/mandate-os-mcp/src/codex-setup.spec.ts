@@ -62,6 +62,39 @@ describe('codex setup helpers', () => {
     });
   });
 
+  it('uses a package-based Codex MCP command when installed from npm exec cache', () => {
+    const nextConfig = upsertCodexMcpServer(
+      {
+        mcp_servers: {},
+      },
+      'mandateos',
+      buildMandateOsCodexMcpEntry({
+        defaultSource: 'codex.mandateos.project',
+        entryScriptPath:
+          '/Users/example/.npm/_npx/1234/node_modules/@mandate-os/mcp/index.js',
+      }),
+    );
+
+    expect(nextConfig.mcp_servers?.mandateos).toEqual({
+      command: 'npx',
+      args: [
+        '--yes',
+        '--prefer-offline',
+        '--package',
+        '@mandate-os/mcp@latest',
+        'mandate-os-mcp',
+      ],
+      env: {
+        MANDATE_OS_MCP_DEFAULT_SOURCE: 'codex.mandateos.project',
+      },
+      env_vars: [
+        'MANDATE_OS_BASE_URL',
+        'MANDATE_OS_AGENT_TOKEN',
+        'MANDATE_OS_MCP_DEFAULT_MANDATE_ID',
+      ],
+    });
+  });
+
   it('upserts PreToolUse Bash hooks while preserving unrelated Codex hooks', () => {
     const nextHooks = upsertMandateOsCodexHooks(
       {
@@ -147,6 +180,79 @@ describe('codex setup helpers', () => {
             type: 'command',
             command: 'echo review-output',
           },
+        ],
+      },
+    ]);
+  });
+
+  it('replaces older MandateOS Codex hook commands even when the hook gateway path changes', () => {
+    const nextHooks = upsertMandateOsCodexHooks(
+      {
+        hooks: {
+          PreToolUse: [
+            {
+              matcher: 'Bash',
+              hooks: [
+                {
+                  type: 'command',
+                  command:
+                    "node '/tmp/old-mandate-os-mcp/hook-gateway.js' codex pre-tool-bash",
+                },
+              ],
+            },
+          ],
+        },
+      },
+      {
+        defaultMandateId: 'mdt_new',
+        defaultSource: 'codex.mandateos.hooks',
+        unmatchedPermission: 'ask',
+        rulesFiles: ['/tmp/local-workspace.json'],
+        hookGatewayPath: '/tmp/new-mandate-os-mcp/hook-gateway.js',
+      },
+    );
+
+    expect(nextHooks.hooks?.PreToolUse).toEqual([
+      {
+        matcher: 'Bash',
+        hooks: [
+          expect.objectContaining({
+            type: 'command',
+            command: expect.stringContaining(
+              "/tmp/new-mandate-os-mcp/hook-gateway.js' codex pre-tool-bash",
+            ),
+          }),
+        ],
+      },
+    ]);
+  });
+
+  it('uses a package-based Codex hook command when installed from npm exec cache', () => {
+    const nextHooks = upsertMandateOsCodexHooks(
+      {
+        hooks: {},
+      },
+      {
+        defaultSource: 'codex.mandateos.hooks',
+        unmatchedPermission: 'ask',
+        rulesFiles: ['/tmp/local-workspace.json'],
+        hookGatewayPath:
+          '/Users/example/.npm/_npx/1234/node_modules/@mandate-os/mcp/hook-gateway.js',
+      },
+    );
+
+    expect(nextHooks.hooks?.PreToolUse).toEqual([
+      {
+        matcher: 'Bash',
+        hooks: [
+          expect.objectContaining({
+            type: 'command',
+            command: expect.stringContaining(
+              "'npx' '--yes' '--prefer-offline' '--package' '@mandate-os/mcp@latest' 'mandate-os-hook-gateway'",
+            ),
+            statusMessage: 'Checking Bash command',
+            timeout: 8,
+          }),
         ],
       },
     ]);

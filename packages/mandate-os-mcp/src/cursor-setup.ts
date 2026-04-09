@@ -10,6 +10,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import type { HostGatewayPermission } from './host-gateway.js';
+import {
+  createMandateOsNodeRuntimeCommand,
+  isMandateOsHookGatewayInvocation,
+  toMandateOsRuntimeFileReference,
+} from './runtime-command.js';
 
 export type CursorMcpServerEntry = {
   command?: string;
@@ -233,6 +238,10 @@ export function buildMandateOsMcpEntry(input: {
 }): CursorMcpServerEntry {
   const entryScriptPath =
     input.entryScriptPath || resolvePackageAssetPath('index.js');
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: entryScriptPath,
+    binaryName: 'mandate-os-mcp',
+  });
   const env: Record<string, string> = {
     MANDATE_OS_BASE_URL: input.baseUrl,
     MANDATE_OS_AGENT_TOKEN: input.bearerToken,
@@ -244,8 +253,8 @@ export function buildMandateOsMcpEntry(input: {
   }
 
   return {
-    command: 'node',
-    args: [entryScriptPath],
+    command: runtimeCommand.command,
+    args: runtimeCommand.args,
     env,
   };
 }
@@ -322,6 +331,7 @@ export function upsertMandateOsHooks(
 
 export function resolveDefaultCursorRulesFiles() {
   return [
+    resolvePackageAssetPath('rules/starter-bundles/local-workspace.json'),
     resolvePackageAssetPath('rules/starter-bundles/release-platform.json'),
     resolvePackageAssetPath('rules/starter-bundles/docs-content.json'),
     resolvePackageAssetPath('rules/starter-bundles/finance-support.json'),
@@ -403,6 +413,10 @@ function buildMandateOsHookEntry(input: {
   unmatchedPermission: HostGatewayPermission;
   rulesFiles: string[];
 }) {
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: input.hookGatewayPath,
+    binaryName: 'mandate-os-hook-gateway',
+  });
   const envPairs: Array<[string, string]> = [
     ['MANDATE_OS_BASE_URL', input.baseUrl],
     ['MANDATE_OS_AGENT_TOKEN', input.bearerToken],
@@ -420,15 +434,14 @@ function buildMandateOsHookEntry(input: {
   if (input.rulesFiles.length > 0) {
     envPairs.push([
       'MANDATE_OS_HOST_GATEWAY_RULES_FILES',
-      input.rulesFiles.join(','),
+      input.rulesFiles.map(toMandateOsRuntimeFileReference).join(','),
     ]);
   }
 
   const command = [
     'env',
     ...envPairs.map(([key, value]) => `${key}=${shellQuote(value)}`),
-    'node',
-    shellQuote(input.hookGatewayPath),
+    ...runtimeCommand.shellWords.map(shellQuote),
     'cursor',
     input.event,
   ].join(' ');
@@ -497,7 +510,8 @@ function isMandateOsHookCommand(
   event: 'before-shell' | 'before-mcp',
 ) {
   return (
-    command.includes(hookGatewayPath) && command.includes(`cursor ${event}`)
+    command.includes(`cursor ${event}`) &&
+    isMandateOsHookGatewayInvocation(command, hookGatewayPath)
   );
 }
 

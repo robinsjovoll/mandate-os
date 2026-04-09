@@ -35,6 +35,7 @@
   "types": "./index.d.ts",
   "bin": {
     "mandate-os-mcp": "./index.js",
+    "mandate-os-hook-gateway": "./hook-gateway.js",
     "mandate-os-codex-install": "./codex-install.js",
     "mandate-os-cursor-install": "./cursor-install.js",
     "mandate-os-claude-install": "./claude-install.js"

@@ -21,6 +21,8 @@ import {
   type PolicyGatewayRoute,
 } from '@mandate-os/sdk';
 
+import { resolveMandateOsRuntimeFileReference } from './runtime-command.js';
+
 export type HostGatewayPermission = PolicyGatewayPermission;
 export type HostGatewayChannel = Extract<PolicyGatewayChannel, 'shell' | 'mcp'>;
 export type HostGatewayRoute = PolicyGatewayRoute;
@@ -198,7 +200,11 @@ export function readHostGatewayRulesFromEnv(
 
   for (const filePath of [...fromFiles, ...(fromFile ? [fromFile] : [])]) {
     parsedRules.push(
-      ...parseHostGatewayRules(JSON.parse(readFileSync(filePath, 'utf8'))),
+      ...parseHostGatewayRules(
+        JSON.parse(
+          readFileSync(resolveMandateOsRuntimeFileReference(filePath), 'utf8'),
+        ),
+      ),
     );
   }
 

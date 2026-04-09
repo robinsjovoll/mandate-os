@@ -12,6 +12,7 @@ import {
   toCursorHookResponse,
 } from './host-gateway.js';
 import { readMandateOsMcpConfig } from './config.js';
+import { isInvokedAsEntrypoint } from './entrypoint.js';
 
 type SupportedHost = 'cursor' | 'claude' | 'codex';
 type SupportedCursorEvent = 'before-shell' | 'before-mcp';
@@ -159,11 +160,7 @@ async function main() {
   process.stdout.write(`${JSON.stringify(response)}\n`);
 }
 
-const invokedAsEntrypoint =
-  process.argv[1] &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
-
-if (invokedAsEntrypoint) {
+if (isInvokedAsEntrypoint(import.meta.url)) {
   main().catch((error) => {
     const [host] = process.argv.slice(2) as [SupportedHost | undefined];
     const message =

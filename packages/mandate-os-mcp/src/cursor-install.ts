@@ -3,6 +3,7 @@
 import path from 'node:path';
 
 import { readMandateOsMcpConfig } from './config.js';
+import { isInvokedAsEntrypoint } from './entrypoint.js';
 import {
   installMandateOsIntoCursor,
   readMandateOsCursorStatus,
@@ -276,11 +277,7 @@ async function main() {
   await runCursorInstallCommand(process.argv.slice(2));
 }
 
-const invokedAsEntrypoint =
-  process.argv[1] &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
-
-if (invokedAsEntrypoint) {
+if (isInvokedAsEntrypoint(import.meta.url)) {
   main().catch((error) => {
     const message =
       error instanceof Error

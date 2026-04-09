@@ -11,6 +11,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import type { HostGatewayPermission } from './host-gateway.js';
+import {
+  createMandateOsNodeRuntimeCommand,
+  isMandateOsHookGatewayInvocation,
+  toMandateOsRuntimeFileReference,
+} from './runtime-command.js';
 
 export type ClaudeMcpServerEntry = {
   type?: 'stdio' | 'sse' | 'http';
@@ -238,6 +243,10 @@ export function buildMandateOsClaudeMcpEntry(input: {
 }): ClaudeMcpServerEntry {
   const entryScriptPath =
     input.entryScriptPath || resolvePackageAssetPath('index.js');
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: entryScriptPath,
+    binaryName: 'mandate-os-mcp',
+  });
   const env: Record<string, string> = {
     MANDATE_OS_BASE_URL: input.baseUrl,
     MANDATE_OS_AGENT_TOKEN: input.bearerToken,
@@ -250,8 +259,8 @@ export function buildMandateOsClaudeMcpEntry(input: {
 
   return {
     type: 'stdio',
-    command: 'node',
-    args: [entryScriptPath],
+    command: runtimeCommand.command,
+    args: runtimeCommand.args,
     env,
   };
 }
@@ -340,6 +349,7 @@ export function upsertMandateOsClaudeHooks(
 
 export function resolveDefaultClaudeRulesFiles() {
   return [
+    resolvePackageAssetPath('rules/starter-bundles/local-workspace.json'),
     resolvePackageAssetPath('rules/starter-bundles/release-platform.json'),
     resolvePackageAssetPath('rules/starter-bundles/docs-content.json'),
     resolvePackageAssetPath('rules/starter-bundles/finance-support.json'),
@@ -401,6 +411,10 @@ function buildMandateOsClaudeHookMatcherEntry(input: {
   unmatchedPermission: HostGatewayPermission;
   rulesFiles: string[];
 }): ClaudeHookMatcherEntry {
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: input.hookGatewayPath,
+    binaryName: 'mandate-os-hook-gateway',
+  });
   const envPairs: Array<[string, string]> = [
     ['MANDATE_OS_BASE_URL', input.baseUrl],
     ['MANDATE_OS_AGENT_TOKEN', input.bearerToken],
@@ -418,7 +432,7 @@ function buildMandateOsClaudeHookMatcherEntry(input: {
   if (input.rulesFiles.length > 0) {
     envPairs.push([
       'MANDATE_OS_HOST_GATEWAY_RULES_FILES',
-      input.rulesFiles.join(','),
+      input.rulesFiles.map(toMandateOsRuntimeFileReference).join(','),
     ]);
   }
 
@@ -430,8 +444,7 @@ function buildMandateOsClaudeHookMatcherEntry(input: {
         command: [
           'env',
           ...envPairs.map(([key, value]) => `${key}=${shellQuote(value)}`),
-          'node',
-          shellQuote(input.hookGatewayPath),
+          ...runtimeCommand.shellWords.map(shellQuote),
           'claude',
           input.event,
         ].join(' '),
@@ -569,7 +582,8 @@ function isMandateOsClaudeHookCommand(
   event: 'pre-tool-bash' | 'pre-tool-mcp',
 ) {
   return (
-    command.includes(hookGatewayPath) && command.includes(`claude ${event}`)
+    command.includes(`claude ${event}`) &&
+    isMandateOsHookGatewayInvocation(command, hookGatewayPath)
   );
 }
 

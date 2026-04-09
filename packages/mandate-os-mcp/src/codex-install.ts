@@ -6,6 +6,7 @@ import {
   installMandateOsIntoCodex,
   readMandateOsCodexStatus,
 } from './codex-setup.js';
+import { isInvokedAsEntrypoint } from './entrypoint.js';
 import type { HostGatewayPermission } from './host-gateway.js';
 
 type CodexInstallCommand = 'install' | 'status';
@@ -253,11 +254,7 @@ function normalizeOptionalText(value: unknown) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
-const invokedAsEntrypoint =
-  process.argv[1] &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
-
-if (invokedAsEntrypoint) {
+if (isInvokedAsEntrypoint(import.meta.url)) {
   runCodexInstallCommand(process.argv.slice(2)).catch((error) => {
     console.error(
       error instanceof Error ? error.message : 'Codex installer failed.',

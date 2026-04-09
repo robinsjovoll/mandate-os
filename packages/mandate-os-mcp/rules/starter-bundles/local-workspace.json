@@ -1,0 +1,39 @@
+{
+  "name": "local-workspace",
+  "description": "Starter host-gateway rules for local workspace shell mutations and script execution.",
+  "rules": [
+    {
+      "id": "workspace.fs.touch.command",
+      "channel": "shell",
+      "matcher": "(^|\\n)\\s*(touch|mkdir|rmdir|cp|mv|chmod|chown|ln)\\b",
+      "flags": "im",
+      "tool": "shell.exec",
+      "title": "Mutate local workspace files",
+      "description": "Mutate local workspace files with command: {command}",
+      "zone": "domestic",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "workspace.script.command",
+      "channel": "shell",
+      "matcher": "(^|\\n)\\s*(node|python|python3|bash|sh|zsh|deno|bun|tsx|ts-node)\\b",
+      "flags": "im",
+      "tool": "shell.exec",
+      "title": "Run a local script or interpreter",
+      "description": "Run a local script or interpreter with command: {command}",
+      "zone": "domestic",
+      "riskLevel": "medium"
+    },
+    {
+      "id": "workspace.package.install.command",
+      "channel": "shell",
+      "matcher": "(^|\\n)\\s*(pnpm|npm|yarn|bun)\\s+(install|add|remove|update|up|dedupe|link|unlink)\\b",
+      "flags": "im",
+      "tool": "shell.exec",
+      "title": "Mutate local dependencies",
+      "description": "Mutate local dependencies with command: {command}",
+      "zone": "domestic",
+      "riskLevel": "medium"
+    }
+  ]
+}

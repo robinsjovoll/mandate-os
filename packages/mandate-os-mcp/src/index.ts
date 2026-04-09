@@ -16,6 +16,7 @@ import {
   toToolSuccessResult,
 } from './handlers.js';
 import { readMandateOsMcpConfig } from './config.js';
+import { isInvokedAsEntrypoint } from './entrypoint.js';
 import {
   contextSummarySchema,
   evaluateActionsInputSchema,
@@ -282,11 +283,7 @@ async function main() {
   console.error('MandateOS MCP server running on stdio');
 }
 
-const invokedAsEntrypoint =
-  process.argv[1] &&
-  import.meta.url === new URL(`file://${process.argv[1]}`).href;
-
-if (invokedAsEntrypoint) {
+if (isInvokedAsEntrypoint(import.meta.url)) {
   main().catch((error) => {
     console.error('MandateOS MCP server failed:', error);
     process.exit(1);

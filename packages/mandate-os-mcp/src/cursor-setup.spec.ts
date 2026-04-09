@@ -51,6 +51,38 @@ describe('cursor setup helpers', () => {
     });
   });
 
+  it('uses a package-based Cursor MCP command when installed from npm exec cache', () => {
+    const nextConfig = upsertCursorMcpServer(
+      {
+        mcpServers: {},
+      },
+      'mandateos',
+      buildMandateOsMcpEntry({
+        baseUrl: 'http://localhost:4330',
+        bearerToken: 'agt_example.secret',
+        defaultSource: 'cursor.mandateos.project',
+        entryScriptPath:
+          '/Users/example/.npm/_npx/1234/node_modules/@mandate-os/mcp/index.js',
+      }),
+    );
+
+    expect(nextConfig.mcpServers.mandateos).toEqual({
+      command: 'npx',
+      args: [
+        '--yes',
+        '--prefer-offline',
+        '--package',
+        '@mandate-os/mcp@latest',
+        'mandate-os-mcp',
+      ],
+      env: {
+        MANDATE_OS_BASE_URL: 'http://localhost:4330',
+        MANDATE_OS_AGENT_TOKEN: 'agt_example.secret',
+        MANDATE_OS_MCP_DEFAULT_SOURCE: 'cursor.mandateos.project',
+      },
+    });
+  });
+
   it('upserts MandateOS hooks while preserving unrelated hook entries', () => {
     const nextHooks = upsertMandateOsHooks(
       {

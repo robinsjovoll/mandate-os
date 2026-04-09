@@ -74,6 +74,42 @@ describe('claude setup helpers', () => {
     });
   });
 
+  it('uses a package-based Claude MCP command when installed from npm exec cache', () => {
+    const nextConfig = upsertClaudeLocalMcpServer(
+      {
+        projects: {},
+      },
+      '/tmp/project',
+      'mandateos',
+      buildMandateOsClaudeMcpEntry({
+        baseUrl: 'http://localhost:4330',
+        bearerToken: 'agt_example.secret',
+        defaultSource: 'claude.mandateos.local',
+        entryScriptPath:
+          '/Users/example/.npm/_npx/1234/node_modules/@mandate-os/mcp/index.js',
+      }),
+    );
+
+    expect(nextConfig.projects?.['/tmp/project']?.mcpServers?.mandateos).toEqual(
+      {
+        type: 'stdio',
+        command: 'npx',
+        args: [
+          '--yes',
+          '--prefer-offline',
+          '--package',
+          '@mandate-os/mcp@latest',
+          'mandate-os-mcp',
+        ],
+        env: {
+          MANDATE_OS_BASE_URL: 'http://localhost:4330',
+          MANDATE_OS_AGENT_TOKEN: 'agt_example.secret',
+          MANDATE_OS_MCP_DEFAULT_SOURCE: 'claude.mandateos.local',
+        },
+      },
+    );
+  });
+
   it('upserts PreToolUse hooks while preserving unrelated Claude hooks', () => {
     const nextSettings = upsertMandateOsClaudeHooks(
       {

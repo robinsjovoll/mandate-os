@@ -12,6 +12,11 @@ import { fileURLToPath } from 'node:url';
 import { parse as parseToml, stringify as stringifyToml } from 'smol-toml';
 
 import type { HostGatewayPermission } from './host-gateway.js';
+import {
+  createMandateOsNodeRuntimeCommand,
+  isMandateOsHookGatewayInvocation,
+  toMandateOsRuntimeFileReference,
+} from './runtime-command.js';
 
 export type CodexMcpServerEntry = {
   command?: string;
@@ -227,6 +232,10 @@ export function buildMandateOsCodexMcpEntry(input: {
 }): CodexMcpServerEntry {
   const entryScriptPath =
     input.entryScriptPath || resolvePackageAssetPath('index.js');
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: entryScriptPath,
+    binaryName: 'mandate-os-mcp',
+  });
   const env: Record<string, string> = {
     MANDATE_OS_MCP_DEFAULT_SOURCE: input.defaultSource,
   };
@@ -239,8 +248,8 @@ export function buildMandateOsCodexMcpEntry(input: {
   }
 
   return {
-    command: 'node',
-    args: [entryScriptPath],
+    command: runtimeCommand.command,
+    args: runtimeCommand.args,
     env,
     env_vars: envVars,
   };
@@ -309,6 +318,7 @@ export function upsertMandateOsCodexHooks(
 
 export function resolveDefaultCodexRulesFiles() {
   return [
+    resolvePackageAssetPath('rules/starter-bundles/local-workspace.json'),
     resolvePackageAssetPath('rules/starter-bundles/release-platform.json'),
     resolvePackageAssetPath('rules/starter-bundles/docs-content.json'),
     resolvePackageAssetPath('rules/starter-bundles/finance-support.json'),
@@ -366,6 +376,10 @@ function buildMandateOsCodexHookMatcherEntry(input: {
   unmatchedPermission: HostGatewayPermission;
   rulesFiles: string[];
 }): CodexHookMatcherEntry {
+  const runtimeCommand = createMandateOsNodeRuntimeCommand({
+    scriptPath: input.hookGatewayPath,
+    binaryName: 'mandate-os-hook-gateway',
+  });
   const envPairs: Array<[string, string]> = [
     ['MANDATE_OS_MCP_DEFAULT_SOURCE', input.defaultSource],
     ['MANDATE_OS_HOST_GATEWAY_UNMATCHED_PERMISSION', input.unmatchedPermission],
@@ -381,7 +395,7 @@ function buildMandateOsCodexHookMatcherEntry(input: {
   if (input.rulesFiles.length > 0) {
     envPairs.push([
       'MANDATE_OS_HOST_GATEWAY_RULES_FILES',
-      input.rulesFiles.join(','),
+      input.rulesFiles.map(toMandateOsRuntimeFileReference).join(','),
     ]);
   }
 
@@ -393,8 +407,7 @@ function buildMandateOsCodexHookMatcherEntry(input: {
         command: [
           'env',
           ...envPairs.map(([key, value]) => `${key}=${shellQuote(value)}`),
-          'node',
-          shellQuote(input.hookGatewayPath),
+          ...runtimeCommand.shellWords.map(shellQuote),
           'codex',
           input.event,
         ].join(' '),
@@ -533,7 +546,10 @@ function isMandateOsCodexHookCommand(
   hookGatewayPath: string,
   event: 'pre-tool-bash',
 ) {
-  return command.includes(hookGatewayPath) && command.includes(`codex ${event}`);
+  return (
+    command.includes(`codex ${event}`) &&
+    isMandateOsHookGatewayInvocation(command, hookGatewayPath)
+  );
 }
 
 function createEmptyCodexConfig(): CodexConfig {

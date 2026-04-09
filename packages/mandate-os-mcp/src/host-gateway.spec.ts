@@ -190,6 +190,61 @@ describe('MandateOsHostGateway', () => {
     });
   });
 
+  it('evaluates local workspace shell mutations when a local workspace bundle is installed', async () => {
+    const evaluateActions = vi.fn().mockResolvedValue({
+      data: {
+        batchId: 'sim_123',
+        receipts: [
+          {
+            ...receipt('allowed'),
+            tool: 'shell.exec',
+          },
+        ],
+      },
+    });
+    const localWorkspaceRules = parseHostGatewayRules(
+      JSON.parse(
+        readFileSync(
+          path.resolve(rootDir, '../rules/starter-bundles/local-workspace.json'),
+          'utf8',
+        ),
+      ),
+    );
+    const gateway = createGateway(evaluateActions, {
+      client: {
+        evaluateActions,
+      } as never,
+      rules: localWorkspaceRules,
+    });
+
+    const result = await gateway.evaluateShellCommand({
+      command: 'touch foo',
+      cwd: '/repo',
+    });
+
+    expect(result).toMatchObject({
+      permission: 'allow',
+      decision: 'policy_allowed',
+      ruleId: 'workspace.fs.touch.command',
+      route: 'generic',
+    });
+    expect(evaluateActions).toHaveBeenCalledWith({
+      mandateId: 'mdt_default',
+      source: 'cursor.beforeShellExecution',
+      details: expect.objectContaining({
+        channel: 'shell',
+        matchedRuleId: 'workspace.fs.touch.command',
+        cwd: '/repo',
+      }),
+      actions: [
+        expect.objectContaining<ActionScenario>({
+          tool: 'shell.exec',
+          riskLevel: 'medium',
+        }),
+      ],
+    });
+  });
+
   it('allows MandateOS MCP tool calls without re-evaluating them', async () => {
     const evaluateActions = vi.fn();
     const gateway = createGateway(evaluateActions);
@@ -272,6 +327,10 @@ describe('host gateway helpers', () => {
   });
 
   it('parses starter bundles and supports multiple rule files from env', () => {
+    const localWorkspacePath = path.resolve(
+      rootDir,
+      '../rules/starter-bundles/local-workspace.json',
+    );
     const releasePlatformPath = path.resolve(
       rootDir,
       '../rules/starter-bundles/release-platform.json',
@@ -285,6 +344,18 @@ describe('host gateway helpers', () => {
       '../rules/starter-bundles/finance-support.json',
     );
 
+    expect(
+      parseHostGatewayRules(
+        JSON.parse(readFileSync(localWorkspacePath, 'utf8')),
+      ),
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'workspace.fs.touch.command',
+          tool: 'shell.exec',
+        }),
+      ]),
+    );
     expect(
       parseHostGatewayRules(
         JSON.parse(readFileSync(releasePlatformPath, 'utf8')),
@@ -323,6 +394,7 @@ describe('host gateway helpers', () => {
     expect(
       readHostGatewayRulesFromEnv({
         MANDATE_OS_HOST_GATEWAY_RULES_FILES: [
+          localWorkspacePath,
           releasePlatformPath,
           docsContentPath,
         ].join(','),
@@ -330,9 +402,24 @@ describe('host gateway helpers', () => {
       }),
     ).toEqual(
       expect.arrayContaining([
+        expect.objectContaining({ id: 'workspace.fs.touch.command' }),
         expect.objectContaining({ id: 'vercel.deploy.command' }),
         expect.objectContaining({ id: 'notion.publish.tool' }),
         expect.objectContaining({ id: 'payment.execute.tool' }),
+      ]),
+    );
+
+    expect(
+      readHostGatewayRulesFromEnv({
+        MANDATE_OS_HOST_GATEWAY_RULES_FILES: [
+          'package:rules/starter-bundles/local-workspace.json',
+          'package:rules/starter-bundles/docs-content.json',
+        ].join(','),
+      }),
+    ).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'workspace.fs.touch.command' }),
+        expect.objectContaining({ id: 'notion.publish.tool' }),
       ]),
     );
   });
