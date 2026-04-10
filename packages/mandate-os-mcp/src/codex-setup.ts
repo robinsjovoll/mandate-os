@@ -2,7 +2,6 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
-  realpathSync,
   statSync,
   writeFileSync,
 } from 'node:fs';
@@ -91,6 +90,7 @@ export type MandateOsCodexInstallResult = {
   projectHooksConfigured: boolean;
   gitInfoExcludePath?: string;
   rulesFiles: string[];
+  displayRulesFiles: string[];
 };
 
 export type MandateOsCodexStatus = {
@@ -173,6 +173,7 @@ export function installMandateOsIntoCodex(
     projectHooksConfigured: normalized.installProjectHooks,
     gitInfoExcludePath: normalized.gitInfoExcludePath,
     rulesFiles: normalized.rulesFiles,
+    displayRulesFiles: normalized.displayRulesFiles,
   };
 }
 
@@ -335,6 +336,7 @@ function normalizeInstallOptions(options: MandateOsCodexInstallOptions) {
   const rulesFiles =
     options.rulesFiles?.filter(Boolean).map((value) => path.resolve(value)) ||
     resolveDefaultCodexRulesFiles();
+  const displayRulesFiles = rulesFiles.map(toMandateOsRuntimeFileReference);
   const installProjectMcp = options.installProjectMcp !== false;
   const installProjectHooks = options.installProjectHooks !== false;
   const enableHooksFeature = options.enableHooksFeature !== false;
@@ -356,6 +358,7 @@ function normalizeInstallOptions(options: MandateOsCodexInstallOptions) {
       normalizeOptionalText(options.hooksSource) || DEFAULT_HOOKS_SOURCE,
     unmatchedPermission: options.unmatchedPermission || 'ask',
     rulesFiles,
+    displayRulesFiles,
     installProjectMcp,
     installProjectHooks,
     enableHooksFeature,

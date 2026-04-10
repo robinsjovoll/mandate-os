@@ -159,7 +159,7 @@ function formatInstallResult(
   }
 
   lines.push('Rule bundles:');
-  lines.push(...result.rulesFiles.map((value) => `- ${value}`));
+  lines.push(...result.displayRulesFiles.map((value) => `- ${value}`));
   lines.push('Runtime environment Codex must inherit:');
   lines.push('- MANDATE_OS_BASE_URL');
   lines.push('- MANDATE_OS_AGENT_TOKEN');

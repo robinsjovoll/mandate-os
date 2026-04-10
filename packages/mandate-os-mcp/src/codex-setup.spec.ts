@@ -1,7 +1,12 @@
+import { mkdtempSync, readFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
 
 import {
   buildMandateOsCodexMcpEntry,
+  installMandateOsIntoCodex,
   upsertCodexHooksFeature,
   upsertCodexMcpServer,
   upsertMandateOsCodexHooks,
@@ -256,5 +261,42 @@ describe('codex setup helpers', () => {
         ],
       },
     ]);
+  });
+
+  it('returns portable rule bundle references in install output while writing hooks with runtime-safe refs', () => {
+    const workspacePath = mkdtempSync(
+      path.join(tmpdir(), 'mandate-os-codex-install-'),
+    );
+    const codexConfigPath = path.join(workspacePath, '.codex', 'config.toml');
+    const transientRulePath =
+      '/Users/example/.npm/_npx/1234/node_modules/@mandate-os/mcp/rules/starter-bundles/local-workspace.json';
+
+    const result = installMandateOsIntoCodex({
+      workspacePath,
+      codexConfigPath,
+      rulesFiles: [transientRulePath],
+      installProjectMcp: false,
+    });
+
+    expect(result.rulesFiles).toEqual([transientRulePath]);
+    expect(result.displayRulesFiles).toEqual([
+      'package:rules/starter-bundles/local-workspace.json',
+    ]);
+
+    const hooksConfig = JSON.parse(readFileSync(result.hooksPath, 'utf8')) as {
+      hooks?: {
+        PreToolUse?: Array<{
+          hooks?: Array<{
+            command?: string;
+          }>;
+        }>;
+      };
+    };
+    const command =
+      hooksConfig.hooks?.PreToolUse?.[0]?.hooks?.[0]?.command || '';
+
+    expect(command).toContain(
+      "MANDATE_OS_HOST_GATEWAY_RULES_FILES='package:rules/starter-bundles/local-workspace.json'",
+    );
   });
 });
