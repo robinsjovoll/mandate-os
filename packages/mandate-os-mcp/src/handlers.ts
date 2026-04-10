@@ -236,6 +236,8 @@ export function createMandateOsClient(config: MandateOsMcpConfig) {
     baseUrl: config.baseUrl,
     bearerToken: config.bearerToken,
     defaultSource: config.defaultSource,
+    requestTimeoutMs: config.requestTimeoutMs,
+    maxRetries: config.maxRetries,
   });
 }
 

@@ -159,7 +159,7 @@ describe('codex setup helpers', () => {
             type: 'command',
             command: expect.stringContaining('codex pre-tool-bash'),
             statusMessage: 'Checking Bash command',
-            timeout: 8,
+            timeout: 25,
           }),
           expect.objectContaining({
             type: 'command',
@@ -256,7 +256,7 @@ describe('codex setup helpers', () => {
               "'npx' '--yes' '--prefer-offline' '--package' '@mandate-os/mcp@latest' 'mandate-os-hook-gateway'",
             ),
             statusMessage: 'Checking Bash command',
-            timeout: 8,
+            timeout: 25,
           }),
         ],
       },

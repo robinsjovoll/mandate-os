@@ -16,6 +16,8 @@ describe('readMandateOsMcpConfig', () => {
       defaultSource: 'mcp.mandate_os',
       serverName: 'mandate-os-mcp',
       serverVersion: '0.0.0',
+      requestTimeoutMs: 20_000,
+      maxRetries: 1,
     });
   });
 

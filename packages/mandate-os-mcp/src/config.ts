@@ -5,6 +5,8 @@ export type MandateOsMcpConfig = {
   defaultSource?: string;
   serverName: string;
   serverVersion: string;
+  requestTimeoutMs: number;
+  maxRetries: number;
 };
 
 export function readMandateOsMcpConfig(
@@ -24,6 +26,14 @@ export function readMandateOsMcpConfig(
     normalizeOptionalText(env.MANDATE_OS_MCP_SERVER_NAME) || 'mandate-os-mcp';
   const serverVersion =
     normalizeOptionalText(env.MANDATE_OS_MCP_SERVER_VERSION) || '0.0.0';
+  const requestTimeoutMs = parsePositiveInteger(
+    env.MANDATE_OS_REQUEST_TIMEOUT_MS,
+    20_000,
+  );
+  const maxRetries = parseNonNegativeInteger(
+    env.MANDATE_OS_REQUEST_MAX_RETRIES,
+    1,
+  );
 
   if (!baseUrl) {
     throw new Error('MANDATE_OS_BASE_URL is required.');
@@ -40,9 +50,31 @@ export function readMandateOsMcpConfig(
     defaultSource,
     serverName,
     serverVersion,
+    requestTimeoutMs,
+    maxRetries,
   };
 }
 
 function normalizeOptionalText(value: string | undefined) {
   return value?.trim() || '';
+}
+
+function parsePositiveInteger(
+  value: string | undefined,
+  fallback: number,
+) {
+  const normalized = normalizeOptionalText(value);
+  const parsed = Number.parseInt(normalized, 10);
+
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function parseNonNegativeInteger(
+  value: string | undefined,
+  fallback: number,
+) {
+  const normalized = normalizeOptionalText(value);
+  const parsed = Number.parseInt(normalized, 10);
+
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }

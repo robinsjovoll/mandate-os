@@ -1,3 +1,5 @@
+// The OpenClaw policy bridge executes live at runtime, so this direct SDK import is intentional.
+/* eslint-disable @nx/enforce-module-boundaries */
 import {
   MandateOsAgentClient,
   MandateOsPolicyGateway,
@@ -18,6 +20,8 @@ export type MandateOsOpenClawBridgeConfig = {
   defaultSource?: string;
   unmatchedPermission?: PolicyGatewayPermission;
   hostName?: string;
+  requestTimeoutMs?: number;
+  maxRetries?: number;
   client?: Pick<MandateOsAgentClient, 'evaluateActions'>;
 };
 
@@ -56,6 +60,14 @@ export function readMandateOsOpenClawBridgeConfig(
         ? env.MANDATE_OS_OPENCLAW_UNMATCHED_PERMISSION
         : 'ask',
     hostName: env.MANDATE_OS_OPENCLAW_HOST_NAME?.trim() || 'openclaw',
+    requestTimeoutMs: parsePositiveInteger(
+      env.MANDATE_OS_REQUEST_TIMEOUT_MS,
+      20_000,
+    ),
+    maxRetries: parseNonNegativeInteger(
+      env.MANDATE_OS_REQUEST_MAX_RETRIES,
+      1,
+    ),
   };
 }
 
@@ -68,6 +80,8 @@ export function createMandateOsOpenClawGateway(
       baseUrl: config.baseUrl,
       bearerToken: config.bearerToken,
       defaultSource: config.defaultSource,
+      requestTimeoutMs: config.requestTimeoutMs,
+      maxRetries: config.maxRetries,
     });
 
   return new MandateOsPolicyGateway({
@@ -114,4 +128,14 @@ export async function evaluateOpenClawPolicy(
     ...input,
     subject: normalizedSubject,
   });
+}
+
+function parsePositiveInteger(value: string | undefined, fallback: number) {
+  const parsed = Number.parseInt(value?.trim() || '', 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+function parseNonNegativeInteger(value: string | undefined, fallback: number) {
+  const parsed = Number.parseInt(value?.trim() || '', 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
 }

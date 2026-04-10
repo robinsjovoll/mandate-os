@@ -413,4 +413,79 @@ describe('MandateOsAgentClient', () => {
       'http://localhost:4330/api/v1/integrations/github/pull-request/draft/execute',
     );
   });
+
+  it('retries retryable transport failures with the same idempotency key', async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('socket hang up'))
+      .mockResolvedValueOnce(
+        new Response(
+          JSON.stringify({
+            data: createSimulationBatch(),
+            meta: { requestId: 'req_retry_success' },
+          }),
+          {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+          },
+        ),
+      );
+    const client = new MandateOsAgentClient({
+      baseUrl: 'http://localhost:4330',
+      bearerToken: 'agt_operator.secret',
+      fetchImpl,
+      maxRetries: 1,
+      retryDelayMs: 0,
+    });
+
+    const result = await client.evaluateActions({
+      mandateId: 'mdt_123',
+      actions: [],
+    });
+
+    expect(result.meta.requestId).toBe('req_retry_success');
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+    const firstHeaders = fetchImpl.mock.calls[0]?.[1]?.headers as Headers;
+    const secondHeaders = fetchImpl.mock.calls[1]?.[1]?.headers as Headers;
+
+    expect(secondHeaders.get('idempotency-key')).toBe(
+      firstHeaders.get('idempotency-key'),
+    );
+  });
+
+  it('surfaces request timeouts as typed client errors', async () => {
+    const fetchImpl = vi.fn(async (_url: string, init?: RequestInit) => {
+      const signal = init?.signal as AbortSignal | undefined;
+
+      return await new Promise<Response>((_resolve, reject) => {
+        if (signal?.aborted) {
+          reject(signal.reason || new Error('aborted'));
+          return;
+        }
+
+        signal?.addEventListener(
+          'abort',
+          () => {
+            reject(signal.reason || new Error('aborted'));
+          },
+          { once: true },
+        );
+      });
+    });
+    const client = new MandateOsAgentClient({
+      baseUrl: 'http://localhost:4330',
+      bearerToken: 'agt_operator.secret',
+      fetchImpl,
+      requestTimeoutMs: 5,
+      maxRetries: 0,
+    });
+
+    await expect(() => client.verifyMandate('mdt_123')).rejects.toEqual(
+      expect.objectContaining<MandateOsAgentClientError>({
+        name: 'MandateOsAgentClientError',
+        status: 408,
+        code: 'timeout',
+      }),
+    );
+  });
 });

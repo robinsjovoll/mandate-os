@@ -33,6 +33,9 @@ export type MandateOsAgentClientOptions = {
   bearerToken: string;
   fetchImpl?: FetchLike;
   defaultSource?: string;
+  requestTimeoutMs?: number;
+  maxRetries?: number;
+  retryDelayMs?: number;
 };
 
 export type MandateOsClientResponse<T> = ApiSuccessPayload<T> & {
@@ -61,12 +64,21 @@ export class MandateOsAgentClient {
   private readonly fetchImpl: FetchLike;
   private readonly bearerToken: string;
   private readonly defaultSource?: string;
+  private readonly requestTimeoutMs: number;
+  private readonly maxRetries: number;
+  private readonly retryDelayMs: number;
 
   constructor(options: MandateOsAgentClientOptions) {
     this.baseUrl = options.baseUrl.replace(/\/+$/, '');
     this.fetchImpl = options.fetchImpl || fetch;
     this.bearerToken = options.bearerToken;
     this.defaultSource = options.defaultSource?.trim() || undefined;
+    this.requestTimeoutMs = normalizePositiveInteger(
+      options.requestTimeoutMs,
+      20_000,
+    );
+    this.maxRetries = normalizeNonNegativeInteger(options.maxRetries, 1);
+    this.retryDelayMs = normalizeNonNegativeInteger(options.retryDelayMs, 250);
   }
 
   async issueMandate(
@@ -195,57 +207,95 @@ export class MandateOsAgentClient {
     },
   ): Promise<MandateOsClientResponse<T>> {
     const method = (init.method || 'GET').toUpperCase();
-    const headers = new Headers(init.headers);
+    const idempotencyKey =
+      ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)
+        ? init.idempotencyKey || createIdempotencyKey()
+        : undefined;
 
-    headers.set('accept', 'application/json');
-    headers.set('authorization', `Bearer ${this.bearerToken}`);
-
-    if (init.body !== undefined && !headers.has('content-type')) {
-      headers.set('content-type', 'application/json');
-    }
-
-    if (
-      ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method) &&
-      !headers.has('idempotency-key')
-    ) {
-      headers.set(
-        'idempotency-key',
-        init.idempotencyKey || createIdempotencyKey(),
+    for (let attempt = 0; attempt <= this.maxRetries; attempt += 1) {
+      const headers = new Headers(init.headers);
+      const requestSignal = createTimedRequestSignal(
+        init.signal,
+        this.requestTimeoutMs,
       );
+
+      headers.set('accept', 'application/json');
+      headers.set('authorization', `Bearer ${this.bearerToken}`);
+
+      if (init.body !== undefined && !headers.has('content-type')) {
+        headers.set('content-type', 'application/json');
+      }
+
+      if (idempotencyKey && !headers.has('idempotency-key')) {
+        headers.set('idempotency-key', idempotencyKey);
+      }
+
+      try {
+        const response = await this.fetchImpl(`${this.baseUrl}${path}`, {
+          ...init,
+          method,
+          headers,
+          signal: requestSignal.signal,
+        });
+        const payload = (await response.json().catch(() => null)) as
+          | (ApiSuccessPayload<T> & ApiErrorPayload)
+          | null;
+
+        if (
+          shouldRetryResponse(response.status) &&
+          attempt < this.maxRetries
+        ) {
+          await delay(this.retryDelayMs);
+          continue;
+        }
+
+        if (!response.ok || !payload?.meta || payload.data === undefined) {
+          throw new MandateOsAgentClientError(
+            payload?.error?.issues?.[0]?.message ||
+              payload?.error?.message ||
+              'MandateOS request failed.',
+            response.status,
+            payload?.error?.code,
+            payload?.meta?.requestId,
+            payload?.error?.issues,
+          );
+        }
+
+        return {
+          data: payload.data,
+          meta: payload.meta,
+          headers: {
+            idempotencyKey: response.headers.get('x-idempotency-key'),
+            idempotencyStatus: response.headers.get('x-idempotency-status'),
+            originRequestId: response.headers.get(
+              'x-idempotency-origin-request-id',
+            ),
+          },
+        };
+      } catch (error) {
+        if (
+          shouldRetryTransportError(error, requestSignal.timedOut, init.signal) &&
+          attempt < this.maxRetries
+        ) {
+          await delay(this.retryDelayMs);
+          continue;
+        }
+
+        throw normalizeTransportError(
+          error,
+          requestSignal.timedOut,
+          this.requestTimeoutMs,
+        );
+      } finally {
+        requestSignal.cleanup();
+      }
     }
 
-    const response = await this.fetchImpl(`${this.baseUrl}${path}`, {
-      ...init,
-      method,
-      headers,
-    });
-    const payload = (await response.json().catch(() => null)) as
-      | (ApiSuccessPayload<T> & ApiErrorPayload)
-      | null;
-
-    if (!response.ok || !payload?.meta || payload.data === undefined) {
-      throw new MandateOsAgentClientError(
-        payload?.error?.issues?.[0]?.message ||
-          payload?.error?.message ||
-          'MandateOS request failed.',
-        response.status,
-        payload?.error?.code,
-        payload?.meta?.requestId,
-        payload?.error?.issues,
-      );
-    }
-
-    return {
-      data: payload.data,
-      meta: payload.meta,
-      headers: {
-        idempotencyKey: response.headers.get('x-idempotency-key'),
-        idempotencyStatus: response.headers.get('x-idempotency-status'),
-        originRequestId: response.headers.get(
-          'x-idempotency-origin-request-id',
-        ),
-      },
-    };
+    throw new MandateOsAgentClientError(
+      'MandateOS request failed after retries were exhausted.',
+      0,
+      'network_error',
+    );
   }
 }
 
@@ -258,4 +308,117 @@ function createIdempotencyKey() {
   }
 
   return `agent_${Date.now().toString(36)}`;
+}
+
+function createTimedRequestSignal(
+  upstreamSignal: AbortSignal | null | undefined,
+  timeoutMs: number,
+) {
+  const controller = new AbortController();
+  let timedOut = false;
+
+  const timeoutHandle = setTimeout(() => {
+    timedOut = true;
+    controller.abort(new Error(`MandateOS request timed out after ${timeoutMs} ms.`));
+  }, timeoutMs);
+
+  const abortFromUpstream = () => {
+    controller.abort(upstreamSignal?.reason);
+  };
+
+  if (upstreamSignal?.aborted) {
+    abortFromUpstream();
+  } else if (upstreamSignal) {
+    upstreamSignal.addEventListener('abort', abortFromUpstream, { once: true });
+  }
+
+  return {
+    signal: controller.signal,
+    get timedOut() {
+      return timedOut;
+    },
+    cleanup() {
+      clearTimeout(timeoutHandle);
+      if (upstreamSignal) {
+        upstreamSignal.removeEventListener('abort', abortFromUpstream);
+      }
+    },
+  };
+}
+
+function shouldRetryResponse(status: number) {
+  return status === 408 || status === 429 || status >= 500;
+}
+
+function shouldRetryTransportError(
+  error: unknown,
+  timedOut: boolean,
+  upstreamSignal?: AbortSignal | null,
+) {
+  if (upstreamSignal?.aborted) {
+    return false;
+  }
+
+  if (timedOut) {
+    return true;
+  }
+
+  if (error instanceof MandateOsAgentClientError) {
+    return shouldRetryResponse(error.status);
+  }
+
+  return true;
+}
+
+function normalizeTransportError(
+  error: unknown,
+  timedOut: boolean,
+  timeoutMs: number,
+) {
+  if (error instanceof MandateOsAgentClientError) {
+    return error;
+  }
+
+  if (timedOut) {
+    return new MandateOsAgentClientError(
+      `MandateOS request timed out after ${timeoutMs} ms.`,
+      408,
+      'timeout',
+    );
+  }
+
+  if (error instanceof Error) {
+    return new MandateOsAgentClientError(
+      error.message || 'MandateOS network request failed.',
+      0,
+      'network_error',
+    );
+  }
+
+  return new MandateOsAgentClientError(
+    'MandateOS network request failed.',
+    0,
+    'network_error',
+  );
+}
+
+function delay(durationMs: number) {
+  return new Promise<void>((resolve) => {
+    setTimeout(resolve, durationMs);
+  });
+}
+
+function normalizePositiveInteger(value: number | undefined, fallback: number) {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0
+    ? Math.floor(value)
+    : fallback;
+}
+
+function normalizeNonNegativeInteger(
+  value: number | undefined,
+  fallback: number,
+) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
+    ? Math.floor(value)
+    : fallback;
 }

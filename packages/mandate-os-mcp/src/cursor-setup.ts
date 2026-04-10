@@ -84,7 +84,7 @@ export type MandateOsCursorStatus = {
 };
 
 const DEFAULT_IDENTIFIER = 'mandateos';
-const DEFAULT_HOOK_TIMEOUT_SECONDS = 8;
+const DEFAULT_HOOK_TIMEOUT_SECONDS = 25;
 const DEFAULT_HOOK_SOURCE = 'cursor.mandateos.hooks';
 const DEFAULT_PROJECT_SOURCE = 'cursor.mandateos.project';
 const DEFAULT_USER_SOURCE = 'cursor.mandateos.user';
