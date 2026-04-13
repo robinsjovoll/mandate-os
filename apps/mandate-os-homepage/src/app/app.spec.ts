@@ -21,8 +21,9 @@ describe('App', () => {
     expect(compiled.querySelectorAll('.package-card')).toHaveLength(3);
     expect(compiled.querySelectorAll('.installer-card')).toHaveLength(4);
     expect(compiled.querySelector('.hero-copy h1')?.textContent).toContain(
-      'Put real guardrails',
+      'Install approvals, guardrails, and receipts',
     );
+    expect(compiled.querySelectorAll('.preview-card')).toHaveLength(3);
     expect(
       compiled.querySelector('.env-card .command-block')?.textContent,
     ).toContain('MANDATE_OS_BASE_URL');

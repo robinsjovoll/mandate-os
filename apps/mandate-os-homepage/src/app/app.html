@@ -43,6 +43,7 @@
         <p class="eyebrow">{{ content.hero.eyebrow }}</p>
         <h1>{{ content.hero.title }}</h1>
         <p class="hero-lede">{{ content.hero.lede }}</p>
+        <p class="hero-audience">{{ content.hero.audience }}</p>
 
         <div class="hero-actions">
           <a class="cta is-primary" [href]="content.hero.primaryHref">
@@ -52,6 +53,21 @@
             {{ content.hero.secondaryLabel }}
           </a>
         </div>
+
+        <p class="cta-note">{{ content.hero.ctaNote }}</p>
+
+        <nav class="trust-link-row" aria-label="MandateOS trust resources">
+          @for (link of content.hero.trustLinks; track link.href) {
+          <a
+            class="trust-link"
+            [href]="link.href"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {{ link.label }}
+          </a>
+          }
+        </nav>
 
         <ul class="hero-highlights" aria-label="MandateOS highlights">
           @for (highlight of content.hero.highlights; track highlight) {
@@ -72,9 +88,12 @@
 
       <aside class="hero-panel card">
         <p class="eyebrow">{{ content.heroPanel.eyebrow }}</p>
+        <h2 class="panel-title">{{ content.heroPanel.title }}</h2>
+        <p class="panel-body">{{ content.heroPanel.body }}</p>
+
         <ul class="question-list">
-          @for (question of content.heroPanel.questions; track question) {
-          <li>{{ question }}</li>
+          @for (step of content.heroPanel.steps; track step) {
+          <li>{{ step }}</li>
           }
         </ul>
 
@@ -86,15 +105,83 @@
       </aside>
     </section>
 
-    <section id="problem" class="section">
+    <section id="proof" class="section">
       <div class="section-heading">
-        <p class="eyebrow">{{ content.problem.eyebrow }}</p>
-        <h2>{{ content.problem.title }}</h2>
-        <p>{{ content.problem.body }}</p>
+        <p class="eyebrow">{{ content.proof.eyebrow }}</p>
+        <h2>{{ content.proof.title }}</h2>
+        <p>{{ content.proof.body }}</p>
+      </div>
+
+      <div class="card-grid three-col preview-grid">
+        @for (preview of content.proof.previews; track preview.title) {
+        <article class="card preview-card">
+          <span class="mini-label">{{ preview.label }}</span>
+          <h3>{{ preview.title }}</h3>
+          <p>{{ preview.body }}</p>
+
+          <div class="preview-window">
+            <div class="preview-toolbar">
+              <strong>{{ preview.windowTitle }}</strong>
+              <span>{{ preview.windowMeta }}</span>
+            </div>
+
+            <div class="preview-rows">
+              @for (row of preview.rows; track row.title) {
+              <div class="preview-row">
+                <strong>{{ row.title }}</strong>
+                <span>{{ row.detail }}</span>
+              </div>
+              }
+            </div>
+
+            <p class="preview-footer">{{ preview.footer }}</p>
+          </div>
+        </article>
+        }
+      </div>
+
+      <div class="package-actions proof-links">
+        @for (link of content.proof.links; track link.href) {
+        <a
+          class="script-link"
+          [href]="link.href"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {{ link.label }}
+        </a>
+        }
+      </div>
+
+      <div class="flow-shell card">
+        <div class="section-heading compact">
+          <p class="eyebrow">Example flow</p>
+          <h3>{{ content.proof.example.title }}</h3>
+          <p>{{ content.proof.example.body }}</p>
+        </div>
+
+        <div class="card-grid five-col example-flow-grid">
+          @for (step of content.proof.example.steps; track step.id) {
+          <article class="flow-step">
+            <span class="step-id">{{ step.id }}</span>
+            <h4>{{ step.title }}</h4>
+            <p>{{ step.body }}</p>
+            <strong class="flow-artifact">{{ step.artifact }}</strong>
+          </article>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.adoption.eyebrow }}</p>
+        <h2>{{ content.adoption.title }}</h2>
+        <p>{{ content.adoption.body }}</p>
       </div>
 
       <div class="card-grid three-col">
-        @for (item of content.problem.cards; track item.title) {
+        @for (item of content.adoption.items; track item.title) {
         <article class="card feature-card">
           <span class="mini-label">{{ item.label }}</span>
           <h3>{{ item.title }}</h3>
@@ -102,23 +189,70 @@
         </article>
         }
       </div>
-    </section>
 
-    <section id="loop" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{{ content.loop.eyebrow }}</p>
-        <h2>{{ content.loop.title }}</h2>
-        <p>{{ content.loop.body }}</p>
+      <div class="section-heading use-case-heading">
+        <p class="eyebrow">{{ content.useCases.eyebrow }}</p>
+        <h2>{{ content.useCases.title }}</h2>
+        <p>{{ content.useCases.body }}</p>
       </div>
 
-      <div class="card-grid four-col">
-        @for (step of content.loop.steps; track step.id) {
-        <article class="card loop-card">
-          <span class="step-id">{{ step.id }}</span>
-          <h3>{{ step.title }}</h3>
-          <p>{{ step.body }}</p>
+      <div class="card-grid two-col use-case-grid">
+        @for (item of content.useCases.items; track item.title) {
+        <article class="card use-case-card">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+          <strong class="use-case-outcome">{{ item.outcome }}</strong>
         </article>
         }
+      </div>
+    </section>
+
+    <section id="trust" class="section">
+      <div class="boundary-shell card">
+        <div class="section-heading compact">
+          <p class="eyebrow">{{ content.boundary.eyebrow }}</p>
+          <h2>{{ content.boundary.title }}</h2>
+          <p>{{ content.boundary.body }}</p>
+        </div>
+
+        <div class="card-grid three-col boundary-grid">
+          @for (column of content.boundary.columns; track column.title) {
+          <article class="boundary-card">
+            <span class="mini-label">{{ column.label }}</span>
+            <h3>{{ column.title }}</h3>
+            <ul>
+              @for (point of column.points; track point) {
+              <li>{{ point }}</li>
+              }
+            </ul>
+          </article>
+          }
+        </div>
+
+        <div class="boundary-diagram" aria-label="MandateOS trust boundary">
+          <span class="mini-label">{{ content.boundary.diagram.title }}</span>
+          <div class="diagram-track">
+            @for (node of content.boundary.diagram.nodes; track node; let isLast =
+            $last) {
+            <div class="diagram-node">{{ node }}</div>
+            @if (!isLast) {
+            <div class="diagram-arrow" aria-hidden="true"></div>
+            } }
+          </div>
+        </div>
+
+        <div class="package-actions">
+          @for (link of content.boundary.links; track link.href) {
+          <a
+            class="script-link"
+            [href]="link.href"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {{ link.label }}
+          </a>
+          }
+        </div>
       </div>
     </section>
 
@@ -127,6 +261,12 @@
         <p class="eyebrow">{{ content.integrations.eyebrow }}</p>
         <h2>{{ content.integrations.title }}</h2>
         <p>{{ content.integrations.body }}</p>
+      </div>
+
+      <div class="integration-summary">
+        @for (item of content.integrations.statusSummary; track item) {
+        <span class="summary-pill">{{ item }}</span>
+        }
       </div>
 
       <div class="card-grid two-col">
@@ -148,69 +288,54 @@
       </div>
     </section>
 
-    <section id="surfaces" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{{ content.surfaces.eyebrow }}</p>
-        <h2>{{ content.surfaces.title }}</h2>
-        <p>{{ content.surfaces.body }}</p>
-      </div>
-
-      <div class="card-grid three-col">
-        @for (surface of content.surfaces.items; track surface.title) {
-        <article class="card surface-card">
-          <span class="mini-label">{{ surface.label }}</span>
-          <h3>{{ surface.title }}</h3>
-          <p>{{ surface.body }}</p>
-        </article>
-        }
-      </div>
-    </section>
-
-    <section id="security" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{{ content.security.eyebrow }}</p>
-        <h2>{{ content.security.title }}</h2>
-        <p>{{ content.security.body }}</p>
-      </div>
-
-      <div class="card-grid two-col security-grid">
-        @for (item of content.security.items; track item.title) {
-        <article class="card security-card">
-          <span class="mini-label">{{ item.label }}</span>
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.body }}</p>
-        </article>
-        }
-      </div>
-    </section>
-
-    <section id="faq" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{{ content.faq.eyebrow }}</p>
-        <h2>{{ content.faq.title }}</h2>
-        <p>{{ content.faq.body }}</p>
-      </div>
-
-      <div class="faq-stack">
-        @for ( item of content.faq.items; track item.question; let isFirst =
-        $first, index = $index ) {
-        <details class="faq-item" [attr.open]="isFirst ? '' : null">
-          <summary>
-            <span class="faq-number">{{ index + 1 }}</span>
-            <span class="faq-question">{{ item.question }}</span>
-          </summary>
-          <p>{{ item.answer }}</p>
-        </details>
-        }
-      </div>
-    </section>
-
     <section id="deploy" class="section">
       <div class="deploy-shell card">
         <div class="section-heading compact">
           <p class="eyebrow">{{ content.deploy.eyebrow }}</p>
           <h2>{{ content.deploy.title }}</h2>
           <p>{{ content.deploy.body }}</p>
+        </div>
+
+        <div class="card-grid two-col quickstart-grid">
+          <article class="card quickstart-card">
+            <span class="mini-label">{{ content.deploy.quickStartTitle }}</span>
+            <p>{{ content.deploy.quickStartBody }}</p>
+            <ul class="checklist-list">
+              @for (item of content.deploy.quickStartChecklist; track item) {
+              <li>{{ item }}</li>
+              }
+            </ul>
+          </article>
+
+          <article class="card quickstart-card">
+            <span class="mini-label">{{ content.deploy.fastestPathTitle }}</span>
+            <p>{{ content.deploy.fastestPathBody }}</p>
+            <ul class="checklist-list">
+              @for (item of content.deploy.fastestPathSteps; track item) {
+              <li>{{ item }}</li>
+              }
+            </ul>
+          </article>
+
+          <article class="card quickstart-card">
+            <span class="mini-label">{{ content.deploy.afterInstallTitle }}</span>
+            <p>{{ content.deploy.afterInstallBody }}</p>
+            <ul class="checklist-list">
+              @for (item of content.deploy.afterInstallItems; track item) {
+              <li>{{ item }}</li>
+              }
+            </ul>
+          </article>
+
+          <article class="card quickstart-card">
+            <span class="mini-label">{{ content.deploy.splitTitle }}</span>
+            <p>{{ content.deploy.splitBody }}</p>
+            <ul class="checklist-list">
+              @for (item of content.deploy.splitItems; track item) {
+              <li>{{ item }}</li>
+              }
+            </ul>
+          </article>
         </div>
 
         <div class="card-grid three-col">
@@ -330,6 +455,64 @@
       </div>
     </section>
 
+    <section id="security" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.security.eyebrow }}</p>
+        <h2>{{ content.security.title }}</h2>
+        <p>{{ content.security.body }}</p>
+      </div>
+
+      <div class="integration-summary evidence-summary">
+        @for (item of content.security.evidencePoints; track item) {
+        <span class="summary-pill">{{ item }}</span>
+        }
+      </div>
+
+      <div class="card-grid two-col security-grid">
+        @for (item of content.security.items; track item.title) {
+        <article class="card security-card">
+          <span class="mini-label">{{ item.label }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+        </article>
+        }
+      </div>
+
+      <div class="package-actions proof-links">
+        @for (link of content.security.links; track link.href) {
+        <a
+          class="script-link"
+          [href]="link.href"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {{ link.label }}
+        </a>
+        }
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.faq.eyebrow }}</p>
+        <h2>{{ content.faq.title }}</h2>
+        <p>{{ content.faq.body }}</p>
+      </div>
+
+      <div class="faq-stack">
+        @for ( item of content.faq.items; track item.question; let isFirst =
+        $first, index = $index ) {
+        <details class="faq-item" [attr.open]="isFirst ? '' : null">
+          <summary>
+            <span class="faq-number">{{ index + 1 }}</span>
+            <span class="faq-question">{{ item.question }}</span>
+          </summary>
+          <p>{{ item.answer }}</p>
+        </details>
+        }
+      </div>
+    </section>
+
     <section class="final-cta">
       <div class="card">
         <p class="eyebrow">{{ content.finalCta.eyebrow }}</p>
@@ -339,7 +522,12 @@
           <a class="cta is-primary" [href]="content.finalCta.primaryHref">
             {{ content.finalCta.primaryLabel }}
           </a>
-          <a class="cta is-secondary" [href]="content.finalCta.secondaryHref">
+          <a
+            class="cta is-secondary"
+            [href]="content.finalCta.secondaryHref"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             {{ content.finalCta.secondaryLabel }}
           </a>
         </div>

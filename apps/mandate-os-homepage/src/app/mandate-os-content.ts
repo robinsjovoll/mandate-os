@@ -1,289 +1,480 @@
 export const MANDATE_OS_CONTENT = {
-  brandTagline: 'Operational guardrails for AI agents',
-  headerCta: 'Install',
+  brandTagline: 'Guardrails, approvals, and receipts for agent action',
+  headerCta: 'Install in a Repo',
   navLinks: [
-    { id: 'problem', label: 'Why MandateOS' },
-    { id: 'loop', label: 'How it works' },
+    { id: 'proof', label: 'Proof' },
+    { id: 'trust', label: 'Trust Boundary' },
     { id: 'integrations', label: 'Integrations' },
-    { id: 'surfaces', label: 'For teams' },
-    { id: 'security', label: 'Security' },
-    { id: 'faq', label: 'FAQ' },
     { id: 'deploy', label: 'Install' },
+    { id: 'security', label: 'Evidence' },
+    { id: 'faq', label: 'FAQ' },
   ],
   hero: {
-    eyebrow: 'MandateOS / operational guardrails',
-    title: 'Put real guardrails around agent action.',
-    lede: 'MandateOS adds guardrails, approvals, and audit history to Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.',
+    eyebrow: 'MandateOS / runtime guardrails for AI agents',
+    title: 'Install approvals, guardrails, and receipts into agent workflows.',
+    lede:
+      'MandateOS gives teams using Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows a concrete operating loop: define a mandate, intercept risky actions, escalate when needed, and keep signed evidence behind what ran.',
+    audience:
+      'For platform, security, and engineering teams running agents inside real repositories, shells, and operator-reviewed workflows.',
     highlights: [
-      'Open-source SDK, MCP server, and installers',
-      'Managed approvals, workspaces, and audit history',
+      'No-clone install into an existing repo',
+      'Open-source trust layer at the edge',
+      'Managed approvals, workspaces, and audit retention',
       'Codex, Cursor, Claude Code, OpenClaw, and MCP workflows',
     ],
-    primaryLabel: 'See How It Works',
-    primaryHref: '#loop',
-    secondaryLabel: 'Install Without Cloning',
-    secondaryHref: '#deploy',
+    primaryLabel: 'Install in a Repo',
+    primaryHref: '#deploy',
+    secondaryLabel: 'See Example Flow',
+    secondaryHref: '#proof',
+    ctaNote:
+      'Export your connection values, run the host installer, and MandateOS writes the local host config for that workspace.',
+    trustLinks: [
+      {
+        label: 'Public Repo',
+        href: 'https://github.com/robinsjovoll/mandate-os',
+      },
+      {
+        label: 'npm Packages',
+        href: 'https://www.npmjs.com/search?q=%40mandate-os',
+      },
+      {
+        label: 'Installer Docs',
+        href: 'https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-mcp#readme',
+      },
+    ],
   },
   proofStrip: [
     {
-      label: 'Open source',
-      value: 'SDK, MCP server, installers',
+      label: 'What Gets Written',
+      value: 'Local MCP + hook config',
       detail:
-        'Inspect the developer-facing trust layer that enforces AI agent guardrails at the edge.',
+        'MandateOS writes host-scoped files such as `.codex/config.toml`, `.codex/hooks.json`, Cursor hooks, and Claude workspace settings.',
     },
     {
-      label: 'Managed control plane',
-      value: 'Approvals, workspaces, audit retention',
+      label: 'What Gets Checked',
+      value: 'Mandate, tool, zone, approval path',
       detail:
-        'Run operator workflows centrally when teams need managed review and history.',
+        'Before risky actions continue, the runtime evaluates scope, budget, risk zone, and whether an operator decision is required.',
     },
     {
-      label: 'Integrations',
-      value: 'Codex, Cursor, Claude Code, OpenClaw',
+      label: 'What Operators Keep',
+      value: 'Receipts, approval events, audit chain',
       detail:
-        'Apply one authority model across the shells your team already uses and future MCP-powered workflows.',
+        'Teams can review signed receipts, execution grants, approval events, and retained audit history after the action completes.',
+    },
+    {
+      label: 'What You Can Inspect',
+      value: 'Public repo, packages, installers',
+      detail:
+        'The trust layer is open source, so teams can inspect the host integration path instead of relying on a black box.',
     },
   ],
   heroPanel: {
-    eyebrow: 'Operators need clear answers',
-    questions: [
-      'Who delegated this action, for which workspace, and under what budget?',
-      'Did the request stay inside mandate scope, zone, and tool boundaries?',
-      'When risk rises, what approval or execution grant is required first?',
-      'What receipt proves what happened after the action completed?',
-    ],
-    noteLabel: 'What teams get',
-    noteTitle: 'Open packages at the edge, managed operations for the team',
-    noteBody:
-      'Use the public packages to inspect and install the guardrail layer. Use the hosted control plane when you want shared approvals, workspace admin, and retained evidence across teams.',
-  },
-  problem: {
-    eyebrow: 'Why MandateOS',
-    title: 'AI agents need enforceable limits, not just instructions.',
-    body: 'As agents gain access to repositories, browsers, terminals, and external systems, teams need one place to define allowed actions, escalation thresholds, and audit requirements.',
-    cards: [
-      {
-        label: 'Without guardrails',
-        title: 'Approval logic lives in chat logs',
-        body: 'Teams end up improvising policy in prompts, docs, or screenshots, which makes sensitive work hard to review and harder to trust.',
-      },
-      {
-        label: 'With MandateOS',
-        title: 'Authority is enforced at runtime',
-        body: 'Tool scope, budgets, risk zones, and approval thresholds are checked before sensitive work continues.',
-      },
-      {
-        label: 'For users',
-        title: 'Operators keep visibility',
-        body: 'Teams can review what the agent asked to do, what was approved, and what was actually executed without reconstructing the story later.',
-      },
-    ],
-  },
-  loop: {
-    eyebrow: 'How it works',
-    title: 'MandateOS keeps agent work inside a reviewable operating loop.',
-    body: 'Teams define the operating rules once, let agents request room to act, escalate only when needed, and keep receipts behind the outcome.',
+    eyebrow: 'What happens after install',
+    title: 'The product becomes visible immediately.',
+    body:
+      'MandateOS should feel tangible within minutes, not after a long setup project.',
     steps: [
+      'Install into an existing repository without cloning this repo first.',
+      'MandateOS writes the local MCP and hook config for the selected host.',
+      'The agent brings risky actions to the runtime before they continue.',
+      'Operators review approval events, receipts, and retained evidence in the control plane.',
+    ],
+    noteLabel: 'Available now',
+    noteTitle: 'Codex, Cursor, Claude Code, and managed MCP flows are ready today',
+    noteBody:
+      'OpenClaw is in active testing, and GitHub-side enforcement is planned. The public packages and the managed control plane are both already live.',
+  },
+  proof: {
+    eyebrow: 'How it looks in practice',
+    title: 'Inspectable proof beats abstract claims.',
+    body:
+      'MandateOS is easiest to trust when you can see the local files it writes, the approval event it creates, and the evidence operators keep after the run.',
+    previews: [
       {
-        id: '01',
-        title: 'Define the mandate',
-        body: 'Capture budget, tools, regions, risk zones, and approval thresholds in a form operators can inspect and update.',
+        label: 'Install Preview',
+        title: 'Writes host-scoped files into the workspace you already use',
+        body:
+          'The installer configures the host locally instead of asking teams to copy files around by hand.',
+        windowTitle: 'Workspace bootstrap',
+        windowMeta: 'project-scoped config',
+        rows: [
+          {
+            title: '.codex/config.toml',
+            detail: 'Registers the `mandateos` MCP server and runtime env vars.',
+          },
+          {
+            title: '.codex/hooks.json',
+            detail: 'Adds PreToolUse guardrails for Bash-side execution.',
+          },
+          {
+            title: '.git/info/exclude',
+            detail: 'Keeps generated host config out of normal commits.',
+          },
+        ],
+        footer:
+          'Cursor and Claude Code use the same pattern with their own local MCP and hook entries.',
       },
       {
-        id: '02',
-        title: 'Evaluate proposed actions',
-        body: 'Agents bring intended work to the runtime before touching code, docs, browsers, or external systems.',
+        label: 'Approval Preview',
+        title: 'Shows the exact action, mandate, and escalation path',
+        body:
+          'When an agent asks for something higher risk, operators get a concrete event to review instead of a vague chat summary.',
+        windowTitle: 'Approval event',
+        windowMeta: 'runtime decision',
+        rows: [
+          {
+            title: 'Requested action',
+            detail: '`run migration against production`',
+          },
+          {
+            title: 'Mandate check',
+            detail: 'Tool scope allowed, but risk zone requires approval.',
+          },
+          {
+            title: 'Operator outcome',
+            detail: 'Approval requested before the command can continue.',
+          },
+        ],
+        footer:
+          'Routine actions continue immediately. Higher-risk actions stop for explicit review.',
       },
       {
-        id: '03',
-        title: 'Grant or escalate',
-        body: 'Routine work can continue immediately. Higher-risk work stops for explicit approval or execution grants.',
+        label: 'Evidence Preview',
+        title: 'Receipts and audit events stay attached to the action itself',
+        body:
+          'After execution, teams can review the signed record instead of reconstructing what happened from logs and screenshots.',
+        windowTitle: 'Receipt & audit view',
+        windowMeta: 'verifiable evidence',
+        rows: [
+          {
+            title: 'Receipt',
+            detail: 'Signed result with mandate id, decision, and timestamps.',
+          },
+          {
+            title: 'Approval event',
+            detail: 'Operator review and any execution grant stay in the chain.',
+          },
+          {
+            title: 'Audit verification',
+            detail: 'Hash chain and signature status can be checked later.',
+          },
+        ],
+        footer:
+          'This is where the security story becomes useful: teams can verify artifacts, not just read summaries.',
+      },
+    ],
+    links: [
+      {
+        label: 'View the public repository',
+        href: 'https://github.com/robinsjovoll/mandate-os',
       },
       {
-        id: '04',
-        title: 'Review the receipts',
-        body: 'Every meaningful decision leaves evidence that can be exported, verified, and audited later.',
+        label: 'Browse the published packages',
+        href: 'https://www.npmjs.com/search?q=%40mandate-os',
+      },
+    ],
+    example: {
+      title: 'One realistic end-to-end flow',
+      body:
+        'A platform team installs MandateOS into a repo, defines a mandate for allowed tools and escalation thresholds, lets the agent request a production-sensitive action, stops that action for approval, then reviews the receipt and audit chain afterward.',
+      steps: [
+        {
+          id: '01',
+          title: 'Install into the repo',
+          body:
+            'Run the host installer for Codex, Cursor, Claude Code, or OpenClaw against an existing workspace path.',
+          artifact:
+            'Result: local MCP and hook files are written for that host.',
+        },
+        {
+          id: '02',
+          title: 'Define the mandate',
+          body:
+            'Set allowed tools, budgets, risk zones, approval thresholds, and receipt requirements.',
+          artifact:
+            'Result: the runtime has a concrete policy boundary to evaluate.',
+        },
+        {
+          id: '03',
+          title: 'Agent requests action',
+          body:
+            'The agent proposes a risky command before touching the shell or other sensitive tools.',
+          artifact:
+            'Example: `run migration against production` reaches the runtime first.',
+        },
+        {
+          id: '04',
+          title: 'Approve or escalate',
+          body:
+            'Routine work continues. Higher-risk work stops for explicit approval or a grant.',
+          artifact:
+            'Result: an approval event is created for operator review.',
+        },
+        {
+          id: '05',
+          title: 'Keep the evidence',
+          body:
+            'The action record stays attached to receipts, approval events, and audit verification.',
+          artifact:
+            'Result: operators can review what was requested, approved, and executed later.',
+        },
+      ],
+    },
+  },
+  adoption: {
+    eyebrow: 'Why teams adopt this',
+    title: 'Practical operator benefits matter more than abstract governance.',
+    body:
+      'MandateOS is useful when teams need runtime guardrails, shared approvals, and evidence they can review after the agent run finishes.',
+    items: [
+      {
+        label: 'Approvals',
+        title: 'Stop sensitive work for explicit operator review',
+        body:
+          'Teams do not have to rely on prompt instructions or chat etiquette when an action needs approval before it continues.',
+      },
+      {
+        label: 'Visibility',
+        title: 'See what the agent asked to do before and after execution',
+        body:
+          'Operators can review the requested action, the runtime decision, the approval event, and the final receipt in one place.',
+      },
+      {
+        label: 'Auditability',
+        title: 'Keep retained evidence instead of reconstructing history later',
+        body:
+          'Receipts, grants, and audit events stay attached to the action so review does not depend on scattered logs or screenshots.',
+      },
+    ],
+  },
+  useCases: {
+    eyebrow: 'Best first use cases',
+    title: 'Start where runtime guardrails are immediately valuable.',
+    body:
+      'MandateOS works best when teams begin with narrow, high-consequence workflows rather than trying to govern every agent action on day one.',
+    items: [
+      {
+        title: 'Production-sensitive shell commands',
+        body:
+          'Require approval before commands that touch production data, migrations, or higher-risk environments.',
+        outcome: 'Outcome: risky commands stop for operator review instead of slipping through normal agent flow.',
+      },
+      {
+        title: 'Repository write controls',
+        body:
+          'Gate specific repo-changing workflows so teams can separate routine edits from higher-risk changes.',
+        outcome: 'Outcome: one operating model across Codex, Cursor, Claude Code, and future GitHub-side enforcement.',
+      },
+      {
+        title: 'External tool escalation',
+        body:
+          'Use receipts and approval thresholds when agents move beyond local edits into external systems and managed tools.',
+        outcome: 'Outcome: the runtime boundary stays explicit as integrations grow.',
+      },
+      {
+        title: 'Early multi-team rollouts',
+        body:
+          'Start with the open packages locally, then add the managed control plane when teams need shared approvals and retained evidence.',
+        outcome: 'Outcome: adoption can begin small without hiding the trust layer.',
+      },
+    ],
+  },
+  boundary: {
+    eyebrow: 'Trust boundary',
+    title: 'The open-source trust layer and the managed control plane do different jobs.',
+    body:
+      'MandateOS is easier to evaluate when the boundary is explicit. The public packages handle local host integration and runtime enforcement. The managed control plane handles shared operator workflows, approvals, workspace administration, and retained evidence.',
+    columns: [
+      {
+        label: 'Open-source trust layer',
+        title: 'What runs close to the host',
+        points: [
+          'Installer CLIs and package entrypoints',
+          'Local MCP registration and host hook wiring',
+          'Runtime request path into MandateOS',
+          'Inspectability through the public repo and packages',
+        ],
+      },
+      {
+        label: 'Managed control plane',
+        title: 'What operators use centrally',
+        points: [
+          'Workspaces and operator access',
+          'Approval inbox and escalation review',
+          'Retained audit history and evidence export',
+          'Shared operations across teams and repos',
+        ],
+      },
+      {
+        label: 'Evidence boundary',
+        title: 'What teams can verify afterward',
+        points: [
+          'Signed receipts and execution grants',
+          'Approval events attached to the request path',
+          'Audit chain verification and retained history',
+          'Public package surface plus operator-visible outcomes',
+        ],
+      },
+    ],
+    diagram: {
+      title: 'How the boundary works',
+      nodes: [
+        'Agent host (Codex, Cursor, Claude Code, OpenClaw)',
+        'MandateOS runtime checks',
+        'Operator review, receipts, and audit evidence',
+      ],
+    },
+    links: [
+      {
+        label: 'Open-source repo',
+        href: 'https://github.com/robinsjovoll/mandate-os',
+      },
+      {
+        label: 'SDK on npm',
+        href: 'https://www.npmjs.com/package/@mandate-os/sdk',
+      },
+      {
+        label: 'MCP package on npm',
+        href: 'https://www.npmjs.com/package/@mandate-os/mcp',
       },
     ],
   },
   integrations: {
     eyebrow: 'Where it fits',
-    title: 'Use MandateOS alongside the agent tools your team already runs.',
-    body: 'MandateOS sits between the agent and the actions that matter: code changes, approvals, external tools, and higher-risk execution.',
+    title: 'Use one approval and evidence model across the host tools your team already runs.',
+    body:
+      'MandateOS sits between the agent and the actions that matter: shell execution, code changes, approvals, and higher-risk tool use.',
+    statusSummary: [
+      'Available today: Codex, Cursor, Claude Code, and managed MCP flows',
+      'Active testing: OpenClaw',
+      'Planned: GitHub-side enforcement',
+    ],
     items: [
       {
         name: 'Codex',
-        status: 'Available',
+        status: 'Available Today',
         summary:
-          'Use project-scoped Codex MCP and hook config to bring Bash-side actions under the same MandateOS approval and receipt model.',
+          'Use project-scoped Codex MCP and hook config to bring Bash-side actions under the same approval and receipt model.',
         details: [
-          'Project-scoped `.codex/config.toml` registration',
-          'PreToolUse Bash guardrails in `.codex/hooks.json`',
-          'Conservative blocking when approval is required',
+          'Writes `.codex/config.toml` with the MandateOS MCP entry',
+          'Adds Bash PreToolUse guardrails in `.codex/hooks.json`',
+          'Blocks conservatively when approval is still required',
         ],
       },
       {
         name: 'Cursor',
-        status: 'Available',
+        status: 'Available Today',
         summary:
           'Bring Cursor sessions under the same approval, tool-scope, and receipt model as the rest of your agent operations.',
         details: [
-          'Operator-defined policy boundaries',
-          'Approval checks before sensitive actions',
-          'Receipts attached to meaningful work',
+          'Configures local MCP entries for the repo',
+          'Writes guarded shell and MCP hooks for the workspace',
+          'Keeps the runtime path aligned with the rest of the trust layer',
         ],
       },
       {
         name: 'Claude Code',
-        status: 'Available',
+        status: 'Available Today',
         summary:
           'Use the same operating model in Claude Code so teams do not have to reinvent policy for each shell.',
         details: [
-          'Shared mandate model across environments',
-          'Consistent escalation behavior',
-          'Receipts and audit history',
+          'Adds the local `mandateos` MCP entry',
+          'Creates workspace-scoped settings for the selected repo',
+          'Preserves a consistent approval and receipt path',
         ],
       },
       {
         name: 'OpenClaw',
-        status: 'Active testing',
+        status: 'Active Testing',
         summary:
           'OpenClaw is a strong fit for MandateOS because local agent power needs explicit tool boundaries, approvals, and receipts.',
         details: [
-          'Guide higher-risk workflows',
-          'Apply receipts before sensitive tool use',
-          'Use one authority model across shells',
+          'Installs the OpenClaw bridge and plugin bundle',
+          'Creates a guarded local profile for the selected workspace',
+          'Keeps the same authority model while the integration is being hardened',
         ],
       },
       {
-        name: 'GitHub enforcement',
+        name: 'GitHub Enforcement',
         status: 'Planned',
         summary:
-          'Bring repository actions such as triage, drafting, and workflow execution under the same approval model.',
+          'Repository-side actions are a natural next extension of the same policy and approval model.',
         details: [
-          'One policy model across integrations',
-          'Consistent review for repo operations',
-          'Designed to grow without duplicating guardrail logic',
+          'Designed to reuse the same mandate logic',
+          'Lets teams extend review and evidence past local shell actions',
+          'Explicitly not presented as fully available today',
         ],
-      },
-    ],
-  },
-  surfaces: {
-    eyebrow: 'For teams',
-    title: 'Give operators one place to define, run, and review authority.',
-    body: 'MandateOS separates the open-source trust layer from the managed control plane operators use every day.',
-    items: [
-      {
-        label: 'Define',
-        title: 'Mandates',
-        body: 'Set the operating rules for agent work: tool scope, budgets, thresholds, approvals, and escalation policy.',
-      },
-      {
-        label: 'Operate',
-        title: 'Workspaces',
-        body: 'Use the managed control plane to run hosted workspaces, operator access, integrations, and approval flows.',
-      },
-      {
-        label: 'Review',
-        title: 'Receipts and audit history',
-        body: 'Keep signed evidence, execution grants, and retained audit records attached to the agent actions that actually mattered.',
-      },
-    ],
-  },
-  security: {
-    eyebrow: 'Built-in security',
-    title: 'Every layer is cryptographically protected.',
-    body: 'MandateOS uses proven cryptographic primitives at every level so teams can verify integrity, protect secrets, and detect tampering without bolting on external tools.',
-    items: [
-      {
-        label: 'Signed payloads',
-        title: 'HMAC-SHA256 signatures on mandates, receipts, and grants',
-        body: 'Mandates, receipts, and execution grants are signed at creation. Key rotation is built in so older signatures stay valid when credentials change.',
-      },
-      {
-        label: 'Encrypted secrets',
-        title: 'AES-256-GCM encryption for tokens at rest',
-        body: 'Sensitive credentials are encrypted before storage with a unique initialization vector per value, and decryption also verifies integrity.',
-      },
-      {
-        label: 'Hashed credentials',
-        title: 'scrypt-based API key storage with timing-safe comparison',
-        body: 'API key secrets are never stored in plain text. Verification uses constant-time comparison to reduce timing attack risk.',
-      },
-      {
-        label: 'Tamper-evident audit',
-        title: 'SHA-256 hash chain across all audit events',
-        body: 'Audit events are linked in a hash chain. Any modification to a past event breaks the chain and becomes immediately visible.',
-      },
-      {
-        label: 'Verified requests',
-        title: 'HMAC-signed inter-service authentication',
-        body: 'Service-to-service requests are signed across method, path, body, and expiry. Mutating requests also require idempotency keys.',
-      },
-    ],
-  },
-  faq: {
-    eyebrow: 'FAQ',
-    title: 'Questions teams ask before putting guardrails around AI agents.',
-    body: 'Direct answers for teams evaluating MandateOS for governance, approvals, auditability, and MCP-based integrations.',
-    items: [
-      {
-        question: 'What is MandateOS?',
-        answer:
-          'MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue.',
-      },
-      {
-        question: 'Is MandateOS open source?',
-        answer:
-          'The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private.',
-      },
-      {
-        question: 'Which tools does MandateOS integrate with today?',
-        answer:
-          'Today MandateOS provides integrations for Codex, Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement.',
-      },
-      {
-        question: 'What does MandateOS enforce at runtime?',
-        answer:
-          'Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants.',
-      },
-      {
-        question: 'Where should a team start?',
-        answer:
-          'Start with the public package that matches your workflow: @mandate-os/sdk, @mandate-os/mcp, or @mandate-os/openclaw. Then connect those installs to the managed control plane when you want shared approvals, workspace operations, and retained audit history.',
       },
     ],
   },
   deploy: {
     eyebrow: 'Install without cloning',
-    title: 'Install MandateOS directly into the agent shell you already use.',
-    body: 'Use the open-source packages and bootstrap scripts below to wire Codex, Cursor, Claude Code, and OpenClaw into local workflows without cloning this repository first.',
+    title: 'The shortest path is: export two values, run one installer, open your shell.',
+    body:
+      'MandateOS is already packaged for Codex, Cursor, Claude Code, and OpenClaw. You do not need to clone this repository to try it.',
+    quickStartTitle: 'Before you start',
+    quickStartBody:
+      'You only need the basics that connect the local host to the runtime and a repo path where you want the guardrails installed.',
+    quickStartChecklist: [
+      'A `MANDATE_OS_BASE_URL`',
+      'A `MANDATE_OS_AGENT_TOKEN`',
+      'A repo path for the workspace you want to guard',
+      'One host: Codex, Cursor, Claude Code, or OpenClaw',
+      'Optional: `MANDATE_OS_MCP_DEFAULT_MANDATE_ID`',
+    ],
+    fastestPathTitle: 'Fastest first try',
+    fastestPathBody:
+      'Choose one host, export the base URL and agent token, run the matching `npx` installer, then run the host status command before doing sensitive work.',
+    fastestPathSteps: [
+      'Export the connection values once in the shell you plan to use.',
+      'Run the matching installer against your repo path.',
+      'Open the guarded workspace and confirm the host sees MandateOS.',
+    ],
+    afterInstallTitle: 'What you see after install',
+    afterInstallBody:
+      'MandateOS becomes concrete immediately because the host now has local config, a status command, and a runtime path for risky actions.',
+    afterInstallItems: [
+      'Local MCP and hook files written for that host',
+      'A status command to confirm the setup',
+      'A host-scoped runtime path for approvals and receipts',
+    ],
+    splitTitle: 'Open-source trust layer vs managed control plane',
+    splitBody:
+      'The packages and installers are open source. Teams usually connect them to the managed control plane when they want shared approvals, workspace administration, and retained audit history.',
+    splitItems: [
+      'Open source: SDK, MCP server, installers, starter bundles, and docs',
+      'Managed: workspaces, approvals, retained evidence, and operator review',
+    ],
     steps: [
       {
         step: 'A',
         title: 'Export your MandateOS connection values',
-        body: 'Set your base URL and agent token in the shell where you plan to run an installer. Add a default mandate id when you want one workspace mandate preselected.',
+        body:
+          'Set your base URL and agent token in the shell where you plan to run an installer. Add a default mandate id only when you want one project mandate preselected.',
       },
       {
         step: 'B',
         title: 'Run the host installer',
-        body: 'Use the package entrypoint or download the shell script for Codex, Cursor, Claude Code, or OpenClaw. Each installer writes the files that host needs locally.',
+        body:
+          'Use the package entrypoint or download the shell script for Codex, Cursor, Claude Code, or OpenClaw. Each installer writes the local files that host needs.',
       },
       {
         step: 'C',
-        title: 'Open the shell and verify the tools',
-        body: 'Start the guarded workspace, approve the MandateOS MCP if the host asks, and confirm the tools are available before doing sensitive work.',
+        title: 'Open the shell and verify the host',
+        body:
+          'Start the guarded workspace, approve the MandateOS MCP if the host asks, and confirm the status command before you move into sensitive work.',
       },
     ],
     envTitle: 'Shell environment',
     envBody:
-      'Set these once before running any installer. `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` is optional and only needed when you want the host to start with a project mandate already selected.',
+      '`MANDATE_OS_MCP_DEFAULT_MANDATE_ID` is optional and only needed when you want the host to start with a project mandate already selected.',
     envCommand: `export MANDATE_OS_BASE_URL="https://mandateos.example.com"
 export MANDATE_OS_AGENT_TOKEN="key_id.secret"
 export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     packagesTitle: 'Packages',
     packagesBody:
-      'These open-source packages are the trust and installation layer. Teams usually pair them with the managed control plane for hosted approvals and operator workflows.',
+      'These open-source packages are the install and trust layer. Teams pair them with the managed control plane when they want hosted approvals and operator workflows.',
     packages: [
       {
         name: '@mandate-os/sdk',
@@ -324,7 +515,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     ],
     installersTitle: 'Host installers',
     installersBody:
-      'Run the package CLI directly with `npx`, or open the matching installer below and pass your workspace path as the first argument.',
+      'Run the package CLI directly with `npx`, or download the matching shell script and pass your workspace path as the first argument.',
     installers: [
       {
         name: 'Codex',
@@ -332,7 +523,7 @@ export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
         packageHref: 'https://www.npmjs.com/package/@mandate-os/mcp',
         packageLinkLabel: 'View package on npm',
         summary:
-          'Writes project-scoped `.codex/config.toml` and `.codex/hooks.json` so Codex loads the MandateOS MCP server and Bash PreToolUse guardrails inside that repository.',
+          'Writes project-scoped `.codex/config.toml` and `.codex/hooks.json` so Codex loads the MandateOS MCP server and Bash guardrails inside that repository.',
         command: `npx --yes --package @mandate-os/mcp@latest mandate-os-codex-install install \\
   --workspace "/absolute/path/to/your/repo"`,
         scriptHref: '/install/mandate-os-codex-install.sh',
@@ -399,16 +590,119 @@ npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install inst
     runtimeNoteBody:
       'Keep `MANDATE_OS_BASE_URL` and `MANDATE_OS_AGENT_TOKEN` available in the environment that launches Codex or OpenClaw so the guarded runtime can evaluate actions when those hosts execute tools.',
   },
+  security: {
+    eyebrow: 'Trust, security, and evidence',
+    title: 'Security claims should end in artifacts operators can review.',
+    body:
+      'MandateOS is stronger when the security story is tied to receipts, approval events, execution grants, and a tamper-evident audit chain rather than broad promises alone.',
+    evidencePoints: [
+      'Verifiable receipts for meaningful actions',
+      'Approval events attached to the request path',
+      'Execution grants for escalated work',
+      'Audit chain verification for retained history',
+    ],
+    items: [
+      {
+        label: 'Signed payloads',
+        title: 'Mandates, receipts, and grants are signed when they are created',
+        body:
+          'The runtime signs mandates, receipts, and execution grants so teams can verify integrity and keep older signatures valid through key rotation.',
+      },
+      {
+        label: 'Encrypted secrets',
+        title: 'Sensitive tokens are encrypted before storage',
+        body:
+          'At-rest credential storage uses authenticated encryption so the control plane can protect secrets and detect tampering.',
+      },
+      {
+        label: 'Hashed credentials',
+        title: 'API keys are stored as hashes, not raw secrets',
+        body:
+          'Key verification uses timing-safe comparison so the runtime does not have to keep plain-text secrets on disk.',
+      },
+      {
+        label: 'Tamper-evident audit',
+        title: 'Audit events are chained so later modification is visible',
+        body:
+          'A SHA-256 audit chain makes review stronger because historical edits break verification instead of staying invisible.',
+      },
+      {
+        label: 'Verified requests',
+        title: 'Inter-service requests are signed and scoped',
+        body:
+          'Service-to-service calls are authenticated across method, path, body, and expiry. Mutating requests also require idempotency keys.',
+      },
+      {
+        label: 'Operator review',
+        title: 'Evidence is organized for approval and later review',
+        body:
+          'The security model becomes practical when operators can see the request, the escalation decision, and the receipt together.',
+      },
+    ],
+    links: [
+      {
+        label: 'Inspect the public repo',
+        href: 'https://github.com/robinsjovoll/mandate-os',
+      },
+      {
+        label: 'Browse MandateOS packages',
+        href: 'https://www.npmjs.com/search?q=%40mandate-os',
+      },
+      {
+        label: 'Read installer docs',
+        href: 'https://github.com/robinsjovoll/mandate-os/tree/main/packages/mandate-os-mcp#readme',
+      },
+    ],
+  },
+  faq: {
+    eyebrow: 'FAQ',
+    title: 'Questions teams ask before they trust agent guardrails.',
+    body:
+      'Direct answers for teams evaluating MandateOS for approvals, runtime visibility, auditability, and inspectable host integration.',
+    items: [
+      {
+        question: 'What is MandateOS?',
+        answer:
+          'MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipt requirements before sensitive actions continue.',
+      },
+      {
+        question: 'What do I see after install?',
+        answer:
+          'You see local host config for the selected repo, a status command for the installer, and a concrete runtime path for risky actions. In practice that means files such as `.codex/config.toml`, `.codex/hooks.json`, Cursor hooks, or Claude workspace settings, depending on the host.',
+      },
+      {
+        question: 'What is open source and what is managed?',
+        answer:
+          'The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration.',
+      },
+      {
+        question: 'What happens when an action exceeds the mandate?',
+        answer:
+          'MandateOS evaluates the request before the sensitive action continues. Routine work may continue immediately, but higher-risk work can stop for explicit approval or an execution grant. That decision is then reflected in the resulting receipt and audit history.',
+      },
+      {
+        question: 'Which integrations are available today?',
+        answer:
+          'Today MandateOS provides integrations for Codex, Cursor, Claude Code, and managed MCP flows. OpenClaw is in active testing, and GitHub-side enforcement is planned but not presented as fully available today.',
+      },
+      {
+        question: 'Where should a team start?',
+        answer:
+          'Start with one host and one concrete workflow, usually a risky shell action or repo write path. Install the matching public package locally first, then connect that setup to the managed control plane when you want shared approvals, workspace operations, and retained evidence.',
+      },
+    ],
+  },
   finalCta: {
-    eyebrow: 'Give operators confidence',
-    title: 'MandateOS helps teams trust agent action without losing control.',
-    body: 'If agents can write code, call tools, and make changes, operators need a way to limit, approve, and verify those actions. MandateOS gives teams open-source guardrails at the edge and managed operations when they need them.',
+    eyebrow: 'Start with a concrete workflow',
+    title: 'Install MandateOS into one repo, then watch the first approval and receipt happen.',
+    body:
+      'The fastest way to evaluate MandateOS is to wire one host into one real repo, define one clear mandate, and inspect the evidence trail yourself.',
     primaryLabel: 'Open Install Guide',
     primaryHref: '#deploy',
-    secondaryLabel: 'See Integrations',
-    secondaryHref: '#integrations',
+    secondaryLabel: 'Inspect the Public Repo',
+    secondaryHref: 'https://github.com/robinsjovoll/mandate-os',
   },
-  footer: 'Operational guardrails, approvals, and receipts for AI agents.',
+  footer: 'Operational guardrails, approvals, and evidence for AI agents.',
   footerLinks: [
     {
       label: 'GitHub',

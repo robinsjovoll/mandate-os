@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+      content="MandateOS installs runtime guardrails, approvals, and signed evidence into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
     />
     <meta
       name="keywords"
@@ -50,7 +50,7 @@
     />
     <meta
       property="og:description"
-      content="MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+      content="MandateOS installs runtime guardrails, approvals, and signed evidence into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
     />
     <meta
       property="og:image"
@@ -75,7 +75,7 @@
     />
     <meta
       name="twitter:description"
-      content="MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
+      content="MandateOS installs runtime guardrails, approvals, and signed evidence into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows."
     />
     <meta
       name="twitter:image"
@@ -112,7 +112,7 @@
             "@id": "https://getmandateos.com/#website",
             "url": "https://getmandateos.com/",
             "name": "MandateOS",
-            "description": "MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
+            "description": "MandateOS installs runtime guardrails, approvals, and signed evidence into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
             "publisher": {
               "@id": "https://getmandateos.com/#organization"
             },
@@ -123,7 +123,7 @@
             "@id": "https://getmandateos.com/#software",
             "name": "MandateOS",
             "url": "https://getmandateos.com/",
-            "description": "MandateOS provides AI agent guardrails, approvals, and audit history across Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
+            "description": "MandateOS installs runtime guardrails, approvals, and signed evidence into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.",
             "applicationCategory": "DeveloperApplication",
             "applicationSubCategory": "AI Agent Guardrails and Governance",
             "operatingSystem": "macOS, Linux, Windows, Web",
@@ -151,31 +151,39 @@
                 "name": "What is MandateOS?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and custom MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipts before sensitive actions continue."
+                  "text": "MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows. It evaluates tool scope, budgets, approvals, and receipt requirements before sensitive actions continue."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Is MandateOS open source?",
+                "name": "What do I see after install?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private."
+                  "text": "After install, teams see local host config for the selected repo, a status command for the installer, and a concrete runtime path for risky actions. Depending on the host, that includes files such as .codex/config.toml, .codex/hooks.json, Cursor hooks, or Claude workspace settings."
                 }
               },
               {
                 "@type": "Question",
-                "name": "Which tools does MandateOS integrate with today?",
+                "name": "What is open source and what is managed?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Today MandateOS provides integrations for Codex, Cursor, Claude Code, and OpenClaw. The same policy model is designed to extend to custom MCP-powered workflows and future GitHub enforcement."
+                  "text": "The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What does MandateOS enforce at runtime?",
+                "name": "What happens when an action exceeds the mandate?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants."
+                  "text": "MandateOS evaluates the request before the sensitive action continues. Routine work may continue immediately, but higher-risk work can stop for explicit approval or an execution grant. That decision is then reflected in the resulting receipt and audit history."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which integrations are available today?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Today MandateOS provides integrations for Codex, Cursor, Claude Code, and managed MCP flows. OpenClaw is in active testing, and GitHub-side enforcement is planned but not presented as fully available today."
                 }
               },
               {
@@ -183,7 +191,7 @@
                 "name": "Where should a team start?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Start with the public package that matches your workflow: @mandate-os/sdk, @mandate-os/mcp, or @mandate-os/openclaw. Then connect those installs to the managed control plane when you want shared approvals, workspace operations, and retained audit history."
+                  "text": "Start with one host and one concrete workflow, usually a risky shell action or repo write path. Install the matching public package locally first, then connect that setup to the managed control plane when you want shared approvals, workspace operations, and retained evidence."
                 }
               }
             ]
@@ -211,9 +219,8 @@
       <main>
         <h1>MandateOS</h1>
         <p>
-          MandateOS provides AI agent guardrails, approvals, and audit history
-          across Codex, Cursor, Claude Code, OpenClaw, and MCP-based
-          workflows.
+          MandateOS installs runtime guardrails, approvals, and signed evidence
+          into Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows.
         </p>
         <p>
           Public packages:
