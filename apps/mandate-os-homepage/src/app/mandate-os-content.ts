@@ -107,6 +107,7 @@ export const MANDATE_OS_CONTENT = {
       title: 'Approval review, receipts, and verification in one operating loop',
       body:
         'This is the part first-time visitors need to picture quickly: a risky request reaches the runtime before it executes, an operator sees the exact request and mandate context, and the resulting receipt stays attached to the action for later review.',
+      hint: 'Click the preview to inspect it at a larger size.',
       imageSrc: '/proof/operator-review-preview.svg',
       imageAlt:
         'MandateOS operator preview showing a requested production migration, approval review details, and a signed receipt verification panel.',

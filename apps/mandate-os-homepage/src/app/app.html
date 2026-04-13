@@ -161,19 +161,30 @@
 
       <article class="proof-media card">
         <div class="proof-media-visual">
-          <img
-            [src]="content.proof.media.imageSrc"
-            [alt]="content.proof.media.imageAlt"
-            width="1480"
-            height="920"
-            loading="lazy"
-          />
+          <button
+            class="proof-preview-trigger"
+            type="button"
+            (click)="openProofPreview()"
+            [attr.aria-expanded]="isProofPreviewOpen()"
+            aria-haspopup="dialog"
+            aria-controls="proof-preview-dialog"
+          >
+            <img
+              [src]="content.proof.media.imageSrc"
+              [alt]="content.proof.media.imageAlt"
+              width="1480"
+              height="920"
+              loading="lazy"
+            />
+            <span class="proof-preview-chip">Click to enlarge</span>
+          </button>
         </div>
 
         <div class="proof-media-copy">
           <span class="mini-label">{{ content.proof.media.label }}</span>
           <h3>{{ content.proof.media.title }}</h3>
           <p>{{ content.proof.media.body }}</p>
+          <p class="proof-media-hint">{{ content.proof.media.hint }}</p>
 
           <ul class="checklist-list">
             @for (point of content.proof.media.points; track point) {
@@ -184,6 +195,51 @@
           <p class="proof-media-caption">{{ content.proof.media.caption }}</p>
         </div>
       </article>
+
+      @if (isProofPreviewOpen()) {
+      <div class="lightbox-backdrop">
+        <button
+          class="lightbox-dismiss"
+          type="button"
+          (click)="closeProofPreview()"
+          aria-label="Close product preview"
+        ></button>
+        <div
+          id="proof-preview-dialog"
+          class="lightbox-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="proof-preview-title"
+        >
+          <div class="lightbox-bar">
+            <div class="lightbox-copy">
+              <p class="eyebrow">{{ content.proof.media.label }}</p>
+              <h3 id="proof-preview-title">{{ content.proof.media.title }}</h3>
+              <p>{{ content.proof.media.caption }}</p>
+            </div>
+
+            <button
+              class="lightbox-close"
+              type="button"
+              (click)="closeProofPreview()"
+              aria-label="Close product preview"
+            >
+              Close
+            </button>
+          </div>
+
+          <div class="lightbox-frame">
+            <img
+              class="lightbox-image"
+              [src]="content.proof.media.imageSrc"
+              [alt]="content.proof.media.imageAlt"
+              width="1480"
+              height="920"
+            />
+          </div>
+        </div>
+      </div>
+      }
 
       <div class="card-grid three-col preview-grid">
         @for (preview of content.proof.previews; track preview.title) {
