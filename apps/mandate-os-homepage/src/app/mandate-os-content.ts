@@ -14,20 +14,31 @@ export const MANDATE_OS_CONTENT = {
     title: 'Install approvals, guardrails, and receipts into agent workflows.',
     lede:
       'MandateOS gives teams using Codex, Cursor, Claude Code, OpenClaw, and MCP-based workflows a concrete operating loop: define a mandate, intercept risky actions, escalate when needed, and keep signed evidence behind what ran.',
+    practical:
+      'When an agent wants to run a shell command, push code, or call an external tool, MandateOS evaluates the request before it runs, shows operators what was requested, and records the outcome as approval events, receipts, and evidence.',
     audience:
       'For platform, security, and engineering teams running agents inside real repositories, shells, and operator-reviewed workflows.',
+    publicProofLabel: 'Public proof',
+    publicProof: [
+      'Open repo and install path',
+      '3 published npm packages',
+      '4 hosts available today',
+    ],
+    verification:
+      'Signed receipts, execution grants, and audit-chain verification are inspectable from the first guarded action.',
+    verificationLinkLabel: 'See verification details',
     highlights: [
       'No-clone install into an existing repo',
       'Open-source trust layer at the edge',
       'Managed approvals, workspaces, and audit retention',
       'Codex, Cursor, Claude Code, OpenClaw, and MCP workflows',
     ],
-    primaryLabel: 'Install in a Repo',
+    primaryLabel: 'Install Guardrails in a Repo',
     primaryHref: '#deploy',
-    secondaryLabel: 'See Example Flow',
+    secondaryLabel: 'See Approval Flow',
     secondaryHref: '#proof',
     ctaNote:
-      'Export your connection values, run the host installer, and MandateOS writes the local host config for that workspace.',
+      'Export your connection values, run the host installer, and MandateOS writes local host config plus a status path into that workspace. No repo clone required.',
     trustLinks: [
       {
         label: 'Public Repo',
@@ -81,15 +92,32 @@ export const MANDATE_OS_CONTENT = {
       'Operators review approval events, receipts, and retained evidence in the control plane.',
     ],
     noteLabel: 'Available now',
-    noteTitle: 'Codex, Cursor, Claude Code, and managed MCP flows are ready today',
+    noteTitle:
+      'Codex, Cursor, Claude Code, OpenClaw, and managed MCP flows are ready today',
     noteBody:
-      'OpenClaw is in active testing, and GitHub-side enforcement is planned. The public packages and the managed control plane are both already live.',
+      'GitHub-side enforcement is planned next. The public packages and the managed control plane are both already live.',
   },
   proof: {
     eyebrow: 'How it looks in practice',
     title: 'Inspectable proof beats abstract claims.',
     body:
       'MandateOS is easiest to trust when you can see the local files it writes, the approval event it creates, and the evidence operators keep after the run.',
+    media: {
+      label: 'Product preview',
+      title: 'Approval review, receipts, and verification in one operating loop',
+      body:
+        'This is the part first-time visitors need to picture quickly: a risky request reaches the runtime before it executes, an operator sees the exact request and mandate context, and the resulting receipt stays attached to the action for later review.',
+      imageSrc: '/proof/operator-review-preview.svg',
+      imageAlt:
+        'MandateOS operator preview showing a requested production migration, approval review details, and a signed receipt verification panel.',
+      points: [
+        'The request includes the host, workspace, mandate id, and risk context before the tool continues.',
+        'Approval review keeps the operator decision, reasons, and escalation state in one place instead of scattered across chat and logs.',
+        'Receipt verification keeps the signed evidence, approval event, and audit chain attached to the action itself.',
+      ],
+      caption:
+        'Representative product preview based on the live MandateOS approval and evidence flow.',
+    },
     previews: [
       {
         label: 'Install Preview',
@@ -346,8 +374,8 @@ export const MANDATE_OS_CONTENT = {
     body:
       'MandateOS sits between the agent and the actions that matter: shell execution, code changes, approvals, and higher-risk tool use.',
     statusSummary: [
-      'Available today: Codex, Cursor, Claude Code, and managed MCP flows',
-      'Active testing: OpenClaw',
+      'Available today: Codex, Cursor, Claude Code, OpenClaw, and managed MCP flows',
+      'Same mandate, approval, and receipt model across local hosts',
       'Planned: GitHub-side enforcement',
     ],
     items: [
@@ -386,13 +414,13 @@ export const MANDATE_OS_CONTENT = {
       },
       {
         name: 'OpenClaw',
-        status: 'Active Testing',
+        status: 'Available Today',
         summary:
-          'OpenClaw is a strong fit for MandateOS because local agent power needs explicit tool boundaries, approvals, and receipts.',
+          'Designed for OpenClaw’s flexible host surface so teams can keep explicit tool boundaries, approvals, and receipts around local agent power.',
         details: [
           'Installs the OpenClaw bridge and plugin bundle',
           'Creates a guarded local profile for the selected workspace',
-          'Keeps the same authority model while the integration is being hardened',
+          'Uses the same mandate, approval, and evidence model as the other hosts',
         ],
       },
       {
@@ -468,9 +496,11 @@ export const MANDATE_OS_CONTENT = {
     ],
     envTitle: 'Shell environment',
     envBody:
-      '`MANDATE_OS_MCP_DEFAULT_MANDATE_ID` is optional and only needed when you want the host to start with a project mandate already selected.',
-    envCommand: `export MANDATE_OS_BASE_URL="https://mandateos.example.com"
+      'Copy the runtime URL and agent token from your MandateOS control plane. `MANDATE_OS_MCP_DEFAULT_MANDATE_ID` is optional and only needed when you want the host to start with a project mandate already selected.',
+    envCommand: `# Replace with the runtime URL and agent token from your MandateOS control plane.
+export MANDATE_OS_BASE_URL="https://your-mandateos-runtime-url"
 export MANDATE_OS_AGENT_TOKEN="key_id.secret"
+# Optional: preselect one mandate for this repo.
 export MANDATE_OS_MCP_DEFAULT_MANDATE_ID="mdt_123"`,
     packagesTitle: 'Packages',
     packagesBody:
@@ -671,19 +701,29 @@ npx --yes --package @mandate-os/openclaw@latest mandate-os-openclaw-install inst
           'You see local host config for the selected repo, a status command for the installer, and a concrete runtime path for risky actions. In practice that means files such as `.codex/config.toml`, `.codex/hooks.json`, Cursor hooks, or Claude workspace settings, depending on the host.',
       },
       {
-        question: 'What is open source and what is managed?',
+        question: 'Is MandateOS open source?',
         answer:
-          'The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration.',
+          'The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, docs, and homepage live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration.',
       },
       {
-        question: 'What happens when an action exceeds the mandate?',
+        question: 'Do I need the managed control plane?',
         answer:
-          'MandateOS evaluates the request before the sensitive action continues. Routine work may continue immediately, but higher-risk work can stop for explicit approval or an execution grant. That decision is then reflected in the resulting receipt and audit history.',
+          'No. The public packages and installers can be used on their own when you want local host integration and runtime checks. Teams add the managed control plane when they want shared approvals, workspace administration, retained evidence, and operator review across repos.',
+      },
+      {
+        question: 'What happens if MandateOS cannot reach the runtime?',
+        answer:
+          'MandateOS does not silently waive guardrails. For live guarded actions, the host surfaces a MandateOS failure or blocks the action until the runtime is available again. A few local paths, such as read-only shell commands and MandateOS self-calls, can still short-circuit locally without calling the runtime.',
+      },
+      {
+        question: 'How is this different from system prompts?',
+        answer:
+          'System prompts tell the agent what it should do. MandateOS evaluates what the agent actually requested before the sensitive tool runs, then keeps receipts, approval events, and audit evidence behind the outcome.',
       },
       {
         question: 'Which integrations are available today?',
         answer:
-          'Today MandateOS provides integrations for Codex, Cursor, Claude Code, and managed MCP flows. OpenClaw is in active testing, and GitHub-side enforcement is planned but not presented as fully available today.',
+          'Today MandateOS provides integrations for Codex, Cursor, Claude Code, OpenClaw, and managed MCP flows. GitHub-side enforcement is planned next, but is not presented as fully available today.',
       },
       {
         question: 'Where should a team start?',

@@ -43,6 +43,7 @@
         <p class="eyebrow">{{ content.hero.eyebrow }}</p>
         <h1>{{ content.hero.title }}</h1>
         <p class="hero-lede">{{ content.hero.lede }}</p>
+        <p class="hero-practical">{{ content.hero.practical }}</p>
         <p class="hero-audience">{{ content.hero.audience }}</p>
 
         <div class="hero-actions">
@@ -68,6 +69,20 @@
           </a>
           }
         </nav>
+
+        <div class="public-proof">
+          <span class="mini-label">{{ content.hero.publicProofLabel }}</span>
+          <div class="integration-summary public-proof-pills">
+            @for (item of content.hero.publicProof; track item) {
+            <span class="summary-pill">{{ item }}</span>
+            }
+          </div>
+        </div>
+
+        <p class="hero-verification">
+          {{ content.hero.verification }}
+          <a href="#security">{{ content.hero.verificationLinkLabel }}</a>
+        </p>
 
         <ul class="hero-highlights" aria-label="MandateOS highlights">
           @for (highlight of content.hero.highlights; track highlight) {
@@ -105,12 +120,70 @@
       </aside>
     </section>
 
+    <section id="integrations" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">{{ content.integrations.eyebrow }}</p>
+        <h2>{{ content.integrations.title }}</h2>
+        <p>{{ content.integrations.body }}</p>
+      </div>
+
+      <div class="integration-summary">
+        @for (item of content.integrations.statusSummary; track item) {
+        <span class="summary-pill">{{ item }}</span>
+        }
+      </div>
+
+      <div class="card-grid two-col">
+        @for (integration of content.integrations.items; track integration.name)
+        {
+        <article class="card integration-card">
+          <div class="integration-head">
+            <h3>{{ integration.name }}</h3>
+            <span class="status-pill">{{ integration.status }}</span>
+          </div>
+          <p>{{ integration.summary }}</p>
+          <ul>
+            @for (detail of integration.details; track detail) {
+            <li>{{ detail }}</li>
+            }
+          </ul>
+        </article>
+        }
+      </div>
+    </section>
+
     <section id="proof" class="section">
       <div class="section-heading">
         <p class="eyebrow">{{ content.proof.eyebrow }}</p>
         <h2>{{ content.proof.title }}</h2>
         <p>{{ content.proof.body }}</p>
       </div>
+
+      <article class="proof-media card">
+        <div class="proof-media-visual">
+          <img
+            [src]="content.proof.media.imageSrc"
+            [alt]="content.proof.media.imageAlt"
+            width="1480"
+            height="920"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="proof-media-copy">
+          <span class="mini-label">{{ content.proof.media.label }}</span>
+          <h3>{{ content.proof.media.title }}</h3>
+          <p>{{ content.proof.media.body }}</p>
+
+          <ul class="checklist-list">
+            @for (point of content.proof.media.points; track point) {
+            <li>{{ point }}</li>
+            }
+          </ul>
+
+          <p class="proof-media-caption">{{ content.proof.media.caption }}</p>
+        </div>
+      </article>
 
       <div class="card-grid three-col preview-grid">
         @for (preview of content.proof.previews; track preview.title) {
@@ -253,38 +326,6 @@
           </a>
           }
         </div>
-      </div>
-    </section>
-
-    <section id="integrations" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">{{ content.integrations.eyebrow }}</p>
-        <h2>{{ content.integrations.title }}</h2>
-        <p>{{ content.integrations.body }}</p>
-      </div>
-
-      <div class="integration-summary">
-        @for (item of content.integrations.statusSummary; track item) {
-        <span class="summary-pill">{{ item }}</span>
-        }
-      </div>
-
-      <div class="card-grid two-col">
-        @for (integration of content.integrations.items; track integration.name)
-        {
-        <article class="card integration-card">
-          <div class="integration-head">
-            <h3>{{ integration.name }}</h3>
-            <span class="status-pill">{{ integration.status }}</span>
-          </div>
-          <p>{{ integration.summary }}</p>
-          <ul>
-            @for (detail of integration.details; track detail) {
-            <li>{{ detail }}</li>
-            }
-          </ul>
-        </article>
-        }
       </div>
     </section>
 

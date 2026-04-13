@@ -164,18 +164,34 @@
               },
               {
                 "@type": "Question",
-                "name": "What is open source and what is managed?",
+                "name": "Is MandateOS open source?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, and docs live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration."
+                  "text": "The developer-facing trust layer is open source: the SDK, MCP server, installer CLIs, starter policy bundles, docs, and homepage live in the public repo. The managed control plane handles shared approvals, workspace operations, retained audit history, and operator administration."
                 }
               },
               {
                 "@type": "Question",
-                "name": "What happens when an action exceeds the mandate?",
+                "name": "Do I need the managed control plane?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "MandateOS evaluates the request before the sensitive action continues. Routine work may continue immediately, but higher-risk work can stop for explicit approval or an execution grant. That decision is then reflected in the resulting receipt and audit history."
+                  "text": "No. The public packages and installers can be used on their own when you want local host integration and runtime checks. Teams add the managed control plane when they want shared approvals, workspace administration, retained evidence, and operator review across repos."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What happens if MandateOS cannot reach the runtime?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "MandateOS does not silently waive guardrails. For live guarded actions, the host surfaces a MandateOS failure or blocks the action until the runtime is available again. A few local paths, such as read-only shell commands and MandateOS self-calls, can still short-circuit locally without calling the runtime."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How is this different from system prompts?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "System prompts tell the agent what it should do. MandateOS evaluates what the agent actually requested before the sensitive tool runs, then keeps receipts, approval events, and audit evidence behind the outcome."
                 }
               },
               {
@@ -183,7 +199,7 @@
                 "name": "Which integrations are available today?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Today MandateOS provides integrations for Codex, Cursor, Claude Code, and managed MCP flows. OpenClaw is in active testing, and GitHub-side enforcement is planned but not presented as fully available today."
+                  "text": "Today MandateOS provides integrations for Codex, Cursor, Claude Code, OpenClaw, and managed MCP flows. GitHub-side enforcement is planned next, but is not presented as fully available today."
                 }
               },
               {

@@ -22,6 +22,7 @@ MandateOS is an open-core system. The public repo contains the open-source trust
 - Mandates define allowed tools, budgets, thresholds, approvals, and escalation policy.
 - Agents are evaluated before sensitive actions continue.
 - Higher-risk actions can require explicit approval or execution grants.
+- If the runtime is unavailable, guarded actions stop instead of silently bypassing policy.
 - Receipts and audit history preserve what was approved and what happened.
 
 ## Integrations

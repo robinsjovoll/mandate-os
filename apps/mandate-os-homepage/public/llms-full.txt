@@ -58,9 +58,21 @@ MandateOS is an AI agent guardrails system for teams using Codex, Cursor, Claude
 
 The developer-facing trust layer is open source. The managed control plane for hosted approvals, workspace operations, retained audit history, and customer administration stays private.
 
+### Do I need the managed control plane?
+
+No. The public packages and installers can be used on their own when you want local host integration and runtime checks. Teams add the managed control plane when they want shared approvals, workspace administration, retained evidence, and operator review across repos.
+
 ### What does MandateOS enforce?
 
 Mandates can define allowed tools, budgets, risk zones, approval thresholds, escalation policy, and receipt requirements. Higher-risk work can stop for explicit human approval or execution grants.
+
+### What happens if MandateOS cannot reach the runtime?
+
+MandateOS does not silently waive guardrails. For live guarded actions, the host surfaces a MandateOS failure or blocks the action until the runtime is available again. A few local paths, such as read-only shell commands and MandateOS self-calls, can still short-circuit locally without calling the runtime.
+
+### How is this different from system prompts?
+
+System prompts tell the agent what it should do. MandateOS evaluates what the agent actually requested before the sensitive tool runs, then keeps receipts, approval events, and audit evidence behind the outcome.
 
 ### Where should a team start?
 
