@@ -5,8 +5,8 @@ export const MANDATE_OS_CONTENT = {
     { id: 'proof', label: 'Proof' },
     { id: 'trust', label: 'Trust Boundary' },
     { id: 'integrations', label: 'Integrations' },
-    { id: 'deploy', label: 'Install' },
-    { id: 'security', label: 'Evidence' },
+    { id: 'deploy', label: 'Install Guide' },
+    { id: 'evidence', label: 'Evidence' },
     { id: 'faq', label: 'FAQ' },
   ],
   hero: {
