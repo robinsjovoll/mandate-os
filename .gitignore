@@ -26,6 +26,10 @@
 # environment
 .env
 .env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
 
 # system
 .DS_Store

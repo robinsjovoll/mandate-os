@@ -1,6 +1,7 @@
 export const MANDATE_OS_CONTENT = {
   brandTagline: 'Guardrails, approvals, and receipts for agent action',
-  headerCta: 'Install in a Repo',
+  headerCta: 'Sign In',
+  headerCtaHref: 'https://app.getmandateos.com',
   navLinks: [
     { id: 'proof', label: 'Proof' },
     { id: 'trust', label: 'Trust Boundary' },
@@ -37,6 +38,8 @@ export const MANDATE_OS_CONTENT = {
     primaryHref: '#deploy',
     secondaryLabel: 'See Approval Flow',
     secondaryHref: '#proof',
+    signInLabel: 'Sign In',
+    signInHref: 'https://app.getmandateos.com',
     ctaNote:
       'Export your connection values, run the host installer, and MandateOS writes local host config plus a status path into that workspace. No repo clone required.',
     trustLinks: [

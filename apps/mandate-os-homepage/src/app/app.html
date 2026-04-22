@@ -33,7 +33,7 @@
         </nav>
       </details>
 
-      <a class="header-cta" href="#deploy">{{ content.headerCta }}</a>
+      <a class="header-cta" [href]="content.headerCtaHref">{{ content.headerCta }}</a>
     </div>
   </header>
 
@@ -52,6 +52,9 @@
           </a>
           <a class="cta is-secondary" [href]="content.hero.secondaryHref">
             {{ content.hero.secondaryLabel }}
+          </a>
+          <a class="cta is-ghost" [href]="content.hero.signInHref">
+            {{ content.hero.signInLabel }}
           </a>
         </div>
 

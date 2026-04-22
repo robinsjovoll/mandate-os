@@ -244,9 +244,10 @@ export function toCursorHookResponse(result: HostGatewayEvaluationResult) {
 
 export function toClaudeHookResponse(result: HostGatewayEvaluationResult) {
   const reason = result.agentMessage || result.userMessage;
+  const blocked = result.permission === 'deny';
 
   return {
-    continue: true,
+    continue: !blocked,
     hookSpecificOutput: {
       hookEventName: 'PreToolUse',
       permissionDecision: result.permission,

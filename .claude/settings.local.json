@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(playwriter session *)",
+      "Bash(pnpm install *)",
+      "Bash(playwriter *)",
+      "Bash(grep *)"
+    ]
+  }
+}

@@ -185,6 +185,9 @@ function formatInstallResult(
 
   lines.push('Rule bundles:');
   lines.push(...result.rulesFiles.map((value) => `- ${value}`));
+  lines.push(
+    'Security: bearer token written to Claude config and (git-excluded) local settings. Do not commit either file.',
+  );
   lines.push('Next:');
   lines.push(`- Open Claude Code in ${result.workspacePath}`);
   lines.push(

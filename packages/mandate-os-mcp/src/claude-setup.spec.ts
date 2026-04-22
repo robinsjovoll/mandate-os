@@ -65,7 +65,6 @@ describe('claude setup helpers', () => {
           },
           enabledMcpjsonServers: [],
           disabledMcpjsonServers: [],
-          hasTrustDialogAccepted: false,
           projectOnboardingSeenCount: 0,
           hasClaudeMdExternalIncludesApproved: false,
           hasClaudeMdExternalIncludesWarningShown: false,

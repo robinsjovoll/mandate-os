@@ -302,7 +302,7 @@ describe('host gateway helpers', () => {
         agentMessage: 'Use mandateos_execute_enforced_action instead.',
       }),
     ).toEqual({
-      continue: true,
+      continue: false,
       hookSpecificOutput: {
         hookEventName: 'PreToolUse',
         permissionDecision: 'deny',

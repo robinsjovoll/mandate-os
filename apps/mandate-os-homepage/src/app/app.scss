@@ -371,6 +371,19 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
+.cta.is-ghost {
+  color: var(--color-muted);
+  background: transparent;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cta.is-ghost:hover {
+  color: var(--color-ink);
+}
+
 .proof-strip {
   display: grid;
   gap: 0.9rem;

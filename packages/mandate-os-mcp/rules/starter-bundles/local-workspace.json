@@ -14,6 +14,17 @@
       "riskLevel": "medium"
     },
     {
+      "id": "workspace.fs.delete.command",
+      "channel": "shell",
+      "matcher": "(^|\\n)\\s*rm\\b",
+      "flags": "im",
+      "tool": "shell.exec",
+      "title": "Delete local files",
+      "description": "Delete local files with command: {command}",
+      "zone": "domestic",
+      "riskLevel": "high"
+    },
+    {
       "id": "workspace.script.command",
       "channel": "shell",
       "matcher": "(^|\\n)\\s*(node|python|python3|bash|sh|zsh|deno|bun|tsx|ts-node)\\b",
